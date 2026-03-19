@@ -5,55 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-adsense-account" content="ca-pub-1043428205440255">
 <title>About — Lolla Lineup 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:#0A0A0F;color:rgba(255,255,255,.75);font-family:'Outfit',sans-serif;min-height:100vh}
-.wrap{max-width:680px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:28px;font-weight:800;color:#fff;margin-bottom:8px}
-h2{font-size:16px;font-weight:700;color:rgba(255,255,255,.9);margin:28px 0 10px;font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
-p{font-size:14px;line-height:1.8;margin-bottom:12px;color:rgba(255,255,255,.55)}
-.tag{font-size:11px;color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;margin-bottom:28px}
-a{color:#A855F7}
+.wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
+h1 { font-family: 'Anton', sans-serif; font-size: 36px; color: var(--yellow); letter-spacing: 1px; margin-bottom: 6px; }
+.tag { font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 36px; }
+h2 { font-family: 'Anton', sans-serif; font-size: 18px; color: var(--yellow); letter-spacing: 2px; margin: 32px 0 10px; }
+p { font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.8; margin-bottom: 12px; color: rgba(255,255,255,0.6); }
+a { color: var(--green); }
+a:hover { color: var(--yellow); }
 </style>
 </head>
 <body>
-<nav style="position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(10,10,15,.75);border-bottom:1px solid rgba(255,255,255,.06);padding:12px 20px;display:flex;align-items:center;justify-content:center;gap:24px;font-family:'JetBrains Mono',monospace;font-size:11px">
-  <a href="/" style="color:rgba(255,255,255,.7);text-decoration:none;letter-spacing:1px;font-weight:700">LOLLA 2026</a>
-  <a href="/spotify.html" style="color:#1DB954;text-decoration:none;letter-spacing:.5px">Spotify</a>
-  <a href="/apple-music.html" style="color:#FC3C44;text-decoration:none;letter-spacing:.5px">Apple Music</a>
-  <a href="/about.html" style="color:rgba(255,255,255,.4);text-decoration:none;letter-spacing:.5px">About</a>
-</nav>
-<div style="height:44px"></div>
-<div class="wrap">
-<h1>About Lolla Lineup 2026</h1>
-<div class="tag">An unofficial fan-made lineup guide</div>
 
-<h2>What Is This?</h2>
-<p>This site provides the complete Lollapalooza 2026 lineup with one-click links to every artist on Spotify and Apple Music. It was built to make it easy to discover and preview all 172 artists performing at Grant Park this summer.</p>
-
-<h2>Features</h2>
-<p>Search any artist by name, filter by genre (Pop, Rock, Hip-Hop, Electronic, EDM, Indie, K-Pop, R&B, and more), or browse by tier (Headliners, Major Acts, Undercard). Every artist links directly to their streaming page so you can start listening immediately.</p>
-
-<h2>Disclaimer</h2>
-<p>This is an unofficial, fan-made resource and is not affiliated with, endorsed by, or connected to Lollapalooza, C3 Presents, Live Nation, Spotify, or Apple Music. All artist names and lineup information are sourced from publicly available announcements. All trademarks belong to their respective owners.</p>
-
-<h2>Accuracy</h2>
-<p>The lineup information is based on the official Lollapalooza 2026 announcement from March 2026. Daily schedules and stage assignments have not yet been announced and are not included. If you notice any errors or missing artists, feel free to reach out.</p>
-
-<h2>For Official Information</h2>
-<p>For official tickets, schedules, and festival information, visit <a href="https://www.lollapalooza.com" target="_blank" rel="noopener">lollapalooza.com</a>.</p>
-</div>
-<footer style="text-align:center;padding:32px 20px;border-top:1px solid rgba(255,255,255,.05);font-size:11px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace;line-height:2;max-width:700px;margin:40px auto 0">
-  <div style="margin-bottom:12px">
-    <a href="/" style="color:rgba(255,255,255,.4);text-decoration:none;margin:0 10px">Home</a>
-    <a href="/spotify.html" style="color:rgba(255,255,255,.4);text-decoration:none;margin:0 10px">Spotify</a>
-    <a href="/apple-music.html" style="color:rgba(255,255,255,.4);text-decoration:none;margin:0 10px">Apple Music</a>
-    <a href="/about.html" style="color:rgba(255,255,255,.4);text-decoration:none;margin:0 10px">About</a>
-    <a href="/privacy.html" style="color:rgba(255,255,255,.4);text-decoration:none;margin:0 10px">Privacy</a>
+<nav class="site-nav">
+  <a href="/" class="nav-home">LOLLA 2026</a>
+  <div class="nav-links">
+    <a href="/spotify.html">LINEUP</a>
+    <a href="/about.html" class="active">ABOUT</a>
   </div>
-  This is an unofficial fan-made guide. Not affiliated with Lollapalooza, C3 Presents, or Live Nation.<br>
-  &copy; 2026 Lolla Lineup 2026
+</nav>
+
+<div class="wrap">
+  <h1>About Lolla Lineup 2026</h1>
+  <div class="tag">An unofficial fan-made lineup guide</div>
+
+  <h2>What Is This?</h2>
+  <p>This site provides the complete Lollapalooza 2026 lineup with one-click links to every artist on Spotify and Apple Music. It was built to make it easy to discover and preview all 172 artists performing at Grant Park this summer.</p>
+
+  <h2>Features</h2>
+  <p>Search any artist by name, filter by genre (Pop, Rock, Hip-Hop, Electronic, EDM, Indie, K-Pop, R&amp;B, and more), or browse by tier (Headliners, Major Acts, Undercard). Every artist links directly to their streaming page so you can start listening immediately.</p>
+
+  <h2>Disclaimer</h2>
+  <p>This is an unofficial, fan-made resource and is not affiliated with, endorsed by, or connected to Lollapalooza, C3 Presents, Live Nation, Spotify, or Apple Music. All artist names and lineup information are sourced from publicly available announcements. All trademarks belong to their respective owners.</p>
+
+  <h2>Accuracy</h2>
+  <p>The lineup information is based on the official Lollapalooza 2026 announcement from March 2026. Daily schedules and stage assignments have not yet been announced and are not included. If you notice any errors or missing artists, feel free to reach out.</p>
+
+  <h2>For Official Information</h2>
+  <p>For official tickets, schedules, and festival information, visit <a href="https://www.lollapalooza.com" target="_blank" rel="noopener">lollapalooza.com</a>.</p>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-links">
+    <a href="/">Home</a>
+    <a href="/spotify.html">Lineup</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+  AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
+  &copy; 2026 LOLLA LINEUP 2026
 </footer>
 </body>
 </html>
