@@ -80,7 +80,7 @@ window.ARTISTS = [
   {n:"Jae Stephens",t:"undercard",g:"R&B",sp:"https://open.spotify.com/artist/4HiLipaDjOwRkhJlk5s1uT",am:"https://music.apple.com/us/artist/796619154"},
   {n:"Jennie",t:"headliner",g:"K-Pop",sp:"https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",am:"https://music.apple.com/us/artist/1414388378"},
   {n:"Jim Legxacy",t:"undercard",g:"Hip-Hop",sp:"https://open.spotify.com/artist/7IrBqZo6diq3hV3GpUhrs2",am:"https://music.apple.com/us/artist/1460066773"},
-  {n:"John Summit",t:"headliner",g:"EDM",sp:"https://open.spotify.com/artist/0PxzGnCYBpSuaI49OR94cA",am:"https://music.apple.com/us/artist/1494983226"},
+  {n:"John Summit",t:"headliner",g:"EDM",sp:"https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",am:"https://music.apple.com/us/artist/1494983226"},
   {n:"Julia Wolf",t:"undercard",g:"Pop",sp:"https://open.spotify.com/artist/3wBwRixcsIrv9vqMSm8gNh",am:"https://music.apple.com/us/artist/1482698876"},
   {n:"Justine Skye",t:"undercard",g:"R&B",sp:"https://open.spotify.com/artist/5HQVBKjBIaQroxNuh50aFq",am:"https://music.apple.com/us/artist/685830864"},
   {n:"Kettama",t:"major",g:"Electronic",sp:"https://open.spotify.com/artist/0XkX5uGPz5g0uf6qMgMgHN",am:"https://music.apple.com/us/artist/1425703970"},
