@@ -122,6 +122,23 @@ body {
   margin: 20px 0;
 }
 
+/* ===== AD SPACE (AdSense placeholder) ===== */
+.ad-space {
+  text-align: center;
+  padding: 16px 0;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(255, 238, 0, 0.06);
+  margin: 32px 0;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255, 238, 0, 0.08);
+  text-transform: uppercase;
+}
+
 /* ===== BACK TO TOP ===== */
 .back-to-top {
   position: fixed;
@@ -326,7 +343,377 @@ body {
 
 /* ===== PRINT ===== */
 @media print {
-  .site-nav, .back-to-top, .ad-slot { display: none !important; }
+  .site-nav, .back-to-top, .ad-slot, .ad-space { display: none !important; }
   body { background: #fff; color: #000; }
   a { color: #000; text-decoration: underline; }
+}
+
+/* =========================================================
+   EDITORIAL PAGES — article styles
+   ========================================================= */
+
+/* Article wrapper */
+.article-wrap {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* Article header */
+.article-header {
+  margin-bottom: 40px;
+  border-bottom: 3px solid var(--yellow);
+  padding-bottom: 32px;
+}
+
+.article-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(36px, 6vw, 56px);
+  color: var(--yellow);
+  letter-spacing: -1px;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+
+.article-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.article-intro {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+  border-left: 3px solid var(--magenta);
+  padding-left: 20px;
+}
+
+/* Article body text */
+.article-body h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  margin: 48px 0 16px;
+}
+
+.article-body h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  color: var(--magenta);
+  letter-spacing: 1px;
+  margin: 32px 0 10px;
+}
+
+.article-body p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  color: rgba(255,255,255,0.65);
+}
+
+.article-body a {
+  color: var(--green);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,255,136,0.3);
+  transition: border-color 0.15s;
+}
+
+.article-body a:hover {
+  color: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.article-body strong {
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+}
+
+/* Artist spotlight card (used in editorial) */
+.artist-spotlight {
+  border: 2px solid rgba(255, 238, 0, 0.3);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin: 20px 0;
+  background: rgba(255, 238, 0, 0.03);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.artist-spotlight:hover {
+  border-color: var(--yellow);
+  background: rgba(255, 238, 0, 0.06);
+}
+
+.artist-spotlight-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  color: var(--yellow);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.artist-spotlight-detail {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--magenta);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.artist-spotlight p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 8px;
+}
+
+.artist-spotlight .listen-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.artist-spotlight .listen-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  transition: background 0.1s, color 0.1s;
+}
+
+.listen-link-sp {
+  color: var(--sp);
+  border: 1px solid var(--sp);
+}
+.listen-link-sp:hover {
+  background: var(--sp);
+  color: var(--black);
+}
+
+.listen-link-am {
+  color: var(--am);
+  border: 1px solid var(--am);
+}
+.listen-link-am:hover {
+  background: var(--am);
+  color: var(--white);
+}
+
+/* Numbered article items */
+.article-number {
+  font-family: 'Anton', sans-serif;
+  font-size: 48px;
+  color: rgba(255, 238, 0, 0.15);
+  line-height: 1;
+  margin-bottom: -6px;
+}
+
+/* Tip/callout box */
+.tip-box {
+  border: 2px solid var(--green);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  background: rgba(0, 255, 136, 0.04);
+}
+
+.tip-box-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+.tip-box p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0;
+}
+
+/* Conflict alert box */
+.conflict-box {
+  border: 2px solid var(--magenta);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  background: rgba(255, 51, 102, 0.05);
+}
+
+.conflict-box-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--magenta);
+  margin-bottom: 6px;
+}
+
+.conflict-box p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 0;
+}
+
+/* ===== TICKET AFFILIATE SECTION ===== */
+.ticket-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.ticket-section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  color: var(--yellow);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.ticket-section-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .ticket-grid { grid-template-columns: 1fr; }
+}
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px;
+  border: 3px solid var(--yellow);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--yellow);
+  transition: box-shadow 0.12s, transform 0.12s, background 0.12s;
+  background: var(--black);
+}
+
+.ticket-card:hover {
+  box-shadow: 6px 6px 0 var(--magenta);
+  transform: translate(-3px, -3px);
+  background: rgba(255, 238, 0, 0.04);
+}
+
+.ticket-card-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.ticket-card-desc {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.ticket-disclosure {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+  margin-top: 12px;
+}
+
+/* ===== EDITORIAL INTRO (homepage) ===== */
+.editorial-intro {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 32px 0;
+}
+
+.editorial-intro p {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+}
+
+.editorial-intro .editorial-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+/* ===== GUIDE CARDS (link to editorial pages) ===== */
+.guide-cards {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 32px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 700px) {
+  .guide-cards { grid-template-columns: 1fr; }
+}
+
+.guide-card {
+  display: block;
+  padding: 24px 20px;
+  border: 2px solid rgba(255, 238, 0, 0.3);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.12s, transform 0.12s;
+  background: rgba(255, 238, 0, 0.02);
+}
+
+.guide-card:hover {
+  border-color: var(--yellow);
+  background: rgba(255, 238, 0, 0.05);
+  box-shadow: 4px 4px 0 var(--magenta);
+  transform: translate(-2px, -2px);
+}
+
+.guide-card-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.guide-card-desc {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.5;
 }
