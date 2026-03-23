@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option B — Neon Bento</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yellow: #FFEE00;
+  --magenta: #FF3366;
+  --green: #00FF88;
+  --indigo: #4400FF;
+  --black: #000000;
+  --white: #FFFFFF;
+  --sp: #1DB954;
+  --am: #FC3C44;
+  --yt: #FF0000;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #080808;
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GENRE COLOR MAP */
+.gc-pop       { --gc: #FF3366; }
+.gc-rock      { --gc: #00FF88; }
+.gc-edm       { --gc: #8866FF; }
+.gc-electronic{ --gc: #6655EE; }
+.gc-hiphop    { --gc: #FFEE00; }
+.gc-rb        { --gc: #FF8833; }
+.gc-indie     { --gc: #BB99FF; }
+.gc-kpop      { --gc: #FF66BB; }
+.gc-altpop    { --gc: #00CCFF; }
+.gc-jpop      { --gc: #FF7755; }
+.gc-soulpop   { --gc: #FFB400; }
+.gc-country   { --gc: #CCAA55; }
+.gc-folk      { --gc: #88CC66; }
+.gc-various   { --gc: #888888; }
+.gc-classical { --gc: #CCCCCC; }
+
+/* NAV */
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,8,8,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 10px 24px;
+}
+.controls-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.platform-pills {
+  display: flex;
+  gap: 4px;
+}
+.pill {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+.pill.active-sp { border-color: var(--sp); color: var(--sp); background: rgba(29,185,84,0.08); }
+.pill.active-am { border-color: var(--am); color: var(--am); background: rgba(252,60,68,0.08); }
+.pill.active-yt { border-color: var(--yt); color: var(--yt); background: rgba(255,0,0,0.08); }
+
+.search-input {
+  flex: 1;
+  min-width: 140px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  padding: 7px 16px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.25); }
+.search-input:focus { border-color: var(--yellow); }
+
+.day-filters {
+  display: flex;
+  gap: 4px;
+}
+.day-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.day-pill:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+.day-pill.active { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+
+/* HERO */
+.hero {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 24px 36px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+@media (max-width: 600px) { .hero { flex-direction: column; align-items: flex-start; } }
+.hero-left {}
+.hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(42px, 9vw, 100px);
+  background: linear-gradient(135deg, var(--yellow), var(--magenta), var(--green), #A855F7);
+  background-size: 300% 300%;
+  animation: gr 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+@keyframes gr {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-sub {
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+.result-count {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.25);
+  text-align: right;
+}
+
+/* LINEUP */
+.lineup {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.tier-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  margin: 40px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tier-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
+/* HEADLINERS — 2-col bento cards */
+.hl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+@media (max-width: 500px) { .hl-grid { grid-template-columns: 1fr; } }
+.hl-card {
+  position: relative;
+  padding: 32px 28px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-decoration: none;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.2s, filter 0.2s;
+  background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2)),
+              linear-gradient(135deg, color-mix(in srgb, var(--gc) 25%, transparent), color-mix(in srgb, var(--gc) 5%, transparent));
+  border: 1px solid color-mix(in srgb, var(--gc) 30%, transparent);
+}
+.hl-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+}
+.hl-card:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.hl-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(24px, 4vw, 42px);
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.hl-meta {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gc);
+  text-transform: uppercase;
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+  opacity: 0.9;
+}
+.hl-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* MAJORS — 3-col cards */
+.mj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+@media (max-width: 640px) { .mj-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 380px) { .mj-grid { grid-template-columns: 1fr; } }
+.mj-card {
+  padding: 20px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--gc) 20%, rgba(255,255,255,0.05));
+  background: color-mix(in srgb, var(--gc) 4%, rgba(255,255,255,0.02));
+  text-align: center;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.mj-card:hover {
+  border-color: color-mix(in srgb, var(--gc) 60%, transparent);
+  background: color-mix(in srgb, var(--gc) 10%, rgba(0,0,0,0));
+  transform: translateY(-1px);
+}
+.mj-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(14px, 2.5vw, 20px);
+  color: var(--white);
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.mj-genre-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gc);
+}
+.mj-meta {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+}
+
+/* UNDERCARDS — 4-col compact */
+.uc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+@media (max-width: 700px) { .uc-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 480px) { .uc-grid { grid-template-columns: repeat(2, 1fr); } }
+.uc-card {
+  padding: 12px 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+  text-align: center;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.uc-card:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: var(--gc);
+}
+.uc-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gc);
+}
+.uc-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.2;
+}
+
+/* OPTION BADGE */
+.option-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  background: var(--yellow);
+  color: var(--black);
+  padding: 8px 16px;
+  z-index: 999;
+  border-radius: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="option-badge">OPTION B — NEON BENTO</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="platform-pills">
+      <button class="pill active-sp" onclick="setPlatform('sp',this)">Spotify</button>
+      <button class="pill" onclick="setPlatform('am',this)">Apple Music</button>
+      <button class="pill" onclick="setPlatform('yt',this)">YouTube</button>
+    </div>
+    <input class="search-input" placeholder="Search artists..." oninput="filterArtists(this.value)">
+    <div class="day-filters">
+      <button class="day-pill active" onclick="setDay(0,this)">All</button>
+      <button class="day-pill" onclick="setDay(1,this)">Thu</button>
+      <button class="day-pill" onclick="setDay(2,this)">Fri</button>
+      <button class="day-pill" onclick="setDay(3,this)">Sat</button>
+      <button class="day-pill" onclick="setDay(4,this)">Sun</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-title">Lolla<br>2026</div>
+    <div class="hero-sub">Grant Park, Chicago &nbsp;·&nbsp; July 30 – Aug 2</div>
+  </div>
+  <div class="result-count" id="resultCount"></div>
+</div>
+
+<div class="lineup" id="lineup"></div>
+
+<script>
+const GENRE_CLASS = {
+  'Pop':'gc-pop','Rock':'gc-rock','EDM':'gc-edm','Electronic':'gc-electronic',
+  'Hip-Hop':'gc-hiphop','R&B':'gc-rb','Indie':'gc-indie','K-Pop':'gc-kpop',
+  'Alt Pop':'gc-altpop','J-Pop':'gc-jpop','Soul/Pop':'gc-soulpop',
+  'Country':'gc-country','Folk':'gc-folk','Various':'gc-various','Classical':'gc-classical'
+};
+
+const ARTISTS = [
+  {n:"Charli XCX",t:"headliner",g:"Pop",d:2,sp:"https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5",am:"https://music.apple.com/us/artist/336060830",yt:"https://music.youtube.com/search?q=Charli+XCX"},
+  {n:"Jennie",t:"headliner",g:"K-Pop",d:3,sp:"https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",am:"https://music.apple.com/us/artist/1414388378",yt:"https://music.youtube.com/search?q=Jennie"},
+  {n:"John Summit",t:"headliner",g:"EDM",d:1,sp:"https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",am:"https://music.apple.com/us/artist/1494983226",yt:"https://music.youtube.com/search?q=John+Summit"},
+  {n:"Lorde",t:"headliner",g:"Alt Pop",d:1,sp:"https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",am:"https://music.apple.com/us/artist/602767352",yt:"https://music.youtube.com/search?q=Lorde"},
+  {n:"Olivia Dean",t:"headliner",g:"Soul/Pop",d:3,sp:"https://open.spotify.com/artist/00x1fYSGhdqScXBRpSj3DW",am:"https://music.apple.com/us/artist/1139024234",yt:"https://music.youtube.com/search?q=Olivia+Dean"},
+  {n:"The Smashing Pumpkins",t:"headliner",g:"Rock",d:2,sp:"https://open.spotify.com/artist/40Yq4vzPs9VNUrIBG5Jr2i",am:"https://music.apple.com/us/artist/1563015",yt:"https://music.youtube.com/search?q=The+Smashing+Pumpkins"},
+  {n:"Tate McRae",t:"headliner",g:"Pop",d:4,sp:"https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",am:"https://music.apple.com/us/artist/1234079587",yt:"https://music.youtube.com/search?q=Tate+McRae"},
+  {n:"The XX",t:"headliner",g:"Indie",d:4,sp:"https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy",am:"https://music.apple.com/us/artist/302595894",yt:"https://music.youtube.com/search?q=The+XX"},
+  {n:"5 Seconds of Summer",t:"major",g:"Pop",d:1,sp:"https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy",am:"https://music.apple.com/us/artist/665240429",yt:"https://music.youtube.com/search?q=5+Seconds+of+Summer"},
+  {n:"Aespa",t:"major",g:"K-Pop",d:4,sp:"https://open.spotify.com/artist/6YVMFz59CuY7ngCxTxjpxE",am:"https://music.apple.com/us/artist/1539111843",yt:"https://music.youtube.com/search?q=Aespa"},
+  {n:"Alison Wonderland",t:"major",g:"Electronic",d:3,sp:"https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW",am:"https://music.apple.com/us/artist/640530563",yt:"https://music.youtube.com/search?q=Alison+Wonderland"},
+  {n:"Beabadoobee",t:"major",g:"Indie",d:4,sp:"https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",am:"https://music.apple.com/us/artist/1434820941",yt:"https://music.youtube.com/search?q=Beabadoobee"},
+  {n:"Blood Orange",t:"major",g:"R&B",d:1,sp:"https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR",am:"https://music.apple.com/us/artist/350760978",yt:"https://music.youtube.com/search?q=Blood+Orange"},
+  {n:"Clipse",t:"major",g:"Hip-Hop",d:3,sp:"https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2",am:"https://music.apple.com/us/artist/3545947",yt:"https://music.youtube.com/search?q=Clipse"},
+  {n:"Ethel Cain",t:"major",g:"Alt Pop",d:3,sp:"https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2",am:"https://music.apple.com/us/artist/1480663449",yt:"https://music.youtube.com/search?q=Ethel+Cain"},
+  {n:"Freddie Gibbs",t:"major",g:"Hip-Hop",d:2,sp:"https://open.spotify.com/artist/0Y4inQK6OespitzD6ijMwb",am:"https://music.apple.com/us/artist/291049623",yt:"https://music.youtube.com/search?q=Freddie+Gibbs"},
+  {n:"Geese",t:"major",g:"Rock",d:3,sp:"https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4",am:"https://music.apple.com/us/artist/1378038472",yt:"https://music.youtube.com/search?q=Geese"},
+  {n:"Hot Mulligan",t:"major",g:"Rock",d:4,sp:"https://open.spotify.com/artist/1lKZzN2d4IqiEYxyECIEHI",am:"https://music.apple.com/us/artist/941918833",yt:"https://music.youtube.com/search?q=Hot+Mulligan"},
+  {n:"Leon Thomas",t:"major",g:"R&B",d:3,sp:"https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",am:"https://music.apple.com/us/artist/267251475",yt:"https://music.youtube.com/search?q=Leon+Thomas"},
+  {n:"Lil Uzi Vert",t:"major",g:"Hip-Hop",d:2,sp:"https://open.spotify.com/artist/4O15NlyKLIASxsJ0PrXPfz",am:"https://music.apple.com/us/artist/1084228220",yt:"https://music.youtube.com/search?q=Lil+Uzi+Vert"},
+  {n:"Bad Nerves",t:"undercard",g:"Rock",d:1,sp:"https://open.spotify.com/artist/7IPyXY4ZHkuvQY1ny8TnMQ",am:"https://music.apple.com/us/artist/1213806228",yt:"https://music.youtube.com/search?q=Bad+Nerves"},
+  {n:"Balu Brigada",t:"undercard",g:"Pop",d:2,sp:"https://open.spotify.com/artist/6O9vGMmTwzihULICPCsNf2",am:"https://music.apple.com/us/artist/1171521321",yt:"https://music.youtube.com/search?q=Balu+Brigada"},
+  {n:"BBNOS",t:"undercard",g:"Hip-Hop",d:3,sp:"https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz",am:"https://music.apple.com/us/artist/1161580951",yt:"https://music.youtube.com/search?q=BBNOS"},
+  {n:"Boys Noize",t:"undercard",g:"Electronic",d:1,sp:"https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv",am:"https://music.apple.com/us/artist/200444417",yt:"https://music.youtube.com/search?q=Boys+Noize"},
+  {n:"Calder Allen",t:"undercard",g:"Country",d:3,sp:"https://open.spotify.com/artist/1XlVbGlQaBoESaJ43y2sCD",am:"https://music.apple.com/us/artist/1608248970",yt:"https://music.youtube.com/search?q=Calder+Allen"},
+  {n:"Claire Rosinkranz",t:"undercard",g:"Pop",d:2,sp:"https://open.spotify.com/artist/3V0ZQW0dNuVaFtbVYgSI24",am:"https://music.apple.com/us/artist/1483262366",yt:"https://music.youtube.com/search?q=Claire+Rosinkranz"},
+  {n:"DJ Trixie Mattel",t:"undercard",g:"EDM",d:3,sp:"https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc",am:"https://music.apple.com/us/artist/960467089",yt:"https://music.youtube.com/search?q=DJ+Trixie+Mattel"},
+  {n:"Duke Dumont",t:"undercard",g:"Electronic",d:4,sp:"https://open.spotify.com/artist/61lyPtntblHJvA7FMMhi7E",am:"https://music.apple.com/us/artist/257148267",yt:"https://music.youtube.com/search?q=Duke+Dumont"},
+  {n:"Finn Wolfhard",t:"undercard",g:"Indie",d:2,sp:"https://open.spotify.com/artist/2nmWcAqQtfgNp8Kpixa2CG",am:"https://music.apple.com/us/artist/1275324142",yt:"https://music.youtube.com/search?q=Finn+Wolfhard"},
+  {n:"Frost Children",t:"undercard",g:"Electronic",d:3,sp:"https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag",am:"https://music.apple.com/us/artist/1505504789",yt:"https://music.youtube.com/search?q=Frost+Children"},
+  {n:"Horsegiirl",t:"undercard",g:"Rock",d:2,sp:"https://open.spotify.com/artist/2FDvUb4YgyUPpmnm1ILPra",am:"https://music.apple.com/us/artist/1482579399",yt:"https://music.youtube.com/search?q=Horsegiirl"},
+  {n:"Little Simz",t:"undercard",g:"Hip-Hop",d:1,sp:"https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI",am:"https://music.apple.com/us/artist/569204972",yt:"https://music.youtube.com/search?q=Little+Simz"},
+  {n:"Loathe",t:"undercard",g:"Rock",d:2,sp:"https://open.spotify.com/artist/7JEJzSD3D0hbdlWBLjjlsE",am:"https://music.apple.com/us/artist/377883434",yt:"https://music.youtube.com/search?q=Loathe"},
+  {n:"CMAT",t:"undercard",g:"Folk",d:1,sp:"https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv",am:"https://music.apple.com/us/artist/1506697965",yt:"https://music.youtube.com/search?q=CMAT"},
+  {n:"Faouzia",t:"undercard",g:"Pop",d:1,sp:"https://open.spotify.com/artist/5NhgsV7qPWHZqYEMKzbYvo",am:"https://music.apple.com/us/artist/414067643",yt:"https://music.youtube.com/search?q=Faouzia"},
+];
+
+let platform = 'sp';
+let filterDay = 0;
+let filterText = '';
+
+const DAYS = {1:'Thu 7/30',2:'Fri 7/31',3:'Sat 8/1',4:'Sun 8/2'};
+
+function gcFor(g) { return GENRE_CLASS[g] || 'gc-various'; }
+
+function setPlatform(p, btn) {
+  platform = p;
+  document.querySelectorAll('.pill').forEach(b => b.className = 'pill');
+  btn.classList.add('active-' + p);
+  render();
+}
+function setDay(d, btn) {
+  filterDay = d;
+  document.querySelectorAll('.day-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+function filterArtists(v) { filterText = v.toLowerCase(); render(); }
+function visible(a) {
+  if (filterDay > 0 && a.d !== filterDay) return false;
+  if (filterText && !a.n.toLowerCase().includes(filterText)) return false;
+  return true;
+}
+
+// Platform icons (SVG inline)
+const ICONS = {
+  sp: `<svg width="14" height="14" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>`,
+  am: `<svg width="14" height="14" viewBox="0 0 24 24" fill="#FC3C44"><path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.868-.868 7.8 7.8 0 00-1.564-.24c-.184-.012-.366-.017-.548-.02L6.866 0C3.494 0 1.18 2.33 1.18 5.703c0 .184.005.366.017.548l.01 5.718C1.22 15.298 1.234 18.62 1.25 21.943c.002.184.013.366.027.549.157 1.968 1.4 3.566 3.328 4.23.7.243 1.431.306 2.19.285 1.92-.055 3.851-.016 5.78-.016h6.61c.184 0 .366-.013.548-.027 1.72-.157 3.11-1.033 3.94-2.59.44-.827.633-1.717.633-2.648V6.672a12.36 12.36 0 00-.312-2.548zM8.04 17.3V8.64L16.7 13l-8.66 4.3z"/></svg>`,
+  yt: `<svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>`
+};
+
+function render() {
+  const hls = ARTISTS.filter(a => a.t === 'headliner' && visible(a));
+  const mjs = ARTISTS.filter(a => a.t === 'major' && visible(a));
+  const ucs = ARTISTS.filter(a => a.t === 'undercard' && visible(a));
+  const total = hls.length + mjs.length + ucs.length;
+
+  let html = '';
+
+  if (hls.length) {
+    html += `<div class="tier-label">Headliners</div><div class="hl-grid">`;
+    hls.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `
+        <a class="hl-card ${gc}" href="${a[platform]}" target="_blank" rel="noopener">
+          <div class="hl-icon">${ICONS[platform]}</div>
+          <div class="hl-name">${a.n}</div>
+          <div class="hl-meta">${a.g} &nbsp;·&nbsp; ${DAYS[a.d]}</div>
+        </a>`;
+    });
+    html += `</div>`;
+  }
+
+  if (mjs.length) {
+    html += `<div class="tier-label">Major Artists</div><div class="mj-grid">`;
+    mjs.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `
+        <a class="mj-card ${gc}" href="${a[platform]}" target="_blank" rel="noopener">
+          <div class="mj-genre-dot"></div>
+          <div class="mj-name">${a.n}</div>
+          <div class="mj-meta">${a.g} · ${DAYS[a.d]}</div>
+        </a>`;
+    });
+    html += `</div>`;
+  }
+
+  if (ucs.length) {
+    html += `<div class="tier-label">Undercard</div><div class="uc-grid">`;
+    ucs.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `
+        <a class="uc-card ${gc}" href="${a[platform]}" target="_blank" rel="noopener">
+          <div class="uc-dot"></div>
+          <div class="uc-name">${a.n}</div>
+        </a>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('lineup').innerHTML = html;
+  document.getElementById('resultCount').textContent = `${total} artist${total !== 1 ? 's' : ''}`;
+}
+
+render();
+</script>
+</body>
+</html>

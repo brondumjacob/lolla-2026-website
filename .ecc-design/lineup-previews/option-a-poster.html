@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option A — Festival Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yellow: #FFEE00;
+  --magenta: #FF3366;
+  --green: #00FF88;
+  --indigo: #4400FF;
+  --black: #000000;
+  --white: #FFFFFF;
+  --sp: #1DB954;
+  --am: #FC3C44;
+  --yt: #FF0000;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* GENRE COLOR MAP */
+.gc-pop      { --gc: var(--magenta); }
+.gc-rock     { --gc: var(--green); }
+.gc-edm      { --gc: var(--indigo); }
+.gc-electronic{ --gc: #8866FF; }
+.gc-hiphop   { --gc: var(--yellow); }
+.gc-rb       { --gc: #FF8833; }
+.gc-indie    { --gc: #AA88FF; }
+.gc-kpop     { --gc: #FF66BB; }
+.gc-altpop   { --gc: #00CCFF; }
+.gc-jpop     { --gc: #FF6644; }
+.gc-soulpop  { --gc: #FFB400; }
+.gc-country  { --gc: #CCAA44; }
+.gc-folk     { --gc: #88BB66; }
+.gc-various  { --gc: #888888; }
+.gc-classical{ --gc: #CCCCCC; }
+
+/* CONTROL BAR */
+.controls {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--black);
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  padding: 12px 24px;
+}
+.controls-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.platform-pills {
+  display: flex;
+  gap: 4px;
+}
+.pill {
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  padding: 6px 14px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+.pill.active-sp { border-color: var(--sp); color: var(--sp); }
+.pill.active-am { border-color: var(--am); color: var(--am); }
+.pill.active-yt { border-color: var(--yt); color: var(--yt); }
+
+.search-input {
+  flex: 1;
+  min-width: 160px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.15);
+  color: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  padding: 6px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-input::placeholder { color: rgba(255,255,255,0.3); }
+.search-input:focus { border-color: var(--yellow); }
+
+.filters-toggle {
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filters-toggle:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+.filters-toggle.open { border-color: var(--yellow); color: var(--yellow); }
+
+.filter-row {
+  width: 100%;
+  display: none;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+.filter-row.visible { display: flex; }
+
+.filter-chip {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.15s;
+}
+.filter-chip:hover { border-color: var(--white); color: var(--white); }
+.filter-chip.active { background: var(--yellow); border-color: var(--yellow); color: var(--black); }
+
+/* HERO */
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 24px 40px;
+  text-align: center;
+}
+.hero-label {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(48px, 12vw, 140px);
+  background: linear-gradient(135deg, var(--yellow), var(--magenta), var(--green), #A855F7);
+  background-size: 300% 300%;
+  animation: gr 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.88;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+@keyframes gr {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.hero-meta {
+  margin-top: 20px;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+}
+
+/* MAIN CONTENT */
+.lineup {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* TIER LABEL */
+.tier-label {
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  text-align: center;
+  margin: 48px 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.tier-label::before, .tier-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* HEADLINERS — big centered names */
+.headliners {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.hl-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(36px, 8vw, 80px);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  text-align: center;
+  line-height: 1.05;
+  color: var(--white);
+  text-decoration: none;
+  display: block;
+  padding: 6px 0;
+  transition: color 0.15s, text-shadow 0.15s;
+  position: relative;
+}
+.hl-name:hover {
+  color: var(--gc);
+  text-shadow: 0 0 40px var(--gc);
+}
+.hl-genre {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.25);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* MAJORS — 3-column text blocks with genre accent bar */
+.majors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+@media (max-width: 600px) {
+  .majors-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 380px) {
+  .majors-grid { grid-template-columns: 1fr; }
+}
+.mj-block {
+  padding: 16px 20px;
+  border-left: 3px solid var(--gc);
+  text-decoration: none;
+  display: block;
+  transition: background 0.15s;
+  margin: 4px;
+}
+.mj-block:hover { background: rgba(255,255,255,0.04); }
+.mj-name {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(16px, 3vw, 22px);
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+}
+.mj-meta {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* UNDERCARDS — pill/chip tag cloud */
+.undercard-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.uc-chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border: 1px solid var(--gc);
+  color: var(--gc);
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.uc-chip:hover {
+  background: var(--gc);
+  color: var(--black);
+}
+
+/* RESULT COUNT */
+.result-count {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.2);
+  margin-top: 48px;
+  text-transform: uppercase;
+}
+
+/* OPTION LABEL */
+.option-badge {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  background: var(--yellow);
+  color: var(--black);
+  padding: 8px 16px;
+  z-index: 999;
+}
+</style>
+</head>
+<body>
+
+<div class="option-badge">OPTION A — FESTIVAL POSTER</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="controls-inner">
+    <div class="platform-pills">
+      <button class="pill active-sp" onclick="setPlatform('sp',this)">SPOTIFY</button>
+      <button class="pill" onclick="setPlatform('am',this)">APPLE</button>
+      <button class="pill" onclick="setPlatform('yt',this)">YOUTUBE</button>
+    </div>
+    <input class="search-input" placeholder="Search artists..." oninput="filterArtists(this.value)" id="search">
+    <button class="filters-toggle" id="filtersBtn" onclick="toggleFilters()">FILTERS ▾</button>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-chip active" onclick="setDay(0,this)">All Days</button>
+      <button class="filter-chip" onclick="setDay(1,this)">Thu 7/30</button>
+      <button class="filter-chip" onclick="setDay(2,this)">Fri 7/31</button>
+      <button class="filter-chip" onclick="setDay(3,this)">Sat 8/1</button>
+      <button class="filter-chip" onclick="setDay(4,this)">Sun 8/2</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Grant Park, Chicago</div>
+  <div class="hero-title">Lolla<br>2026</div>
+  <div class="hero-meta">July 30 – August 2 &nbsp;·&nbsp; 172 Artists</div>
+</div>
+
+<!-- LINEUP -->
+<div class="lineup" id="lineup">
+</div>
+
+<div class="result-count" id="resultCount"></div>
+
+<script>
+const GENRE_CLASS = {
+  'Pop':'gc-pop','Rock':'gc-rock','EDM':'gc-edm','Electronic':'gc-electronic',
+  'Hip-Hop':'gc-hiphop','R&B':'gc-rb','Indie':'gc-indie','K-Pop':'gc-kpop',
+  'Alt Pop':'gc-altpop','J-Pop':'gc-jpop','Soul/Pop':'gc-soulpop',
+  'Country':'gc-country','Folk':'gc-folk','Various':'gc-various','Classical':'gc-classical'
+};
+
+const ARTISTS = [
+  // HEADLINERS
+  {n:"Charli XCX",t:"headliner",g:"Pop",d:2,sp:"https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5",am:"https://music.apple.com/us/artist/336060830",yt:"https://music.youtube.com/search?q=Charli+XCX"},
+  {n:"Jennie",t:"headliner",g:"K-Pop",d:3,sp:"https://open.spotify.com/artist/250b0Wlc5Vk0CoUsaCY84M",am:"https://music.apple.com/us/artist/1414388378",yt:"https://music.youtube.com/search?q=Jennie"},
+  {n:"John Summit",t:"headliner",g:"EDM",d:1,sp:"https://open.spotify.com/artist/7kNqXtgeIwFtelmRjWv205",am:"https://music.apple.com/us/artist/1494983226",yt:"https://music.youtube.com/search?q=John+Summit"},
+  {n:"Lorde",t:"headliner",g:"Alt Pop",d:1,sp:"https://open.spotify.com/artist/163tK9Wjr9P9DmM0AVK7lm",am:"https://music.apple.com/us/artist/602767352",yt:"https://music.youtube.com/search?q=Lorde"},
+  {n:"Olivia Dean",t:"headliner",g:"Soul/Pop",d:3,sp:"https://open.spotify.com/artist/00x1fYSGhdqScXBRpSj3DW",am:"https://music.apple.com/us/artist/1139024234",yt:"https://music.youtube.com/search?q=Olivia+Dean"},
+  {n:"The Smashing Pumpkins",t:"headliner",g:"Rock",d:2,sp:"https://open.spotify.com/artist/40Yq4vzPs9VNUrIBG5Jr2i",am:"https://music.apple.com/us/artist/1563015",yt:"https://music.youtube.com/search?q=The+Smashing+Pumpkins"},
+  {n:"Tate McRae",t:"headliner",g:"Pop",d:4,sp:"https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",am:"https://music.apple.com/us/artist/1234079587",yt:"https://music.youtube.com/search?q=Tate+McRae"},
+  {n:"The XX",t:"headliner",g:"Indie",d:4,sp:"https://open.spotify.com/artist/3iOvXCl6edW5Um0fXEBRXy",am:"https://music.apple.com/us/artist/302595894",yt:"https://music.youtube.com/search?q=The+XX"},
+  // MAJORS
+  {n:"5 Seconds of Summer",t:"major",g:"Pop",d:1,sp:"https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy",am:"https://music.apple.com/us/artist/665240429",yt:"https://music.youtube.com/search?q=5+Seconds+of+Summer"},
+  {n:"Aespa",t:"major",g:"K-Pop",d:4,sp:"https://open.spotify.com/artist/6YVMFz59CuY7ngCxTxjpxE",am:"https://music.apple.com/us/artist/1539111843",yt:"https://music.youtube.com/search?q=Aespa"},
+  {n:"Alison Wonderland",t:"major",g:"Electronic",d:3,sp:"https://open.spotify.com/artist/11gWrKZMBsGQWmobv3oNfW",am:"https://music.apple.com/us/artist/640530563",yt:"https://music.youtube.com/search?q=Alison+Wonderland"},
+  {n:"Beabadoobee",t:"major",g:"Indie",d:4,sp:"https://open.spotify.com/artist/35l9BRT7MXmM8bv2WDQiyB",am:"https://music.apple.com/us/artist/1434820941",yt:"https://music.youtube.com/search?q=Beabadoobee"},
+  {n:"Blood Orange",t:"major",g:"R&B",d:1,sp:"https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR",am:"https://music.apple.com/us/artist/350760978",yt:"https://music.youtube.com/search?q=Blood+Orange"},
+  {n:"Clipse",t:"major",g:"Hip-Hop",d:3,sp:"https://open.spotify.com/artist/2J257euzcjnDLipsyJH3F2",am:"https://music.apple.com/us/artist/3545947",yt:"https://music.youtube.com/search?q=Clipse"},
+  {n:"Ethel Cain",t:"major",g:"Alt Pop",d:3,sp:"https://open.spotify.com/artist/0avMDS4HyoCEP6RqZJWpY2",am:"https://music.apple.com/us/artist/1480663449",yt:"https://music.youtube.com/search?q=Ethel+Cain"},
+  {n:"Freddie Gibbs",t:"major",g:"Hip-Hop",d:2,sp:"https://open.spotify.com/artist/0Y4inQK6OespitzD6ijMwb",am:"https://music.apple.com/us/artist/291049623",yt:"https://music.youtube.com/search?q=Freddie+Gibbs"},
+  {n:"Geese",t:"major",g:"Rock",d:3,sp:"https://open.spotify.com/artist/0WCo84qtCKfbyIf1lqQWB4",am:"https://music.apple.com/us/artist/1378038472",yt:"https://music.youtube.com/search?q=Geese"},
+  {n:"Hot Mulligan",t:"major",g:"Rock",d:4,sp:"https://open.spotify.com/artist/1lKZzN2d4IqiEYxyECIEHI",am:"https://music.apple.com/us/artist/941918833",yt:"https://music.youtube.com/search?q=Hot+Mulligan"},
+  {n:"Leon Thomas",t:"major",g:"R&B",d:3,sp:"https://open.spotify.com/artist/0nnBZ8FXWjG9wZgM2cpfeb",am:"https://music.apple.com/us/artist/267251475",yt:"https://music.youtube.com/search?q=Leon+Thomas"},
+  {n:"Lil Uzi Vert",t:"major",g:"Hip-Hop",d:2,sp:"https://open.spotify.com/artist/4O15NlyKLIASxsJ0PrXPfz",am:"https://music.apple.com/us/artist/1084228220",yt:"https://music.youtube.com/search?q=Lil+Uzi+Vert"},
+  // UNDERCARDS
+  {n:"Bad Nerves",t:"undercard",g:"Rock",d:1,sp:"https://open.spotify.com/artist/7IPyXY4ZHkuvQY1ny8TnMQ",am:"https://music.apple.com/us/artist/1213806228",yt:"https://music.youtube.com/search?q=Bad+Nerves"},
+  {n:"Balu Brigada",t:"undercard",g:"Pop",d:2,sp:"https://open.spotify.com/artist/6O9vGMmTwzihULICPCsNf2",am:"https://music.apple.com/us/artist/1171521321",yt:"https://music.youtube.com/search?q=Balu+Brigada"},
+  {n:"BBNOS",t:"undercard",g:"Hip-Hop",d:3,sp:"https://open.spotify.com/artist/41X1TR6hrK8Q2ZCpp2EqCz",am:"https://music.apple.com/us/artist/1161580951",yt:"https://music.youtube.com/search?q=BBNOS"},
+  {n:"Boys Noize",t:"undercard",g:"Electronic",d:1,sp:"https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv",am:"https://music.apple.com/us/artist/200444417",yt:"https://music.youtube.com/search?q=Boys+Noize"},
+  {n:"Calder Allen",t:"undercard",g:"Country",d:3,sp:"https://open.spotify.com/artist/1XlVbGlQaBoESaJ43y2sCD",am:"https://music.apple.com/us/artist/1608248970",yt:"https://music.youtube.com/search?q=Calder+Allen"},
+  {n:"Claire Rosinkranz",t:"undercard",g:"Pop",d:2,sp:"https://open.spotify.com/artist/3V0ZQW0dNuVaFtbVYgSI24",am:"https://music.apple.com/us/artist/1483262366",yt:"https://music.youtube.com/search?q=Claire+Rosinkranz"},
+  {n:"DJ Trixie Mattel",t:"undercard",g:"EDM",d:3,sp:"https://open.spotify.com/artist/33hAj1SghVYxDAxZxNDcyc",am:"https://music.apple.com/us/artist/960467089",yt:"https://music.youtube.com/search?q=DJ+Trixie+Mattel"},
+  {n:"Duke Dumont",t:"undercard",g:"Electronic",d:4,sp:"https://open.spotify.com/artist/61lyPtntblHJvA7FMMhi7E",am:"https://music.apple.com/us/artist/257148267",yt:"https://music.youtube.com/search?q=Duke+Dumont"},
+  {n:"Finn Wolfhard",t:"undercard",g:"Indie",d:2,sp:"https://open.spotify.com/artist/2nmWcAqQtfgNp8Kpixa2CG",am:"https://music.apple.com/us/artist/1275324142",yt:"https://music.youtube.com/search?q=Finn+Wolfhard"},
+  {n:"Frost Children",t:"undercard",g:"Electronic",d:3,sp:"https://open.spotify.com/artist/6R1kfr0GIWnwxY4zW11Vag",am:"https://music.apple.com/us/artist/1505504789",yt:"https://music.youtube.com/search?q=Frost+Children"},
+  {n:"Horsegiirl",t:"undercard",g:"Rock",d:2,sp:"https://open.spotify.com/artist/2FDvUb4YgyUPpmnm1ILPra",am:"https://music.apple.com/us/artist/1482579399",yt:"https://music.youtube.com/search?q=Horsegiirl"},
+  {n:"Little Simz",t:"undercard",g:"Hip-Hop",d:1,sp:"https://open.spotify.com/artist/6eXZu6O7nAUA5z6vLV8NKI",am:"https://music.apple.com/us/artist/569204972",yt:"https://music.youtube.com/search?q=Little+Simz"},
+  {n:"Loathe",t:"undercard",g:"Rock",d:2,sp:"https://open.spotify.com/artist/7JEJzSD3D0hbdlWBLjjlsE",am:"https://music.apple.com/us/artist/377883434",yt:"https://music.youtube.com/search?q=Loathe"},
+  {n:"CMAT",t:"undercard",g:"Folk",d:1,sp:"https://open.spotify.com/artist/3VBNIRx1LxVdRqOiPgkLwv",am:"https://music.apple.com/us/artist/1506697965",yt:"https://music.youtube.com/search?q=CMAT"},
+  {n:"Boys Noize",t:"undercard",g:"Electronic",d:1,sp:"https://open.spotify.com/artist/62k5LKMhymqlDNo2DWOvvv",am:"https://music.apple.com/us/artist/200444417",yt:"https://music.youtube.com/search?q=Boys+Noize"},
+];
+
+// Deduplicate
+const seen = new Set();
+const UNIQUE = ARTISTS.filter(a => { const k = a.n+a.t; if(seen.has(k))return false; seen.add(k); return true; });
+
+let platform = 'sp';
+let filterDay = 0;
+let filterText = '';
+
+function gcFor(g) {
+  return GENRE_CLASS[g] || 'gc-various';
+}
+
+function dayLabel(d) {
+  const days = {1:'Thu 7/30',2:'Fri 7/31',3:'Sat 8/1',4:'Sun 8/2'};
+  return days[d] || '';
+}
+
+function setPlatform(p, btn) {
+  platform = p;
+  document.querySelectorAll('.pill').forEach(b => b.className = 'pill');
+  btn.classList.add('active-' + p);
+  render();
+}
+
+function setDay(d, btn) {
+  filterDay = d;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function filterArtists(v) {
+  filterText = v.toLowerCase();
+  render();
+}
+
+function toggleFilters() {
+  const row = document.getElementById('filterRow');
+  const btn = document.getElementById('filtersBtn');
+  row.classList.toggle('visible');
+  btn.classList.toggle('open');
+}
+
+function visible(a) {
+  if (filterDay > 0 && a.d !== filterDay) return false;
+  if (filterText && !a.n.toLowerCase().includes(filterText)) return false;
+  return true;
+}
+
+function render() {
+  const hls = UNIQUE.filter(a => a.t === 'headliner' && visible(a));
+  const mjs = UNIQUE.filter(a => a.t === 'major' && visible(a));
+  const ucs = UNIQUE.filter(a => a.t === 'undercard' && visible(a));
+  const total = hls.length + mjs.length + ucs.length;
+
+  let html = '';
+
+  if (hls.length) {
+    html += `<div class="tier-label">Headliners</div>`;
+    html += `<div class="headliners">`;
+    hls.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `
+        <a class="hl-name ${gc}" href="${a[platform]}" target="_blank" rel="noopener">${a.n}</a>
+        <div class="hl-genre">${a.g} &nbsp;·&nbsp; ${dayLabel(a.d)}</div>
+      `;
+    });
+    html += `</div>`;
+  }
+
+  if (mjs.length) {
+    html += `<div class="tier-label">Major Artists</div>`;
+    html += `<div class="majors-grid">`;
+    mjs.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `
+        <a class="mj-block ${gc}" href="${a[platform]}" target="_blank" rel="noopener">
+          <div class="mj-name">${a.n}</div>
+          <div class="mj-meta">${a.g} · ${dayLabel(a.d)}</div>
+        </a>
+      `;
+    });
+    html += `</div>`;
+  }
+
+  if (ucs.length) {
+    html += `<div class="tier-label">Undercard</div>`;
+    html += `<div class="undercard-cloud">`;
+    ucs.forEach(a => {
+      const gc = gcFor(a.g);
+      html += `<a class="uc-chip ${gc}" href="${a[platform]}" target="_blank" rel="noopener">${a.n}</a>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('lineup').innerHTML = html;
+  document.getElementById('resultCount').textContent = total > 0
+    ? `Showing ${total} artists`
+    : 'No artists match your filters';
+}
+
+render();
+</script>
+</body>
+</html>

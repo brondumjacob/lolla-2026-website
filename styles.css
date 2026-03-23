@@ -8,6 +8,7 @@
   --white: #FFFFFF;
   --sp: #1DB954;
   --am: #FC3C44;
+  --yt: #FF0000;
 }
 
 /* ===== RESET ===== */
@@ -125,13 +126,13 @@ body {
 /* ===== AD SPACE (AdSense placeholder) ===== */
 .ad-space {
   text-align: center;
-  padding: 16px 0;
+  padding: 8px 0;
   min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px dashed rgba(255, 238, 0, 0.06);
-  margin: 32px 0;
+  margin: 16px 0;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 2px;
@@ -331,6 +332,9 @@ body {
 @media (max-width: 768px) {
   .site-nav { padding: 0 16px; }
   .site-nav a:not(.nav-home) { padding: 0 10px; font-size: 12px; }
+  .editorial-intro { padding: 16px 16px 0; }
+  .guide-cards { padding: 12px 16px 0; }
+  .ticket-section { padding: 20px 16px; }
 }
 
 @media (max-width: 480px) {
@@ -510,6 +514,15 @@ body {
   color: var(--white);
 }
 
+.listen-link-yt {
+  color: var(--yt);
+  border: 1px solid var(--yt);
+}
+.listen-link-yt:hover {
+  background: var(--yt);
+  color: var(--white);
+}
+
 /* Numbered article items */
 .article-number {
   font-family: 'Anton', sans-serif;
@@ -575,7 +588,7 @@ body {
 .ticket-section {
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: 28px 32px;
   text-align: center;
 }
 
@@ -593,7 +606,7 @@ body {
   color: rgba(255,255,255,0.35);
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 
 .ticket-grid {
@@ -611,7 +624,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 20px;
+  padding: 18px 16px;
   border: 3px solid var(--yellow);
   border-radius: 6px;
   text-decoration: none;
@@ -653,15 +666,15 @@ body {
 .editorial-intro {
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px 32px 0;
+  padding: 24px 32px 0;
 }
 
 .editorial-intro p {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.8;
   color: rgba(255,255,255,0.55);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .editorial-intro .editorial-title {
@@ -676,10 +689,10 @@ body {
 .guide-cards {
   max-width: 900px;
   margin: 0 auto;
-  padding: 32px 32px 0;
+  padding: 16px 32px 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 
 @media (max-width: 700px) {
@@ -688,7 +701,7 @@ body {
 
 .guide-card {
   display: block;
-  padding: 24px 20px;
+  padding: 16px 16px;
   border: 2px solid rgba(255, 238, 0, 0.3);
   border-radius: 6px;
   text-decoration: none;
@@ -713,7 +726,7 @@ body {
 
 .guide-card-desc {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   color: rgba(255,255,255,0.4);
   line-height: 1.5;
 }
