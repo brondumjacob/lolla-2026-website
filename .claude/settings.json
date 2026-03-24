@@ -3,5 +3,42 @@
     "allow": [],
     "deny": [],
     "ask": []
+  },
+  "env": {
+    "MAX_MCP_OUTPUT_TOKENS": "75000"
+  },
+  "model": "opusplan",
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
+    "claude-mem@thedotmack": true,
+    "superpowers@superpowers-marketplace": true,
+    "everything-claude-code@everything-claude-code": true,
+    "prompt-improver@severity1-marketplace": true,
+    "playwright-skill@playwright-skill": true,
+    "cli-anything@cli-anything": true,
+    "context7-plugin@upstash": true,
+    "frontend-design@anthropics": true,
+    "repomix-commands@repomix": true
+  },
+  "extraKnownMarketplaces": {
+    "severity1-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "severity1/severity1-marketplace"
+      }
+    },
+    "playwright-skill": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/lackeyjb/playwright-skill.git"
+      }
+    },
+    "cli-anything": {
+      "source": {
+        "source": "github",
+        "repo": "HKUDS/CLI-Anything"
+      }
+    }
   }
 }

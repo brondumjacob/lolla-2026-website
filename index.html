@@ -959,7 +959,12 @@ const SPOTIFY_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="
 
 const APPLE_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" role="img">
   <title>Apple Music</title>
-  <path d="M23.994 6.124a9.23 9.23 0 00-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 00-1.877-.726 10.496 10.496 0 00-1.564-.15c-.04-.003-.083-.01-.124-.013H5.986c-.152.01-.303.017-.455.026C4.786.07 4.043.15 3.34.428 2.077.958 1.256 1.88.804 3.193c-.157.448-.251.913-.301 1.385-.034.308-.05.617-.06.926C.441 5.55.44 5.598.44 5.645V18.3c0 .05.002.1.004.15.012.468.05.934.17 1.39.231.856.689 1.572 1.37 2.136.586.485 1.263.78 2.002.934.485.1.98.143 1.478.15.16.003.32.006.48.006H18.01c.05 0 .1-.002.15-.004.475-.012.948-.05 1.407-.168.87-.232 1.59-.694 2.15-1.38.485-.6.777-1.286.926-2.04.102-.504.144-1.012.15-1.524.003-.162.006-.324.006-.486V6.144c-.001-.007-.001-.013-.005-.02zm-6.884 14.646a2.82 2.82 0 01-2.822 2.82H9.713a2.82 2.82 0 01-2.822-2.82V3.225a2.82 2.82 0 012.822-2.82h4.575a2.82 2.82 0 012.822 2.82v17.545zM12 18.3a1.41 1.41 0 100-2.82 1.41 1.41 0 000 2.82zM9.713 5.226v7.747l4.575-2.59V5.226H9.713z"/>
+  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+</svg>`;
+
+const YOUTUBE_ICON = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" role="img">
+  <title>YouTube Music</title>
+  <path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/>
 </svg>`;
 
 /* ─── STATE ─────────────────────────────────────────────────────────────── */
@@ -1001,6 +1006,7 @@ function renderHeadliners() {
         <div class="streaming-links" aria-label="Streaming links for ${a.n}">
           ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
           ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
+          ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
         </div>
       </div>
     `;
@@ -1034,6 +1040,7 @@ function renderMajors() {
         <div class="streaming-links" aria-label="Streaming links for ${a.n}">
           ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
           ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
+          ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
         </div>
       </div>
     `;
@@ -1064,6 +1071,7 @@ function renderUndercards() {
       <div class="undercard-links" aria-label="Streaming links for ${a.n}">
         ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
         ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
+        ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
       </div>
     `;
     list.appendChild(li);
