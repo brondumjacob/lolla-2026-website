@@ -801,6 +801,84 @@
       .day-panel { flex: 0 0 140px; }
     }
 
+    /* ─── Site Nav ──────────────────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      height: 48px;
+      border-bottom: var(--border);
+    }
+
+    .nav-home {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+    }
+
+    .site-nav a:not(.nav-home) {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: var(--black);
+      text-decoration: none;
+      padding: 0 1rem;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      border-left: 2px solid var(--black);
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .site-nav a:not(.nav-home):hover,
+    .site-nav a.active {
+      background: var(--black);
+      color: var(--lime);
+    }
+
+    /* ─── Site Footer ────────────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--black);
+      border-top: var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      line-height: 1.8;
+    }
+
+    .site-footer-links {
+      margin-bottom: 0.75rem;
+    }
+
+    .site-footer-links a {
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      margin: 0 0.6rem;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      transition: color var(--transition);
+    }
+
+    .site-footer-links a:hover {
+      color: var(--lime);
+    }
+
     /* ─── Highlighted state (day filter) ────────────────────────────────── */
     .headliner-row.highlighted,
     .major-card.highlighted,
@@ -820,6 +898,15 @@
   </style>
 </head>
 <body>
+
+<nav class="site-nav">
+  <a href="/" class="nav-home">LOLLA 2026</a>
+  <div class="nav-links">
+    <a href="/" class="active">LINEUP</a>
+    <a href="/who-to-see.html">GUIDE</a>
+    <a href="/about.html">ABOUT</a>
+  </div>
+</nav>
 
 <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
 <div class="page-wrapper">
@@ -1261,8 +1348,16 @@ renderAll();
 updateCountdown();
 setInterval(updateCountdown, 1000);
 </script>
-<footer style="text-align:center;padding:1rem;font-family:var(--font-body);font-size:0.75rem;color:rgba(0,0,0,0.4);border-top:var(--border);margin-top:0;">
-  lolla2026lineup.com &bull; Unofficial fan site &bull; Not affiliated with Lollapalooza or C3 Presents
+<footer class="site-footer">
+  <div class="site-footer-links">
+    <a href="/">Home</a>
+    <a href="/">Lineup</a>
+    <a href="/who-to-see.html">Guide</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+  AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
+  &copy; 2026 LOLLA LINEUP 2026
 </footer>
 </body>
 </html>
