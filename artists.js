@@ -2,6 +2,8 @@
 // sp = Spotify artist URL, am = Apple Music artist URL, yt = YouTube Music search URL
 // d = day (1=Thu 7/30, 2=Fri 7/31, 3=Sat 8/1, 4=Sun 8/2)
 // p = popularity score (1-100, headliners 90-100, major 50-89, undercard 1-49)
+/* global window */
+if (typeof window === 'undefined') { global.window = {}; }
 window.ARTISTS = [
   {n:"5 Seconds of Summer",t:"major",g:"Pop",d:1,p:80,desc:"Aussie pop-rock hitmakers known for arena anthems and high-energy live shows.",sp:"https://open.spotify.com/artist/5Rl15oVamLq7FbSb0NNBNy",am:"https://music.apple.com/us/artist/538811449",yt:"https://music.youtube.com/search?q=5+Seconds+of+Summer"},
   {n:"54 Ultra",t:"undercard",g:"Pop",d:2,p:8,sp:"https://open.spotify.com/artist/6X5L6rmyvrWWu60Gx6exiZ",am:"https://music.apple.com/us/artist/1521471420",yt:"https://music.youtube.com/search?q=54+Ultra"},
@@ -185,3 +187,6 @@ window.GC = {"Pop":"#FF2D87","Rock":"#FF6B35","Hip-Hop":"#A855F7","Electronic":"
 window.h2r = function(h){return parseInt(h.slice(1,3),16)+","+parseInt(h.slice(3,5),16)+","+parseInt(h.slice(5,7),16)};
 window.DAYS = ["All","Thu 7/30","Fri 7/31","Sat 8/1","Sun 8/2"];
 window.DAY_INDEX = {"Thu 7/30":1,"Fri 7/31":2,"Sat 8/1":3,"Sun 8/2":4};
+
+// Node.js compat — ignored in browsers
+if (typeof module !== 'undefined') module.exports = window.ARTISTS;
