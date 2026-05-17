@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FAFAF5"/>
+  <rect width="1200" height="630" fill="none" stroke="#000" stroke-width="24"/>
+  <rect x="0" y="0" width="1200" height="120" fill="#000"/>
+  <rect x="0" y="510" width="1200" height="120" fill="#C8D838"/>
+  <text x="600" y="88" font-family="Arial Black,Arial,sans-serif" font-size="72" font-weight="900" text-anchor="middle" fill="#C8D838" letter-spacing="8">LOLLAPALOOZA</text>
+  <text x="600" y="330" font-family="Arial Black,Arial,sans-serif" font-size="200" font-weight="900" text-anchor="middle" fill="#000" letter-spacing="-8">2026</text>
+  <text x="600" y="430" font-family="Arial Black,Arial,sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="#000" letter-spacing="4">COMPLETE LINEUP</text>
+  <text x="600" y="492" font-family="Arial,sans-serif" font-size="32" text-anchor="middle" fill="#555">172 artists · Grant Park, Chicago · July 30 – August 2</text>
+  <text x="600" y="578" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" text-anchor="middle" fill="#000" letter-spacing="2">LOLLA2026LINEUP.COM</text>
+</svg>
