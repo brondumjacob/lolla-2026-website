@@ -2661,105 +2661,41 @@ function artistPassesFilter(artist) {
 
 /* ─── RENDER HEADLINERS ─────────────────────────────────────────────────── */
 function renderHeadliners() {
-  const container = document.getElementById('headliners-list');
-  container.innerHTML = '';
-
-  HEADLINERS.forEach(a => {
-    const visible = artistPassesFilter(a);
-    const div = document.createElement('div');
-    div.className = 'headliner-row' + (visible ? '' : ' filtered-out');
-    div.setAttribute('role', 'listitem');
-    div.innerHTML = `
-      <div class="headliner-accent" aria-hidden="true"></div>
-      <div style="flex:1;min-width:0">
-        <div class="headliner-name">${a.n}</div>
-        ${a.desc ? `<div style="font-family:var(--font-body);font-size:0.85rem;color:rgba(0,0,0,0.5);margin-top:0.2rem;line-height:1.4">${a.desc}</div>` : ''}
-      </div>
-      <div class="headliner-meta">
-        ${dayBadgeHTML(a.d)}
-        <div class="streaming-links" aria-label="Streaming links for ${a.n}">
-          ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
-          ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
-          ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
-        </div>
-      </div>
-    `;
-    container.appendChild(div);
+  const cards = document.querySelectorAll('#headliners-list .headliner-row');
+  cards.forEach(card => {
+    const passes = (activeDay === 0 || parseInt(card.dataset.day) === activeDay) &&
+                   (activeGenre === '' || card.dataset.genre === activeGenre);
+    card.classList.toggle('filtered-out', !passes);
   });
-
-  const emptyMsg = document.getElementById('headliners-empty');
-  const anyVisible = HEADLINERS.some(a => artistPassesFilter(a));
-  emptyMsg.classList.toggle('visible', !anyVisible);
+  const anyVisible = [...cards].some(c => !c.classList.contains('filtered-out'));
+  document.getElementById('headliners-empty').classList.toggle('visible', !anyVisible);
 }
 
 /* ─── RENDER MAJORS ─────────────────────────────────────────────────────── */
 function renderMajors() {
-  const grid = document.getElementById('majors-grid');
-  grid.innerHTML = '';
-
-  MAJORS.forEach(a => {
-    const visible = artistPassesFilter(a);
-    const div = document.createElement('div');
-    div.className = 'major-card' + (visible ? '' : ' filtered-out');
-    div.setAttribute('role', 'listitem');
-    div.innerHTML = `
-      <div class="major-card-top">
-        <div>
-          <div class="major-name">${a.n}</div>
-          <div class="major-genre">${a.g}</div>
-        </div>
-      </div>
-      ${a.desc ? `<div style="font-family:var(--font-body);font-size:0.8rem;color:rgba(0,0,0,0.45);line-height:1.4;margin-bottom:0.5rem">${a.desc}</div>` : ''}
-      <div class="major-card-bottom">
-        ${dayBadgeHTML(a.d)}
-        <div class="streaming-links" aria-label="Streaming links for ${a.n}">
-          ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
-          ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
-          ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
-        </div>
-      </div>
-    `;
-    grid.appendChild(div);
+  const cards = document.querySelectorAll('#majors-grid .major-card');
+  cards.forEach(card => {
+    const passes = (activeDay === 0 || parseInt(card.dataset.day) === activeDay) &&
+                   (activeGenre === '' || card.dataset.genre === activeGenre);
+    card.classList.toggle('filtered-out', !passes);
   });
-
-  const emptyMsg = document.getElementById('majors-empty');
-  const anyVisible = MAJORS.some(a => artistPassesFilter(a));
-  emptyMsg.classList.toggle('visible', !anyVisible);
+  const anyVisible = [...cards].some(c => !c.classList.contains('filtered-out'));
+  document.getElementById('majors-empty').classList.toggle('visible', !anyVisible);
 }
 
 /* ─── RENDER UNDERCARDS ─────────────────────────────────────────────────── */
 function renderUndercards() {
-  const list = document.getElementById('undercards-list');
-  list.innerHTML = '';
-
-  let visibleIdx = 0;
-  UNDERCARDS.forEach((a, i) => {
-    const visible = artistPassesFilter(a);
-    if (visible) visibleIdx++;
-    const li = document.createElement('li');
-    li.className = 'undercard-item' + (visible ? '' : ' filtered-out');
-    li.innerHTML = `
-      <span class="undercard-num">${visible ? String(visibleIdx).padStart(2,'0') : '--'}</span>
-      <span class="undercard-name">${a.n}</span>
-      <span class="undercard-genre">${a.g}</span>
-      ${dayBadgeHTML(a.d)}
-      <div class="undercard-links" aria-label="Streaming links for ${a.n}">
-        ${streamBtn(a.sp, SPOTIFY_ICON, 'Spotify')}
-        ${streamBtn(a.am, APPLE_ICON, 'Apple Music')}
-        ${streamBtn(a.yt, YOUTUBE_ICON, 'YouTube Music')}
-      </div>
-    `;
-    list.appendChild(li);
+  const items = document.querySelectorAll('#undercards-list .undercard-item');
+  items.forEach(item => {
+    const passes = (activeDay === 0 || parseInt(item.dataset.day) === activeDay) &&
+                   (activeGenre === '' || item.dataset.genre === activeGenre);
+    item.classList.toggle('filtered-out', !passes);
   });
-
-  // Re-number visible items
-  const visibleItems = list.querySelectorAll('.undercard-item:not(.filtered-out)');
-  visibleItems.forEach((item, i) => {
-    item.querySelector('.undercard-num').textContent = String(i + 1).padStart(2,'0');
+  const visible = [...items].filter(i => !i.classList.contains('filtered-out'));
+  visible.forEach((item, i) => {
+    item.querySelector('.undercard-num').textContent = String(i + 1).padStart(2, '0');
   });
-
-  const emptyMsg = document.getElementById('undercards-empty');
-  emptyMsg.classList.toggle('visible', visibleItems.length === 0);
+  document.getElementById('undercards-empty').classList.toggle('visible', visible.length === 0);
 }
 
 /* ─── RENDER DAY PANELS ─────────────────────────────────────────────────── */
