@@ -127,7 +127,6 @@
         height: 52px;
         padding: 0 24px;
         font-size: 1rem;
-        color: #D3E64C;
       }
     }
 
@@ -1062,6 +1061,13 @@
     .site-nav a.active {
       background: var(--black);
       color: var(--lime);
+    }
+
+    /* Mobile dropdown: override black text to lime (must come after base rule) */
+    @media (max-width: 768px) {
+      .site-nav a:not(.nav-home) {
+        color: #D3E64C;
+      }
     }
 
     /* ─── Site Footer ────────────────────────────────────────────────────── */
