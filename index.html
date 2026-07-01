@@ -106,7 +106,7 @@
     .hamburger-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
     .hamburger-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
     .hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .hamburger-btn { display: flex; }
       .site-nav { position: relative; }
       .nav-links {
@@ -880,6 +880,32 @@
       line-height: 1.5;
     }
 
+    /* ─── Mobile Genre Strip ─────────────────────────────────────────────── */
+    .genre-strip {
+      display: none;
+      overflow-x: auto;
+      gap: 8px;
+      padding: 0.75rem 0 0.5rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .genre-strip::-webkit-scrollbar { display: none; }
+    .genre-strip-pill {
+      flex-shrink: 0;
+      padding: 6px 12px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      border: 2px solid var(--black);
+      background: var(--white);
+      box-shadow: 2px 2px 0 var(--black);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--transition), color var(--transition);
+    }
+    .genre-strip-pill.is-active { background: var(--black); color: var(--white); box-shadow: none; }
+    .genre-strip-pill:hover:not(.is-active) { background: rgba(0,0,0,0.06); }
+
     @media (max-width: 900px) {
       .guide-cards { grid-template-columns: repeat(2, 1fr); }
       .guide-card { border-right: none; border-bottom: var(--border); }
@@ -887,7 +913,7 @@
     }
     @media (max-width: 700px) {
       .guide-cards { grid-template-columns: 1fr; }
-      .guide-card { border-right: none; border-bottom: var(--border); }
+      .guide-card { border-right: none; border-bottom: var(--border); padding: 0.75rem 1rem; }
       .guide-card:last-child { border-bottom: none; }
       .editorial-intro { padding: 1.5rem 1rem 1.25rem; }
     }
@@ -925,6 +951,7 @@
         overflow-x: auto;
         scrollbar-width: thin;
         align-items: stretch;
+        scroll-snap-type: x mandatory;
       }
 
       .sidebar-header { display: none; }
@@ -933,6 +960,7 @@
         flex: 0 0 200px;
         border-bottom: none;
         border-right: var(--border);
+        scroll-snap-align: start;
       }
 
       .day-panel:last-of-type { border-right: var(--border); }
@@ -948,7 +976,9 @@
     /* Mobile: stacked */
     @media (max-width: 767px) {
       .hero { padding: 1.5rem 1rem 1.25rem; }
-      .hero-right { display: none; }
+      .hero-right { display: block; text-align: left; margin-top: 0.5rem; }
+      .hero-dates { font-size: 1rem; }
+      .hero-venue { display: none; }
       .hero-title { font-size: clamp(3rem, 15vw, 5rem); }
 
       .main-col { padding: 1rem; }
@@ -965,9 +995,20 @@
 
       .headliner-name { font-size: clamp(1.75rem, 8vw, 2.5rem); }
 
-      .headliner-row { gap: 0.75rem; }
+      .headliner-row { gap: 0.75rem; flex-direction: column; align-items: flex-start; }
+      .headliner-meta { width: 100%; flex-direction: row; align-items: center; gap: 0.5rem; }
 
       .undercard-genre { display: none; }
+      .undercard-num { display: none; }
+      .undercard-item { gap: 0.5rem; }
+
+      .stream-btn { width: 44px; height: 44px; }
+      .stream-btn svg { width: 20px; height: 20px; }
+
+      .hero-og-img img { box-shadow: 3px 3px 0 #000; margin-top: 0.75rem; }
+
+      /* Mobile genre strip */
+      .genre-strip { display: flex; }
     }
 
     @media (max-width: 400px) {
@@ -1168,6 +1209,9 @@
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+      <!-- Mobile genre filter strip (hidden on desktop) -->
+      <div class="genre-strip" id="genre-strip" role="list" aria-label="Filter by genre"></div>
 
       <!-- HEADLINERS -->
       <div class="section-divider" aria-hidden="true">
@@ -2889,7 +2933,9 @@ function renderQuickFilterBtns() {
 /* ─── RENDER GENRE LIST ─────────────────────────────────────────────────── */
 function renderGenreList() {
   const list = document.getElementById('genre-list');
+  const strip = document.getElementById('genre-strip');
   list.innerHTML = '';
+  strip.innerHTML = '';
 
   // Collect genres from filtered-day artists only
   const pool = activeDay === 0 ? ALL_ARTISTS : ALL_ARTISTS.filter(a => a.d === activeDay);
@@ -2899,6 +2945,14 @@ function renderGenreList() {
   });
 
   const sorted = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]);
+
+  // "All Genres" pill in the mobile strip
+  const allPill = document.createElement('button');
+  allPill.className = 'genre-strip-pill' + (activeGenre === '' ? ' is-active' : '');
+  allPill.setAttribute('role', 'listitem');
+  allPill.textContent = 'ALL GENRES';
+  allPill.addEventListener('click', () => toggleGenre(''));
+  strip.appendChild(allPill);
 
   sorted.forEach(([genre, count], i) => {
     const li = document.createElement('li');
@@ -2923,6 +2977,14 @@ function renderGenreList() {
     });
 
     list.appendChild(li);
+
+    // Mobile strip pill
+    const pill = document.createElement('button');
+    pill.className = 'genre-strip-pill' + (activeGenre === genre ? ' is-active' : '');
+    pill.setAttribute('role', 'listitem');
+    pill.textContent = genre;
+    pill.addEventListener('click', () => toggleGenre(genre));
+    strip.appendChild(pill);
   });
 }
 

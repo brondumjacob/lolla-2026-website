@@ -335,6 +335,10 @@
     overflow: hidden;
   }
   .planner-panel.open { display: block; }
+  @media (max-width: 600px) {
+    .planner-panel { max-height: calc(100vh - 120px); overflow-y: auto; }
+    .planner-fab { bottom: 80px; }
+  }
   .planner-head {
     background: #D3E64C;
     padding: 14px 16px 10px;
