@@ -83,6 +83,74 @@
       overflow-x: hidden;
     }
 
+    /* ─── Hamburger Menu ─────────────────────────────────────────────────── */
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 28px;
+      height: 20px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger-btn span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.85);
+      border-radius: 1px;
+      transition: transform 200ms ease, opacity 200ms ease;
+    }
+    .hamburger-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .hamburger-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+    @media (max-width: 600px) {
+      .hamburger-btn { display: flex; }
+      .site-nav { position: relative; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        right: 0;
+        background: #15151a;
+        border-bottom: 3px solid #000;
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .site-nav a:not(.nav-home) {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        height: 52px;
+        padding: 0 24px;
+        font-size: 1rem;
+      }
+    }
+
+    /* ─── Editorial Collapse ─────────────────────────────────────────────── */
+    .editorial-body { display: none; overflow: hidden; }
+    .editorial-body.expanded { display: block; }
+    .editorial-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 0.75rem 0 0.25rem;
+      padding: 0.4rem 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      background: #D3E64C;
+      color: #000;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      cursor: pointer;
+      transition: box-shadow 200ms ease, transform 200ms ease;
+    }
+    .editorial-toggle:hover { box-shadow: none; transform: translate(3px, 3px); }
+
     /* ─── Layout Shell ──────────────────────────────────────────────────── */
     .page-wrapper {
       max-width: 1440px;
