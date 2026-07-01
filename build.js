@@ -88,7 +88,7 @@ function undercardItem(a, idx) {
 
 // ── Hero image HTML ────────────────────────────────────────────────────────
 const heroImgHTML = `<div class="hero-og-img">
-  <img src="/og-image.svg" alt="Lollapalooza 2026 lineup poster — 172 artists, Grant Park Chicago, July 30 to August 2" width="600" height="315" loading="eager" style="width:100%;max-width:600px;height:auto;display:block;margin:1.5rem auto 0;border:3px solid #000;box-shadow:6px 6px 0 #000;">
+  <img src="/lineup.png" alt="Lollapalooza 2026 official lineup poster — 172 artists, Grant Park Chicago, July 30 to August 2" width="600" height="750" loading="eager" style="width:100%;max-width:600px;height:auto;display:block;margin:1.5rem auto 0;border:3px solid #000;box-shadow:6px 6px 0 #000;">
 </div>`;
 
 // ── OG Image SVG — Full Lineup Poster ──────────────────────────────────────
@@ -236,7 +236,7 @@ if (fs.existsSync('og-image.jpg')) {
 }
 
 // Copy static assets
-const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js'];
+const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js', 'lineup.png'];
 for (const f of staticAssets) {
   if (fs.existsSync(f)) {
     fs.copyFileSync(f, `dist/${f}`);
