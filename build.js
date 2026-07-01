@@ -128,18 +128,24 @@ const headlinersHTML = HEADLINERS.map(headlinerCard).join('\n');
 const majorsHTML     = MAJORS.map(majorCard).join('\n');
 const undercardsHTML = UNDERCARDS.map((a, i) => undercardItem(a, i + 1)).join('\n');
 
+// Create output directory
+fs.mkdirSync('dist', { recursive: true });
+
+// Build and write index.html into dist/
 let html = fs.readFileSync('index.html', 'utf8');
 html = inject(html, 'headliners', headlinersHTML);
 html = inject(html, 'majors',     majorsHTML);
 html = inject(html, 'undercards', undercardsHTML);
 html = inject(html, 'hero-img',   heroImgHTML);
-fs.writeFileSync('index.html', html);
+fs.writeFileSync('dist/index.html', html);
 
 // Write OG image SVG
-fs.writeFileSync('og-image.svg', generateOgSvg());
+fs.writeFileSync('dist/og-image.svg', generateOgSvg());
 
-// Write placeholder og-image.jpg only if it doesn't exist yet
-if (!fs.existsSync('og-image.jpg')) {
+// Write og-image.jpg — copy from root if available, else generate placeholder
+if (fs.existsSync('og-image.jpg')) {
+  fs.copyFileSync('og-image.jpg', 'dist/og-image.jpg');
+} else if (!fs.existsSync('dist/og-image.jpg')) {
   // Minimal valid 1x1 white JPEG — replace with real 1200x630 image
   const minJpeg = Buffer.from(
     '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8U' +
@@ -151,9 +157,36 @@ if (!fs.existsSync('og-image.jpg')) {
     'RNFRVxS1VNVRDt/9k=',
     'base64'
   );
-  fs.writeFileSync('og-image.jpg', minJpeg);
-  console.log('Wrote placeholder og-image.jpg — replace with real 1200x630 image');
+  fs.writeFileSync('dist/og-image.jpg', minJpeg);
+  console.log('Wrote placeholder dist/og-image.jpg — replace with real 1200x630 image');
 }
 
+// Copy static assets
+const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt'];
+for (const f of staticAssets) {
+  if (fs.existsSync(f)) {
+    fs.copyFileSync(f, `dist/${f}`);
+  } else {
+    console.warn(`WARNING: ${f} not found, skipping`);
+  }
+}
+
+// Copy static HTML pages
+const staticPages = [
+  'about.html', 'privacy.html', 'contact.html', 'terms.html',
+  'who-to-see.html', 'first-timers-guide.html', 'undercard-picks.html',
+  'schedule.html', 'schedule-thursday.html', 'schedule-friday.html',
+  'schedule-saturday.html', 'schedule-sunday.html',
+];
+for (const f of staticPages) {
+  if (fs.existsSync(f)) {
+    fs.copyFileSync(f, `dist/${f}`);
+  } else {
+    console.warn(`WARNING: ${f} not found, skipping`);
+  }
+}
+
+const totalFiles = 1 + 2 + staticAssets.length + staticPages.length; // index + svg + jpg + assets + pages
 console.log(`Build complete: ${HEADLINERS.length} headliners, ${MAJORS.length} majors, ${UNDERCARDS.length} undercards pre-rendered.`);
 console.log(`Total artists in HTML: ${ARTISTS.length}`);
+console.log(`Output: ${totalFiles} files written to dist/`);
