@@ -91,18 +91,92 @@ const heroImgHTML = `<div class="hero-og-img">
   <img src="/og-image.svg" alt="Lollapalooza 2026 lineup poster — 172 artists, Grant Park Chicago, July 30 to August 2" width="600" height="315" loading="eager" style="width:100%;max-width:600px;height:auto;display:block;margin:1.5rem auto 0;border:3px solid #000;box-shadow:6px 6px 0 #000;">
 </div>`;
 
-// ── OG Image SVG ───────────────────────────────────────────────────────────
+// ── OG Image SVG — Full Lineup Poster ──────────────────────────────────────
 function generateOgSvg() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#FAFAF5"/>
-  <rect width="1200" height="630" fill="none" stroke="#000" stroke-width="24"/>
-  <rect x="0" y="0" width="1200" height="120" fill="#000"/>
-  <rect x="0" y="510" width="1200" height="120" fill="#C8D838"/>
-  <text x="600" y="88" font-family="Arial Black,Arial,sans-serif" font-size="72" font-weight="900" text-anchor="middle" fill="#C8D838" letter-spacing="8">LOLLAPALOOZA</text>
-  <text x="600" y="330" font-family="Arial Black,Arial,sans-serif" font-size="200" font-weight="900" text-anchor="middle" fill="#000" letter-spacing="-8">2026</text>
-  <text x="600" y="430" font-family="Arial Black,Arial,sans-serif" font-size="48" font-weight="700" text-anchor="middle" fill="#000" letter-spacing="4">COMPLETE LINEUP</text>
-  <text x="600" y="492" font-family="Arial,sans-serif" font-size="32" text-anchor="middle" fill="#555">172 artists · Grant Park, Chicago · July 30 – August 2</text>
-  <text x="600" y="578" font-family="Arial Black,Arial,sans-serif" font-size="36" font-weight="900" text-anchor="middle" fill="#000" letter-spacing="2">LOLLA2026LINEUP.COM</text>
+  const days = [1, 2, 3, 4];
+  const dayHeadliners = {};
+  const dayOthers = {};
+
+  days.forEach(d => {
+    dayHeadliners[d] = ARTISTS
+      .filter(a => a.d === d && a.t === 'headliner')
+      .sort((a, b) => b.p - a.p)
+      .map(a => esc(a.n.toUpperCase()));
+    dayOthers[d] = ARTISTS
+      .filter(a => a.d === d && a.t !== 'headliner')
+      .sort((a, b) => b.p - a.p)
+      .map(a => esc(a.n.toUpperCase()));
+  });
+
+  function wrapRows(names, maxLen) {
+    const rows = [];
+    let cur = '';
+    for (const n of names) {
+      if (!cur) { cur = n; continue; }
+      const test = cur + ' · ' + n;
+      if (test.length > maxLen) { rows.push(cur); cur = n; }
+      else cur = test;
+    }
+    if (cur) rows.push(cur);
+    return rows;
+  }
+
+  const W = 1200;
+  const DAY_COLORS  = {1:'#8B5CF6', 2:'#E91E8C', 3:'#F97316', 4:'#00BCD4'};
+  const DAY_LABELS  = {1:'THURSDAY · JUL 30', 2:'FRIDAY · JUL 31', 3:'SATURDAY · AUG 1', 4:'SUNDAY · AUG 2'};
+  const HL_H  = 88;   // height reserved per headliner line
+  const HL_FS = 70;   // headliner font-size
+  const ROW_H = 28;   // height per artist row
+  const PAD   = 16;   // top/bottom padding per day section
+
+  const parts = [];
+  let y = 0;
+
+  // Dark header
+  parts.push(`<rect width="${W}" height="108" fill="#15151a"/>`);
+  parts.push(`<text x="${W/2}" y="66" text-anchor="middle" font-family="Arial Black,Impact,sans-serif" font-size="54" font-weight="900" fill="#D3E64C" letter-spacing="6">LOLLAPALOOZA 2026</text>`);
+  parts.push(`<text x="${W/2}" y="95" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" fill="rgba(255,255,255,0.5)" letter-spacing="3">JULY 30 – AUGUST 2  ·  GRANT PARK, CHICAGO</text>`);
+  y = 108;
+
+  for (const d of days) {
+    const hls  = dayHeadliners[d];
+    const rows = wrapRows(dayOthers[d], 88);
+    const secH = PAD + hls.length * HL_H + rows.length * ROW_H + PAD;
+
+    // Day color bar
+    parts.push(`<rect x="0" y="${y}" width="${W}" height="44" fill="${DAY_COLORS[d]}"/>`);
+    parts.push(`<text x="50" y="${y+30}" font-family="Arial Black,sans-serif" font-size="21" font-weight="900" fill="#fff" letter-spacing="3">${DAY_LABELS[d]}</text>`);
+    y += 44;
+
+    // Day section background
+    parts.push(`<rect x="0" y="${y}" width="${W}" height="${secH}" fill="#FAFAF2"/>`);
+    y += PAD;
+
+    // Headliner names
+    for (const hl of hls) {
+      y += HL_H - 16;
+      parts.push(`<text x="${W/2}" y="${y}" text-anchor="middle" font-family="Arial Black,Impact,sans-serif" font-size="${HL_FS}" font-weight="900" fill="#15151a" letter-spacing="-1">${hl}</text>`);
+      y += 16;
+    }
+    y += 4;
+
+    // Other artists, row by row
+    for (const row of rows) {
+      y += ROW_H - 6;
+      parts.push(`<text x="${W/2}" y="${y}" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="17" fill="#333" letter-spacing="0.4">${row}</text>`);
+      y += 6;
+    }
+    y += PAD;
+  }
+
+  // Lime footer
+  parts.push(`<rect x="0" y="${y}" width="${W}" height="54" fill="#D3E64C"/>`);
+  parts.push(`<text x="${W/2}" y="${y+37}" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="26" font-weight="900" fill="#15151a" letter-spacing="5">LOLLA2026LINEUP.COM</text>`);
+  y += 54;
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${y}" viewBox="0 0 ${W} ${y}">
+  <rect width="${W}" height="${y}" fill="#F0A6DC"/>
+  ${parts.join('\n  ')}
 </svg>`;
 }
 
