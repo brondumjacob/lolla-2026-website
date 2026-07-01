@@ -41,6 +41,15 @@
         btn.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // Close on scroll
+    window.addEventListener('scroll', function () {
+      if (links.classList.contains('open')) {
+        links.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }, { passive: true });
   }
 
   // ── Editorial collapse (index.html only) ────────────────────────────────
