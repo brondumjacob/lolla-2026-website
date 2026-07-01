@@ -2648,10 +2648,10 @@
 <script src="artists.js"></script>
 <script>
 /* ─── ARTIST DATA (from artists.js) ────────────────────────────────────── */
-const HEADLINERS  = window.ARTISTS.filter(a => a.t === 'headliner');
-const MAJORS      = window.ARTISTS.filter(a => a.t === 'major');
-const UNDERCARDS  = window.ARTISTS.filter(a => a.t === 'undercard');
-const ALL_ARTISTS = window.ARTISTS;
+const ALL_ARTISTS = window.ARTISTS || [];
+const HEADLINERS  = ALL_ARTISTS.filter(a => a.t === 'headliner');
+const MAJORS      = ALL_ARTISTS.filter(a => a.t === 'major');
+const UNDERCARDS  = ALL_ARTISTS.filter(a => a.t === 'undercard');
 
 const DAY_META = {
   1: { name: "THURSDAY", date: "JUL 30", short: "THU 7/30", color: "day-1" },
