@@ -67,7 +67,7 @@
   }
 
   /* Day grid */
-  .sched-grid-wrap { padding: 2.5rem 2rem; background: #F0A6DC; }
+  .sched-grid-wrap { padding: 2.5rem 2rem; background: #7EC8E3; }
   .sched-grid-inner { max-width: 860px; margin: 0 auto; }
   .sched-grid-label {
     font-family: var(--font-display);
@@ -182,7 +182,7 @@
 
   .sched-back {
     padding: 2rem 2rem;
-    background: #F0A6DC;
+    background: #7EC8E3;
     text-align: center;
     border-top: 3px solid #000;
   }
@@ -200,6 +200,9 @@
 
 <nav class="site-nav">
   <a href="/" class="nav-home">LOLLA 2026</a>
+  <button class="hamburger-btn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
     <a href="/">LINEUP</a>
     <a href="/who-to-see.html">GUIDE</a>
@@ -297,6 +300,308 @@
   <a href="/">← Back to full lineup</a>
 </div>
 
+<!-- ─── SMART SCHEDULE PLANNER ─────────────────────────────────────────────── -->
+<style>
+  .planner-fab {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    z-index: 500;
+    background: #D3E64C;
+    color: #15151a;
+    border: 3px solid #000;
+    box-shadow: 4px 4px 0 #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .planner-fab:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+
+  .planner-panel {
+    display: none;
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    z-index: 500;
+    width: min(420px, calc(100vw - 32px));
+    background: #15151a;
+    border: 3px solid #000;
+    box-shadow: 6px 6px 0 #000;
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .planner-panel.open { display: block; }
+  .planner-head {
+    background: #D3E64C;
+    padding: 14px 16px 10px;
+    border-bottom: 3px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .planner-head-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    color: #15151a;
+  }
+  .planner-close {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #15151a;
+    line-height: 1;
+    padding: 0 2px;
+  }
+  .planner-body { padding: 16px; }
+  .planner-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .planner-input {
+    width: 100%;
+    background: #1f1f27;
+    border: 2px solid rgba(255,255,255,0.15);
+    color: #fff;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border-radius: 0;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .planner-input:focus { border-color: #D3E64C; }
+  .planner-hint {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .planner-go {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    background: #D3E64C;
+    color: #15151a;
+    border: 2px solid #000;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    padding: 11px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .planner-go:hover { background: #c0d040; }
+  .planner-results {
+    border-top: 2px solid rgba(255,255,255,0.1);
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 12px 16px 16px;
+  }
+  .planner-day-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #D3E64C;
+    margin: 12px 0 6px;
+  }
+  .planner-day-head:first-child { margin-top: 0; }
+  .planner-set-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .planner-set-item:last-child { border-bottom: none; }
+  .planner-set-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.45);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-top: 2px;
+    min-width: 72px;
+  }
+  .planner-set-info { flex: 1; min-width: 0; }
+  .planner-set-name {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+  .planner-set-stage {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.45);
+    margin-top: 1px;
+  }
+  .planner-conflict {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #E6362B;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .planner-no-match {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+    padding: 8px 0;
+  }
+  .planner-link {
+    display: inline-block;
+    margin-top: 12px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    text-decoration: none;
+    transition: border-color 0.1s, color 0.1s;
+  }
+  .planner-link:hover { border-color: #D3E64C; color: #D3E64C; }
+</style>
+
+<button class="planner-fab" id="plannerFab">⚡ PLAN MY SCHEDULE</button>
+
+<div class="planner-panel" id="plannerPanel" role="dialog" aria-label="Smart schedule planner">
+  <div class="planner-head">
+    <span class="planner-head-title">PLAN MY SCHEDULE</span>
+    <button class="planner-close" id="plannerClose" aria-label="Close">&times;</button>
+  </div>
+  <div class="planner-body">
+    <label class="planner-label" for="plannerInput">Which artists do you want to see?</label>
+    <input class="planner-input" type="text" id="plannerInput" placeholder="Lorde, Charli XCX, Tate McRae…" autocomplete="off">
+    <p class="planner-hint">Separate names with commas or "and". Partial names work too.</p>
+    <button class="planner-go" id="plannerGo">PLAN IT →</button>
+  </div>
+  <div class="planner-results" id="plannerResults" style="display:none"></div>
+</div>
+
+<script src="/schedule-data.js"></script>
+<script>
+(function() {
+  var DAY_NAMES = {1:'THURSDAY · JUL 30', 2:'FRIDAY · JUL 31', 3:'SATURDAY · AUG 1', 4:'SUNDAY · AUG 2'};
+  var DAY_LINKS = {1:'/schedule-thursday.html', 2:'/schedule-friday.html', 3:'/schedule-saturday.html', 4:'/schedule-sunday.html'};
+
+  var fab = document.getElementById('plannerFab');
+  var panel = document.getElementById('plannerPanel');
+  var closeBtn = document.getElementById('plannerClose');
+  var input = document.getElementById('plannerInput');
+  var goBtn = document.getElementById('plannerGo');
+  var results = document.getElementById('plannerResults');
+
+  fab.addEventListener('click', function() {
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) input.focus();
+  });
+  closeBtn.addEventListener('click', function() { panel.classList.remove('open'); });
+  document.addEventListener('click', function(e) {
+    if (!panel.contains(e.target) && e.target !== fab) panel.classList.remove('open');
+  });
+  input.addEventListener('keydown', function(e) { if (e.key === 'Enter') runPlanner(); });
+  goBtn.addEventListener('click', runPlanner);
+
+  function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim(); }
+
+  function fuzzyMatch(query, name) {
+    var q = normalize(query);
+    var n = normalize(name);
+    if (!q) return false;
+    if (n.includes(q) || q.includes(n)) return true;
+    // simple Levenshtein for short queries
+    if (q.length < 3) return false;
+    var dist = levenshtein(q, n);
+    return dist <= Math.floor(q.length * 0.35);
+  }
+
+  function levenshtein(a, b) {
+    var m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    var dp = [];
+    for (var i = 0; i <= m; i++) dp[i] = [i];
+    for (var j = 0; j <= n; j++) dp[0][j] = j;
+    for (var i = 1; i <= m; i++)
+      for (var j = 1; j <= n; j++)
+        dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1] : 1 + Math.min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]);
+    return dp[m][n];
+  }
+
+  function runPlanner() {
+    var raw = input.value.trim();
+    if (!raw) return;
+    var queries = raw.split(/,|\band\b/i).map(function(s) { return s.trim(); }).filter(Boolean);
+    var schedule = window.SCHEDULE || [];
+    var matched = [];
+    queries.forEach(function(q) {
+      var found = schedule.filter(function(s) { return fuzzyMatch(q, s.name); });
+      // Prefer exact/closest match per query
+      if (found.length > 0) {
+        // if exact match exists, take only that
+        var exact = found.filter(function(s) { return normalize(s.name).includes(normalize(q)); });
+        matched = matched.concat(exact.length ? exact : [found[0]]);
+      }
+    });
+    // Deduplicate
+    var seen = {};
+    matched = matched.filter(function(s) {
+      var key = s.day + '|' + s.name + '|' + s.stage;
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+    renderResults(matched, queries);
+  }
+
+  function renderResults(sets, queries) {
+    results.style.display = 'block';
+    if (!sets.length) {
+      results.innerHTML = '<p class="planner-no-match">No artists found. Try checking the spelling or using shorter names.</p>';
+      return;
+    }
+    // Group by day, sort by start time
+    var byDay = {1:[], 2:[], 3:[], 4:[]};
+    sets.forEach(function(s) { byDay[s.day].push(s); });
+    [1,2,3,4].forEach(function(d) { byDay[d].sort(function(a,b) { return a.start - b.start; }); });
+
+    var html = '';
+    [1,2,3,4].forEach(function(d) {
+      if (!byDay[d].length) return;
+      html += '<div class="planner-day-head">' + DAY_NAMES[d] + '</div>';
+      byDay[d].forEach(function(s, i) {
+        var conflict = '';
+        if (i > 0) {
+          var prev = byDay[d][i-1];
+          if (s.start < prev.end) conflict = '<div class="planner-conflict">⚠ Overlaps with ' + prev.name + '</div>';
+        }
+        html += '<div class="planner-set-item">' +
+          '<div class="planner-set-time">' + s.disp + '</div>' +
+          '<div class="planner-set-info">' +
+            '<div class="planner-set-name">' + s.name + '</div>' +
+            '<div class="planner-set-stage">' + s.stage + (s.region ? ' · ' + s.region + ' zone' : '') + '</div>' +
+            conflict +
+          '</div></div>';
+      });
+      html += '<a href="' + DAY_LINKS[d] + '" class="planner-link">Open ' + ['Thu','Fri','Sat','Sun'][d-1] + ' Builder →</a>';
+    });
+    results.innerHTML = html;
+  }
+})();
+</script>
+
 <footer class="site-footer">
   <div class="site-footer-links">
     <a href="/">Home</a>
@@ -313,6 +618,6 @@
   AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
   &copy; 2026 LOLLA LINEUP 2026
 </footer>
-
+<script src="/nav.js"></script>
 </body>
 </html>

@@ -15,11 +15,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  :root{--pink:#F0A6DC;--pink-deep:#C73C98;--cyan:#34C6D9;--cyan-line:rgba(7,40,46,.18);
+  :root{--pink:#F0A6DC;--bg:#7EC8E3;--pink-deep:#C73C98;--cyan:#34C6D9;--cyan-line:rgba(7,40,46,.18);
     --lime:#D3E64C;--ink:#15151a;--red:#E6362B;--orange:#E8912B;
     --rS:#2a9fd6;--rM:#d63b9a;--rN:#E6362B;}
   *{box-sizing:border-box;} html,body{margin:0;padding:0;}
-  body{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;background:var(--pink);
+  body{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;background:var(--bg);
     color:var(--ink);-webkit-text-size-adjust:100%;}
   .frame{padding:10px;min-height:100vh;}
   .card{background:var(--ink);border-radius:14px;overflow:hidden;
@@ -164,6 +164,9 @@
 <body>
 <nav class="site-nav">
   <a href="/" class="nav-home">LOLLA 2026</a>
+  <button class="hamburger-btn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
     <a href="/">LINEUP</a>
     <a href="/who-to-see.html">GUIDE</a>
@@ -440,4 +443,5 @@
   AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
   &copy; 2026 LOLLA LINEUP 2026
 </footer>
+<script src="/nav.js"></script>
 </body></html>

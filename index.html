@@ -45,7 +45,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --page-bg: #F0A6DC;
+      --page-bg: #7EC8E3;
       --card-bg: #15151a;
       --black: #000000;
       --white: #FFFFFF;
@@ -1006,6 +1006,9 @@
 
 <nav class="site-nav">
   <a href="/" class="nav-home">LOLLA 2026</a>
+  <button class="hamburger-btn" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
     <a href="/" class="active">LINEUP</a>
     <a href="/who-to-see.html">GUIDE</a>
@@ -1018,9 +1021,12 @@
 <div class="editorial-intro">
   <h2 class="editorial-title">THE 2026 LINEUP, UNPACKED</h2>
   <p>Lollapalooza returns to Grant Park for its 2026 edition with one of the most genre-diverse lineups in the festival's history. Spread across four days — Thursday, July 30 through Sunday, August 2 — the bill runs 172 artists deep, from arena-headlining pop acts to underground electronic producers playing their first major U.S. festival slot.</p>
-  <p>The headliner tier alone tells the story of where popular music stands in 2026. Charli XCX rides the cultural momentum of <em>brat</em> into a Friday night headline set. Lorde brings a decade of critically acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top for the first time with Jennie's solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to Lollapalooza's 1990s origins. Sunday closes with Tate McRae's arena-pop spectacle alongside The XX's minimalist indie, a pairing that captures the festival's range in a single evening.</p>
-  <p>Below the headliners, the lineup rewards exploration. The major tier includes Freddie Gibbs and Clipse for hip-hop purists, Turnstile for the hardcore-crossover crowd, and Ethel Cain's gothic Americana for anyone who wants to feel something. The undercard is where Lolla 2026 quietly stacks its strongest hand — Little Simz, Wolf Alice, Paris Paloma, and Geese are all artists playing stages smaller than their talent warrants. That's the real opportunity: catching tomorrow's headliners on today's side stages.</p>
-  <p>Use the filters below to explore the full lineup by day, genre, or tier. Every artist links directly to Spotify, Apple Music, and YouTube Music so you can start building your personal schedule now.</p>
+  <button class="editorial-toggle" aria-expanded="false">READ MORE ▾</button>
+  <div class="editorial-body">
+    <p>The headliner tier alone tells the story of where popular music stands in 2026. Charli XCX rides the cultural momentum of <em>brat</em> into a Friday night headline set. Lorde brings a decade of critically acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top for the first time with Jennie's solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to Lollapalooza's 1990s origins. Sunday closes with Tate McRae's arena-pop spectacle alongside The XX's minimalist indie, a pairing that captures the festival's range in a single evening.</p>
+    <p>Below the headliners, the lineup rewards exploration. The major tier includes Freddie Gibbs and Clipse for hip-hop purists, Turnstile for the hardcore-crossover crowd, and Ethel Cain's gothic Americana for anyone who wants to feel something. The undercard is where Lolla 2026 quietly stacks its strongest hand — Little Simz, Wolf Alice, Paris Paloma, and Geese are all artists playing stages smaller than their talent warrants. That's the real opportunity: catching tomorrow's headliners on today's side stages.</p>
+    <p>Use the filters below to explore the full lineup by day, genre, or tier. Every artist links directly to Spotify, Apple Music, and YouTube Music so you can start building your personal schedule now.</p>
+  </div>
 </div>
 
 <!-- ─── FEATURED GUIDES ───────────────────────────────────────────────────── -->
@@ -2935,5 +2941,6 @@ setInterval(updateCountdown, 1000);
   AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
   &copy; 2026 LOLLA LINEUP 2026
 </footer>
+<script src="/nav.js"></script>
 </body>
 </html>

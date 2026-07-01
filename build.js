@@ -175,7 +175,7 @@ function generateOgSvg() {
   y += 54;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${y}" viewBox="0 0 ${W} ${y}">
-  <rect width="${W}" height="${y}" fill="#F0A6DC"/>
+  <rect width="${W}" height="${y}" fill="#7EC8E3"/>
   ${parts.join('\n  ')}
 </svg>`;
 }
@@ -236,7 +236,7 @@ if (fs.existsSync('og-image.jpg')) {
 }
 
 // Copy static assets
-const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js', 'lineup.png'];
+const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js', 'lineup.png', 'nav.js', 'schedule-data.js'];
 for (const f of staticAssets) {
   if (fs.existsSync(f)) {
     fs.copyFileSync(f, `dist/${f}`);

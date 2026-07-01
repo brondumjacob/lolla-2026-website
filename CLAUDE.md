@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Unofficial fan site for the complete Lollapalooza 2026 lineup (172 artists) with Spotify, Apple Music, and YouTube Music streaming links.
 
 ## Status
-Live / deployed. Multi-page static site with schedule builders. AdSense pending approval. Affiliate links not yet implemented.
+Live / deployed. Multi-page static site with schedule builders. AdSense pending approval. Affiliate links not yet implemented. Sky blue recolor, hamburger mobile nav, collapsible editorial, and smart schedule planner added.
 
 ## Tech Stack
 - Pure HTML/CSS/JS — no framework, no build tool, no npm
@@ -45,6 +45,8 @@ The entire app lives in one file. Key sections in order:
 - Schedule hub: `schedule.html`
 - Schedule builders: `schedule-thursday.html`, `schedule-friday.html`, `schedule-saturday.html`, `schedule-sunday.html`
 - Supporting pages: `about.html`, `privacy.html`, `contact.html`, `terms.html`, `who-to-see.html`, `first-timers-guide.html`, `undercard-picks.html`
+- Shared nav JS: `nav.js` (hamburger toggle + editorial collapse)
+- Schedule data: `schedule-data.js` (191 sets from all 4 days, `window.SCHEDULE`)
 - SEO: `sitemap.xml`, `robots.txt`
 - Design explorations: `.ecc-design/redesign-previews/` (not deployed)
 
@@ -53,7 +55,7 @@ The entire app lives in one file. Key sections in order:
 Builder pages also show a day switcher strip (THU / FRI / SAT / SUN) below the nav.
 
 ## Design System
-- `--page-bg: #F0A6DC` (pink background)
+- `--page-bg: #7EC8E3` (sky blue background — changed from #F0A6DC pink)
 - `--card-bg: #15151a` (dark cards)
 - `--lime: #D3E64C` (CTAs, interactive, nav home)
 - `--cyan: #34C6D9` (accents)

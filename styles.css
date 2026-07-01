@@ -10,7 +10,7 @@
   --teal: #1A7A6E;
   --black: #000000;
   --white: #FFFFFF;
-  --page-bg: #F0A6DC;
+  --page-bg: #7EC8E3;
   --sp: #1DB954;
   --am: #FC3C44;
   --yt: #FF0000;
@@ -90,6 +90,97 @@ body {
 
 /* Legacy spacer — not needed with sticky nav, kept for compatibility */
 .nav-spacer { height: 0; }
+
+/* ===== HAMBURGER MENU ===== */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 2px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger-btn.open span:nth-child(2) { opacity: 0; }
+.hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 767px) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 48px;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border-bottom: var(--border);
+    flex-direction: column;
+    z-index: 99;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .site-nav a:not(.nav-home) {
+    height: 52px;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 0 24px;
+    font-size: 1rem;
+  }
+}
+
+/* ===== EDITORIAL COLLAPSE ===== */
+.editorial-body {
+  display: none;
+}
+.editorial-body.expanded {
+  display: block;
+}
+.editorial-toggle {
+  display: inline-block;
+  margin-top: 0.75rem;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--black);
+  cursor: pointer;
+  padding: 4px 0;
+  opacity: 0.65;
+  transition: opacity 0.15s;
+}
+.editorial-toggle:hover { opacity: 1; }
+
+/* ===== MOBILE TOUCH IMPROVEMENTS ===== */
+@media (max-width: 767px) {
+  .stream-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
 
 /* ===== FOOTER ===== */
 .site-footer {
