@@ -85,7 +85,7 @@
 
     /* ─── Hamburger Menu ─────────────────────────────────────────────────── */
     .hamburger-btn {
-      display: none;
+      display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: 28px;
@@ -106,28 +106,25 @@
     .hamburger-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
     .hamburger-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
     .hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
-    @media (max-width: 768px) {
-      .hamburger-btn { display: flex; }
-      .site-nav { position: relative; }
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 48px;
-        left: 0;
-        right: 0;
-        background: #15151a;
-        border-bottom: 3px solid #000;
-        z-index: 99;
-      }
-      .nav-links.open { display: flex; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-      .site-nav a:not(.nav-home) {
-        border-left: none;
-        border-top: 1px solid rgba(255,255,255,0.08);
-        height: 52px;
-        padding: 0 24px;
-        font-size: 1rem;
-      }
+    .site-nav { position: relative; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      background: #15151a;
+      border-bottom: 3px solid #000;
+      z-index: 99;
+    }
+    .nav-links.open { display: flex; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+    .site-nav a:not(.nav-home) {
+      border-left: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      height: 52px;
+      padding: 0 24px;
+      font-size: 1rem;
     }
 
     /* ─── Editorial Collapse ─────────────────────────────────────────────── */
@@ -1039,7 +1036,11 @@
 
     @media (min-width: 769px) {
       .nav-links {
+        display: none;
+      }
+      .nav-links.open {
         display: flex;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
       }
     }
 
