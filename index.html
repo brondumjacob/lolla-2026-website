@@ -45,13 +45,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --page-bg: #FAFAF5;
+      --page-bg: #F0A6DC;
+      --card-bg: #15151a;
       --black: #000000;
       --white: #FFFFFF;
-      --lime: #C8D838;
+      --lime: #D3E64C;
       --pink: #E91E8C;
-      --orange: #F97316;
-      --cyan: #00BCD4;
+      --pink-deep: #C73C98;
+      --orange: #E8912B;
+      --cyan: #34C6D9;
+      --red: #E6362B;
       --teal: #1A7A6E;
       --border: 3px solid #000;
       --shadow-sm: 3px 3px 0 #000;
@@ -772,7 +775,7 @@
     /* ─── GUIDE CARDS ────────────────────────────────────────────────────── */
     .guide-cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       border-bottom: var(--border);
     }
 
@@ -780,8 +783,8 @@
       display: block;
       padding: 1.25rem 1.5rem;
       text-decoration: none;
-      color: var(--black);
-      background: var(--white);
+      color: var(--white);
+      background: var(--card-bg);
       border-right: var(--border);
       transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
       cursor: pointer;
@@ -790,25 +793,30 @@
     .guide-card:last-child { border-right: none; }
 
     .guide-card:hover {
-      background: var(--lime);
-      box-shadow: inset 0 -4px 0 var(--black);
+      background: #1f1f2a;
+      box-shadow: inset 0 -4px 0 var(--lime);
     }
 
     .guide-card-title {
       font-family: var(--font-display);
       font-size: 1.1rem;
       letter-spacing: 0.1em;
-      color: var(--black);
+      color: var(--lime);
       margin-bottom: 0.4rem;
     }
 
     .guide-card-desc {
       font-family: var(--font-body);
       font-size: 0.8rem;
-      color: rgba(0,0,0,0.45);
+      color: rgba(255,255,255,0.55);
       line-height: 1.5;
     }
 
+    @media (max-width: 900px) {
+      .guide-cards { grid-template-columns: repeat(2, 1fr); }
+      .guide-card { border-right: none; border-bottom: var(--border); }
+      .guide-card:last-child { border-bottom: none; }
+    }
     @media (max-width: 700px) {
       .guide-cards { grid-template-columns: 1fr; }
       .guide-card { border-right: none; border-bottom: var(--border); }
@@ -1001,6 +1009,7 @@
   <div class="nav-links">
     <a href="/" class="active">LINEUP</a>
     <a href="/who-to-see.html">GUIDE</a>
+    <a href="/schedule.html">SCHEDULE</a>
     <a href="/about.html">ABOUT</a>
   </div>
 </nav>
@@ -1027,6 +1036,10 @@
   <a href="/undercard-picks.html" class="guide-card">
     <div class="guide-card-title">UNDERCARD PICKS</div>
     <div class="guide-card-desc">10 lesser-known artists worth rearranging your schedule for.</div>
+  </a>
+  <a href="/schedule.html" class="guide-card">
+    <div class="guide-card-title">SCHEDULE BUILDER</div>
+    <div class="guide-card-desc">Build your day-by-day route. Pick artists, flag must-sees, detect conflicts, and print your plan.</div>
   </a>
 </div>
 
@@ -2911,6 +2924,7 @@ setInterval(updateCountdown, 1000);
     <a href="/">Home</a>
     <a href="/">Lineup</a>
     <a href="/who-to-see.html">Guide</a>
+    <a href="/schedule.html">Schedule Builder</a>
     <a href="/first-timers-guide.html">First Timer's Guide</a>
     <a href="/undercard-picks.html">Undercard Picks</a>
     <a href="/about.html">About</a>

@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Unofficial fan site for the complete Lollapalooza 2026 lineup (172 artists) with Spotify, Apple Music, and YouTube Music streaming links.
 
 ## Status
-Live / deployed. Single-page static site. AdSense pending approval. Affiliate links not yet implemented.
+Live / deployed. Multi-page static site with schedule builders. AdSense pending approval. Affiliate links not yet implemented.
 
 ## Tech Stack
 - Pure HTML/CSS/JS — no framework, no build tool, no npm
@@ -39,12 +39,37 @@ The entire app lives in one file. Key sections in order:
 - **Undercards** (~127): Numbered list with genre + day badge
 
 ## Key Paths
-- Entry point: `index.html` — the entire site
+- Entry point: `index.html` — main lineup page
 - Artist data: `artists.js`
-- Styles: `styles.css` (some styles also inline in `index.html`)
-- Supporting pages: `privacy.html`, `about.html`
+- Styles: `styles.css` (shared across all pages; builders also have inline CSS)
+- Schedule hub: `schedule.html`
+- Schedule builders: `schedule-thursday.html`, `schedule-friday.html`, `schedule-saturday.html`, `schedule-sunday.html`
+- Supporting pages: `about.html`, `privacy.html`, `contact.html`, `terms.html`, `who-to-see.html`, `first-timers-guide.html`, `undercard-picks.html`
 - SEO: `sitemap.xml`, `robots.txt`
 - Design explorations: `.ecc-design/redesign-previews/` (not deployed)
+
+## Navigation Structure
+4-item nav across all pages: **LINEUP · GUIDE · SCHEDULE · ABOUT**
+Builder pages also show a day switcher strip (THU / FRI / SAT / SUN) below the nav.
+
+## Design System
+- `--page-bg: #F0A6DC` (pink background)
+- `--card-bg: #15151a` (dark cards)
+- `--lime: #D3E64C` (CTAs, interactive, nav home)
+- `--cyan: #34C6D9` (accents)
+- `--red: #E6362B` (warnings, stars)
+- `--orange: #E8912B` (Saturday accent, warnings)
+- Neo-brutalist borders: `3px solid #000` with offset shadows
+- Display font: Bebas Neue; Body: Source Sans 3
+- Builder pages use system fonts (Arial Black, Arial Narrow) for self-contained aesthetic
+
+## Schedule Builder Architecture
+Each builder is a self-contained single-file HTML app with inline CSS + JS.
+- Timeline grid: `GS=720` (12 PM), `GE=1320` (10 PM), `SC=1.50` px/min
+- Artist block: `top=(start_min-720)*1.5`, `height=(end_min-start_min)*1.5`
+- Features: tap to select, star must-sees, conflict detection, printable route
+- Ticket toggle: GA/Walking ↔ VIP/Golf Cart (all 4 days)
+- Route modes: `foot` (GA) and `cart` (VIP)
 
 ## Commands
 | Task | Command |
@@ -91,7 +116,35 @@ See `~/.claude/CLAUDE.md` for full skill routing table.
 
 ## Notes
 - Global skill routing and coding standards are in `~/.claude/CLAUDE.md`
+- Arsenal index (skills, agents, MCPs): `~/.claude/skills/INDEX.md`
 - `currentDate` is injected by hook at session start
 
 # currentDate
 Today's date is 2026-03-24.
+
+## Arsenal (Global)
+Skills, agents, and MCP servers are available in every session via `~/.claude/CLAUDE.md`.
+Full index with trigger conditions: `~/.claude/skills/INDEX.md`
+
+Key skills active in this project:
+- **brand-voice** — marketing copy, messaging, tone review
+- **frontend-design** — UI implementation, component design, visual polish
+- **canvas-design** — posters, design artifacts, visual systems
+- **theme-factory** — apply color/font themes to any artifact
+- **figma-automation** — Figma files, tokens, exports via MCP
+- **shadcn** — shadcn/ui components and design systems
+- **emil-design-eng** — UI polish, animation, micro-interaction guidance
+- **userinterface-wiki** — CSS, animation, typography, UX pattern review
+- **brand-guidelines** — user-facing copy, error messages, empty states
+- **escalation** — incidents and decisions needing executive action
+- **context7-mcp** — library/framework documentation lookup
+- **neon-postgres** — Neon Serverless Postgres tasks
+
+## Personal Memory MCP
+
+**Server:** `https://memory.jacobmemory.dev/mcp`
+
+- **Session start**: call `search_memory` with keywords relevant to this project or the current task
+- **During session**: call `save_memory` when the user shares preferences, decisions, project context, or facts worth retaining long-term — not one-off remarks
+- Use tags: `work`, `preferences`, `projects/lolla-2026`, etc.
+- Tools: `save_memory` · `search_memory` · `list_memories` · `delete_memory`

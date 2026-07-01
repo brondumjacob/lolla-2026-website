@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://lolla2026lineup.com/schedule.html">
+<meta name="description" content="Build your Lollapalooza 2026 schedule. Interactive day-by-day builders for Thursday, Friday, Saturday, and Sunday. Pick artists, detect conflicts, and print your route.">
+<meta property="og:title" content="Schedule Builder — Lolla Lineup 2026">
+<meta property="og:description" content="Build your Lollapalooza 2026 schedule. Interactive timetable for all 4 days — pick artists, star must-sees, detect conflicts, and print your route.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lolla2026lineup.com/schedule.html">
+<meta property="og:image" content="https://lolla2026lineup.com/og-image.jpg">
+<meta property="og:site_name" content="Lolla Lineup 2026">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Schedule Builder — Lolla Lineup 2026">
+<meta name="twitter:description" content="Build your Lollapalooza 2026 day-by-day schedule. Pick artists, detect conflicts, and print your route.">
+<title>Schedule Builder — Lolla Lineup 2026</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Schedule hub page styles */
+  .sched-hero {
+    background: #15151a;
+    padding: 3rem 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid #000;
+  }
+  .sched-hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+  .sched-eyebrow {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #D3E64C;
+    margin-bottom: 0.5rem;
+  }
+  .sched-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.9;
+    color: #fff;
+    letter-spacing: 0.01em;
+  }
+  .sched-sub {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+  .sched-stars {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 200px;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .sched-star {
+    position: absolute;
+    fill: #E6362B;
+    opacity: 0.9;
+  }
+
+  /* Day grid */
+  .sched-grid-wrap { padding: 2.5rem 2rem; background: #F0A6DC; }
+  .sched-grid-inner { max-width: 860px; margin: 0 auto; }
+  .sched-grid-label {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #15151a;
+    margin-bottom: 1.25rem;
+    opacity: 0.7;
+  }
+  .sched-day-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .sched-day-grid { grid-template-columns: 1fr; } }
+  @media (min-width: 860px) { .sched-day-grid { grid-template-columns: repeat(4, 1fr); } }
+
+  .sched-day-card {
+    display: block;
+    text-decoration: none;
+    background: #15151a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 #000;
+    transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .sched-day-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #000;
+  }
+  .sched-day-accent { height: 6px; }
+  .sched-day-body { padding: 1.25rem 1.25rem 1rem; }
+  .sched-day-label {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: #fff;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .sched-day-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.35rem;
+  }
+  .sched-day-headliner {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.75rem;
+    line-height: 1.35;
+  }
+  .sched-day-cta {
+    display: inline-block;
+    margin-top: 1rem;
+    background: #D3E64C;
+    color: #15151a;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-weight: 900;
+  }
+
+  /* How it works */
+  .sched-how { padding: 2.5rem 2rem; background: #15151a; border-top: 3px solid #000; }
+  .sched-how-inner { max-width: 860px; margin: 0 auto; }
+  .sched-how-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+  }
+  .sched-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 600px) { .sched-steps { grid-template-columns: 1fr; gap: 16px; } }
+  .sched-step {
+    background: #1f1f27;
+    border-radius: 10px;
+    padding: 1.25rem;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .sched-step-num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: #D3E64C;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .sched-step-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+  }
+  .sched-step-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  .sched-back {
+    padding: 2rem 2rem;
+    background: #F0A6DC;
+    text-align: center;
+    border-top: 3px solid #000;
+  }
+  .sched-back a {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #15151a;
+    text-decoration: none;
+  }
+  .sched-back a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="nav-home">LOLLA 2026</a>
+  <div class="nav-links">
+    <a href="/">LINEUP</a>
+    <a href="/who-to-see.html">GUIDE</a>
+    <a href="/schedule.html" class="active">SCHEDULE</a>
+    <a href="/about.html">ABOUT</a>
+  </div>
+</nav>
+
+<div class="sched-hero">
+  <div class="sched-stars">
+    <svg class="sched-star" style="width:52px;height:52px;top:20px;right:30px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38"/></svg>
+    <svg class="sched-star" style="width:28px;height:28px;top:70px;right:90px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38"/></svg>
+    <svg class="sched-star" style="width:18px;height:18px;top:30px;right:100px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38"/></svg>
+  </div>
+  <div class="sched-hero-inner">
+    <div class="sched-eyebrow">Lollapalooza 2026 · July 30 – Aug 2 · Grant Park, Chicago</div>
+    <div class="sched-title">BUILD YOUR<br>SCHEDULE</div>
+    <p class="sched-sub">Tap artists to add them to your plan, star your must-sees, detect time conflicts, and generate a printable walking route — one day at a time.</p>
+  </div>
+</div>
+
+<div class="sched-grid-wrap">
+  <div class="sched-grid-inner">
+    <div class="sched-grid-label">Pick your day</div>
+    <div class="sched-day-grid">
+
+      <a href="/schedule-thursday.html" class="sched-day-card">
+        <div class="sched-day-accent" style="background:#8B5CF6"></div>
+        <div class="sched-day-body">
+          <div class="sched-day-label">THURSDAY</div>
+          <div class="sched-day-date">July 30, 2026</div>
+          <div class="sched-day-headliner">Lorde · John Summit<br>Empire of the Sun</div>
+          <div class="sched-day-cta">BUILD →</div>
+        </div>
+      </a>
+
+      <a href="/schedule-friday.html" class="sched-day-card">
+        <div class="sched-day-accent" style="background:#E91E8C"></div>
+        <div class="sched-day-body">
+          <div class="sched-day-label">FRIDAY</div>
+          <div class="sched-day-date">July 31, 2026</div>
+          <div class="sched-day-headliner">Charli XCX · Jennie<br>Olivia Dean</div>
+          <div class="sched-day-cta">BUILD →</div>
+        </div>
+      </a>
+
+      <a href="/schedule-saturday.html" class="sched-day-card">
+        <div class="sched-day-accent" style="background:#F97316"></div>
+        <div class="sched-day-body">
+          <div class="sched-day-label">SATURDAY</div>
+          <div class="sched-day-date">August 1, 2026</div>
+          <div class="sched-day-headliner">Ethel Cain · Clipse<br>Wolf Alice</div>
+          <div class="sched-day-cta">BUILD →</div>
+        </div>
+      </a>
+
+      <a href="/schedule-sunday.html" class="sched-day-card">
+        <div class="sched-day-accent" style="background:#00BCD4"></div>
+        <div class="sched-day-body">
+          <div class="sched-day-label">SUNDAY</div>
+          <div class="sched-day-date">August 2, 2026</div>
+          <div class="sched-day-headliner">Tate McRae · The xx<br>The Chainsmokers</div>
+          <div class="sched-day-cta">BUILD →</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<div class="sched-how">
+  <div class="sched-how-inner">
+    <div class="sched-how-title">HOW IT WORKS</div>
+    <div class="sched-steps">
+      <div class="sched-step">
+        <div class="sched-step-num">1</div>
+        <div class="sched-step-title">SELECT ARTISTS</div>
+        <div class="sched-step-desc">Tap any artist on the timetable to add them to your plan. Tap again to remove.</div>
+      </div>
+      <div class="sched-step">
+        <div class="sched-step-num">2</div>
+        <div class="sched-step-title">STAR MUST-SEES</div>
+        <div class="sched-step-desc">Once selected, tap the ★ on an artist to mark them as a non-negotiable must-see.</div>
+      </div>
+      <div class="sched-step">
+        <div class="sched-step-num">3</div>
+        <div class="sched-step-title">BUILD YOUR ROUTE</div>
+        <div class="sched-step-desc">Hit "Build my route" to see your schedule, detect time conflicts, and get a printable walking plan.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sched-back">
+  <a href="/">← Back to full lineup</a>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-links">
+    <a href="/">Home</a>
+    <a href="/">Lineup</a>
+    <a href="/who-to-see.html">Guide</a>
+    <a href="/schedule.html">Schedule Builder</a>
+    <a href="/first-timers-guide.html">First Timer's Guide</a>
+    <a href="/undercard-picks.html">Undercard Picks</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
+  &copy; 2026 LOLLA LINEUP 2026
+</footer>
+
+</body>
+</html>

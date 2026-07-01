@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<link rel="canonical" href="https://lolla2026lineup.com/schedule-friday.html">
+<meta name="description" content="Build your Lollapalooza 2026 Friday schedule. Pick artists, star must-sees, detect conflicts, and print your route. Friday July 31, Grant Park Chicago.">
+<meta property="og:title" content="Friday Schedule Builder — Lolla 2026">
+<meta property="og:description" content="Pick your Friday sets, flag must-sees, and build a printable route for Lollapalooza 2026.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lolla2026lineup.com/schedule-friday.html">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Lollapalooza 2026 – Friday Route Builder</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root{--pink:#F0A6DC;--pink-deep:#C73C98;--cyan:#34C6D9;--cyan-line:rgba(7,40,46,.18);
+    --lime:#D3E64C;--ink:#15151a;--red:#E6362B;--orange:#E8912B;
+    --rS:#2a9fd6;--rM:#d63b9a;--rN:#E6362B;}
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;background:var(--pink);
+    color:var(--ink);-webkit-text-size-adjust:100%;}
+  .frame{padding:10px;min-height:100vh;}
+  .card{background:var(--ink);border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);padding-bottom:96px;}
+  .mast{position:relative;padding:16px 16px 12px;color:#fff;}
+  .word{font-family:"Arial Black",Impact,sans-serif;font-weight:900;letter-spacing:-1px;line-height:.86;}
+  .word .w1{font-size:clamp(34px,9vw,64px);display:block;}
+  .word .w2{font-size:clamp(18px,4.6vw,30px);display:block;color:var(--pink);letter-spacing:3px;}
+  .when{margin-top:6px;font-size:13px;letter-spacing:1px;opacity:.92;}
+  .tixbadge{display:inline-block;margin-top:10px;background:var(--lime);color:var(--ink);
+    font-weight:900;font-size:12px;letter-spacing:1px;padding:5px 11px;border-radius:999px;text-transform:uppercase;}
+  .tix-toggle{display:flex;gap:6px;margin-top:10px;}
+  .tix-opt{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:11px;letter-spacing:.5px;
+    border:none;border-radius:999px;padding:6px 14px;cursor:pointer;text-transform:uppercase;
+    background:#2a2a35;color:#888;}
+  .tix-opt.active{background:var(--lime);color:var(--ink);}
+  .day-switcher{display:flex;gap:4px;padding:8px 16px;background:#0e0e13;border-bottom:2px solid #000;}
+  .ds-day{display:inline-block;padding:5px 12px;font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.5);text-decoration:none;border-radius:4px;text-transform:uppercase;}
+  .ds-day:hover{color:#fff;background:rgba(255,255,255,0.08);}
+  .ds-day.active{color:#D3E64C;}
+  .star-svg{position:absolute;width:30px;height:30px;opacity:.95;}
+  .s1{top:14px;right:18px;} .s2{top:44px;right:52px;width:18px;} .s3{top:20px;right:84px;width:14px;}
+  .howto{background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:9px 16px;line-height:1.4;}
+  .howto b{font-weight:900;}
+  .scrollhint{font-size:11px;font-weight:700;color:var(--pink-deep);background:var(--ink);padding:6px 16px;letter-spacing:.5px;}
+  .skey{background:#1f1f27;color:#dfe6ea;font-size:11px;line-height:1.5;padding:10px 16px;border-top:1px solid #333;}
+  .skey b{color:#fff;}
+  .kb{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
+    border-radius:3px;color:#fff;font-weight:900;font-size:9px;vertical-align:1px;margin:0 1px;}
+  .kb.S{background:var(--rS);} .kb.M{background:var(--rM);} .kb.N{background:var(--rN);}
+  /* selection grid */
+  .gridwrap{overflow:auto;-webkit-overflow-scrolling:touch;background:var(--ink);}
+  .grid{display:flex;min-width:max-content;position:relative;}
+  .gutter{position:sticky;left:0;z-index:6;flex:0 0 46px;width:46px;background:var(--ink);}
+  .gutter .ghead{height:62px;} .gutter .gtrack{position:relative;height:900.0px;}
+  .hr{position:absolute;left:0;right:2px;text-align:right;padding-right:5px;font-size:10px;
+    font-weight:700;color:#cfd6da;transform:translateY(-6px);}
+  .col{flex:0 0 116px;width:116px;border-left:1px solid rgba(255,255,255,.10);}
+  .chead{height:62px;background:var(--ink);color:#fff;text-align:center;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 4px;
+    position:relative;border-bottom:2px solid var(--pink);}
+  .chead .sname{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:12px;
+    letter-spacing:.3px;line-height:1;text-transform:uppercase;}
+  .chead .sub{font-size:8px;opacity:.75;line-height:1;}
+  .hreg{position:absolute;top:4px;right:5px;font-size:8px;font-weight:900;width:14px;height:14px;
+    border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;}
+  .hreg.S{background:var(--rS);} .hreg.M{background:var(--rM);} .hreg.N{background:var(--rN);}
+  .track{position:relative;height:900.0px;background:var(--cyan);
+    background-image:repeating-linear-gradient(to bottom,transparent 0 89px,var(--cyan-line) 89px 90px);}
+  .set{position:absolute;left:4px;right:4px;background:var(--lime);border:1px solid var(--ink);
+    border-radius:6px;color:var(--ink);font-family:inherit;text-align:left;padding:3px 5px;
+    cursor:pointer;overflow:hidden;display:flex;flex-direction:column;gap:1px;}
+  .set:hover{filter:brightness(1.03);} .set:focus-visible{outline:3px solid #0a2a30;outline-offset:1px;}
+  .set .snm{font-weight:900;font-size:10.5px;line-height:1.05;text-transform:uppercase;}
+  .set .stm{font-size:9px;font-weight:700;opacity:.85;}
+  .mustbtn{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;
+    background:#fff;border:1.5px solid var(--ink);color:#c9ccd1;font-size:11px;line-height:15px;
+    text-align:center;cursor:pointer;display:none;font-weight:900;}
+  .set.sel{border:3px solid var(--ink);z-index:3;}
+  .set.sel .mustbtn{display:block;}
+  .set.must{border:3px solid var(--red);z-index:4;}
+  .set.must .mustbtn{background:var(--red);color:#fff;border-color:var(--red);}
+  .set.sel .snm{padding-right:18px;}
+  /* action bar */
+  .actionbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--ink);
+    border-top:2px solid var(--pink);display:flex;align-items:center;gap:10px;padding:10px 14px;
+    padding-bottom:calc(10px + env(safe-area-inset-bottom));}
+  .count{color:#fff;font-weight:900;font-size:13px;flex:1;letter-spacing:.3px;line-height:1.2;}
+  .count b{color:var(--lime);} .count i{color:var(--red);font-style:normal;}
+  .btn{font-family:"Arial Black",Impact,sans-serif;font-weight:900;border:none;border-radius:999px;
+    padding:11px 18px;font-size:13px;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;}
+  .btn.go{background:var(--lime);color:var(--ink);} .btn.go:disabled{opacity:.45;cursor:not-allowed;}
+  .btn.ghost{background:transparent;color:#fff;border:2px solid #5a5a64;padding:9px 14px;}
+  /* ===== route-map results ===== */
+  .results{display:none;background:#fff;}
+  .results.show{display:block;}
+  .rmast{position:relative;background:var(--pink);padding:14px 16px 12px;overflow:hidden;}
+  .rwave{position:absolute;inset:0;opacity:.55;}
+  .reb{position:relative;font-size:12px;font-weight:900;letter-spacing:3px;color:var(--ink);}
+  .rbig{position:relative;font-family:"Arial Black",Impact,sans-serif;font-weight:900;
+    font-size:clamp(30px,8vw,52px);line-height:.9;color:var(--ink);}
+  .rdate{position:relative;font-size:12px;font-weight:900;letter-spacing:1px;color:var(--ink);margin-top:3px;}
+  .rstar{position:absolute;width:26px;height:26px;}
+  .rbar{padding:12px 16px;border-bottom:1px solid #eee;}
+  .rtix{display:inline-block;background:var(--ink);color:var(--lime);font-weight:900;font-size:12px;
+    letter-spacing:1px;padding:6px 13px;border-radius:999px;}
+  .rlegend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:11px;font-weight:700;color:#333;align-items:center;}
+  .rlegend span{display:inline-flex;align-items:center;gap:4px;}
+  .lsw{width:13px;height:13px;border-radius:3px;display:inline-block;border:1px solid #999;}
+  .rbadge{font-size:9px;font-weight:900;color:#fff;border-radius:3px;padding:1px 4px;}
+  .rbadge.S{background:var(--rS);} .rbadge.M{background:var(--rM);} .rbadge.N{background:var(--rN);}
+  .rkey{font-size:11px;color:#555;line-height:1.5;margin-top:9px;}
+  .rkey .rbadge{margin:0 1px;}
+  .ticketnote{font-size:12px;line-height:1.4;color:#444;background:#f4f6e0;border-left:4px solid var(--lime);
+    padding:8px 10px;border-radius:4px;margin:12px 16px 0;}
+  .summ{font-size:12px;color:#555;font-weight:700;margin:10px 16px 0;}
+  /* board */
+  .rboard{position:relative;background:var(--cyan);margin:12px 0 0;padding:10px 0;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+  .rgut{position:absolute;left:0;top:10px;width:46px;}
+  .rgut .rhr{position:absolute;right:5px;font-size:10px;font-weight:700;color:#0a3a42;transform:translateY(-6px);}
+  .rlanes{position:relative;margin-left:46px;margin-right:8px;}
+  .rline{position:absolute;left:0;right:0;border-top:1px dashed rgba(7,40,46,.35);}
+  .rset{position:absolute;background:var(--lime);border:2px solid var(--ink);border-radius:8px;
+    padding:5px 7px;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.12);}
+  .rset.must{border-color:var(--red);box-shadow:0 0 0 2px rgba(230,54,43,.25),0 2px 4px rgba(0,0,0,.15);}
+  .rset .rn{font-weight:900;font-size:12px;line-height:1.05;text-transform:uppercase;padding-right:54px;}
+  .rset .rmeta{font-size:10px;font-weight:700;color:#234;margin-top:2px;}
+  .rreg{display:inline-block;font-size:9px;font-weight:900;color:#fff;border-radius:3px;padding:0 4px;margin-right:4px;vertical-align:1px;}
+  .rreg.S{background:var(--rS);} .rreg.M{background:var(--rM);} .rreg.N{background:var(--rN);}
+  .rtag{position:absolute;top:5px;right:6px;font-size:8.5px;font-weight:900;color:#fff;
+    border-radius:4px;padding:2px 5px;letter-spacing:.4px;text-transform:uppercase;}
+  .rtag.must{background:var(--red);} .rtag.partial{background:var(--orange);}
+  .rtag.pick{background:var(--rS);} .rtag.head{background:var(--ink);}
+  .rconf{position:absolute;left:50%;transform:translate(-50%,-50%);background:var(--red);color:#fff;
+    font-weight:900;font-size:10px;letter-spacing:.6px;padding:4px 9px;border-radius:999px;
+    z-index:6;box-shadow:0 2px 6px rgba(0,0,0,.3);text-transform:uppercase;}
+  /* route list */
+  .route{padding:14px 16px 18px;}
+  .rhead{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:15px;
+    letter-spacing:1px;color:var(--pink-deep);margin-bottom:8px;}
+  .rstep{display:flex;gap:10px;padding:8px 0;align-items:flex-start;}
+  .rtime{flex:0 0 88px;font-weight:900;font-size:11px;text-align:right;color:var(--ink);padding-top:2px;line-height:1.25;}
+  .rspine{flex:0 0 4px;align-self:stretch;background:var(--lime);border-radius:2px;margin-top:2px;}
+  .rspine.must{background:var(--red);} .rspine.partial{background:var(--orange);}
+  .rcont{flex:1;}
+  .rcname{font-weight:900;font-size:14px;line-height:1.1;text-transform:uppercase;}
+  .rcstage{font-size:11px;color:#555;margin-top:1px;}
+  .rnote{font-size:11px;color:#444;margin-top:3px;line-height:1.35;}
+  .rnote.warn{color:var(--red);font-weight:700;}
+  .xfer{display:flex;align-items:center;gap:8px;padding:3px 0 3px 98px;font-size:11px;color:#666;}
+  .xfer .xi{font-size:13px;}
+  .xfer .xpill{margin-left:auto;background:#eef0e0;color:#333;font-weight:700;border-radius:999px;
+    padding:2px 9px;font-size:10px;white-space:nowrap;}
+  .xfer.tight .xpill{background:#fde6e4;color:#7a1610;}
+  .ractions{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .empty{padding:24px 16px;color:#555;font-size:13px;}
+  @media print{.actionbar,.gridwrap,.howto,.scrollhint{display:none!important;}
+    .frame{padding:0;} .card{box-shadow:none;padding-bottom:0;} .results{display:block;}
+    .ractions{display:none;}}
+</style></head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="nav-home">LOLLA 2026</a>
+  <div class="nav-links">
+    <a href="/">LINEUP</a>
+    <a href="/who-to-see.html">GUIDE</a>
+    <a href="/schedule.html" class="active">SCHEDULE</a>
+    <a href="/about.html">ABOUT</a>
+  </div>
+</nav>
+<div class="day-switcher">
+  <a href="/schedule-thursday.html" class="ds-day">THU</a>
+  <a href="/schedule-friday.html" class="ds-day active">FRI</a>
+  <a href="/schedule-saturday.html" class="ds-day">SAT</a>
+  <a href="/schedule-sunday.html" class="ds-day">SUN</a>
+</div>
+<div class="frame"><div class="card">
+  <header class="mast">
+    <svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg><svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg><svg class="star-svg" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>
+    <span class="word"><span class="w1">LOLLAPALOOZA</span><span class="w2">FRIDAY</span></span>
+    <div class="when">JULY 31, 2026 · GRANT PARK, CHICAGO</div>
+    <span class="tixbadge">Your ticket: PLATINUM VIP · GOLF CART</span>
+    <div class="tix-toggle">
+      <button type="button" class="tix-opt" data-mode="foot">GA · WALKING</button>
+      <button type="button" class="tix-opt active" data-mode="cart">VIP · GOLF CART</button>
+    </div>
+  </header>
+  <div class="howto"><b>Tap an artist</b> to add them. On a selected artist, <b>tap the &#9733;</b> to mark it a must-see. Tap the artist again to remove it. Then hit <b>Build my route</b>.</div>
+  <div class="skey"><b>What <span class="kb S">S</span><span class="kb M">M</span><span class="kb N">N</span> mean &mdash; a stage&rsquo;s spot in Grant Park:</b> <b>S</b> = south end (T-Mobile &amp; Perry&rsquo;s, right next to each other), <b>M</b> = mid-park (Allianz &amp; BMI), <b>N</b> = north end (Bud Light, the far end). The bigger the jump between one set and the next, the longer the walk or cart ride. Tito&rsquo;s, Airbnb and Kidzapalooza have no letter because their 2026 locations aren&rsquo;t confirmed yet.</div>
+  <div class="scrollhint">Scroll sideways to see all 8 stages &#8594;</div>
+  <div class="gridwrap"><div class="grid">
+    <div class="gutter"><div class="ghead"></div><div class="gtrack"><span class="hr" style="top:0.0px">12 PM</span><span class="hr" style="top:90.0px">1 PM</span><span class="hr" style="top:180.0px">2 PM</span><span class="hr" style="top:270.0px">3 PM</span><span class="hr" style="top:360.0px">4 PM</span><span class="hr" style="top:450.0px">5 PM</span><span class="hr" style="top:540.0px">6 PM</span><span class="hr" style="top:630.0px">7 PM</span><span class="hr" style="top:720.0px">8 PM</span><span class="hr" style="top:810.0px">9 PM</span><span class="hr" style="top:900.0px">10 PM</span></div></div>
+    <div class="col"><div class="chead"><span class="hreg S">S</span><span class="sname">T-MOBILE</span></div><div class="track"><button type="button" class="set" data-name="PARTYOF2" data-stage="T-MOBILE" data-s="775" data-e="820" data-region="S" data-open="0" data-disp="12:55–1:40" style="top:82.5px;height:67.5px" aria-pressed="false"><span class="snm">PARTYOF2</span><span class="stm">12:55–1:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="I-DLE" data-stage="T-MOBILE" data-s="880" data-e="940" data-region="S" data-open="0" data-disp="2:40–3:40" style="top:240.0px;height:90.0px" aria-pressed="false"><span class="snm">I-DLE</span><span class="stm">2:40–3:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="ZARA LARSSON" data-stage="T-MOBILE" data-s="1000" data-e="1060" data-region="S" data-open="0" data-disp="4:40–5:40" style="top:420.0px;height:90.0px" aria-pressed="false"><span class="snm">ZARA LARSSON</span><span class="stm">4:40–5:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="LIL UZI VERT" data-stage="T-MOBILE" data-s="1120" data-e="1180" data-region="S" data-open="0" data-disp="6:40–7:40" style="top:600.0px;height:90.0px" aria-pressed="false"><span class="snm">LIL UZI VERT</span><span class="stm">6:40–7:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="CHARLI XCX" data-stage="T-MOBILE" data-s="1240" data-e="1320" data-region="S" data-open="1" data-disp="8:40" style="top:780.0px;height:120.0px" aria-pressed="false"><span class="snm">CHARLI XCX</span><span class="stm">8:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="hreg S">S</span><span class="sname">PERRY&#x27;S</span></div><div class="track"><button type="button" class="set" data-name="BRADEAZY" data-stage="PERRY&#x27;S" data-s="720" data-e="750" data-region="S" data-open="0" data-disp="12:00–12:30" style="top:0.0px;height:45.0px" aria-pressed="false"><span class="snm">BRADEAZY</span><span class="stm">12:00–12:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="AVELLO" data-stage="PERRY&#x27;S" data-s="765" data-e="810" data-region="S" data-open="0" data-disp="12:45–1:30" style="top:67.5px;height:67.5px" aria-pressed="false"><span class="snm">AVELLO</span><span class="stm">12:45–1:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="LYNY" data-stage="PERRY&#x27;S" data-s="825" data-e="885" data-region="S" data-open="0" data-disp="1:45–2:45" style="top:157.5px;height:90.0px" aria-pressed="false"><span class="snm">LYNY</span><span class="stm">1:45–2:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="RÖZ" data-stage="PERRY&#x27;S" data-s="900" data-e="960" data-region="S" data-open="0" data-disp="3:00–4:00" style="top:270.0px;height:90.0px" aria-pressed="false"><span class="snm">RÖZ</span><span class="stm">3:00–4:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="NOTION" data-stage="PERRY&#x27;S" data-s="975" data-e="1035" data-region="S" data-open="0" data-disp="4:15–5:15" style="top:382.5px;height:90.0px" aria-pressed="false"><span class="snm">NOTION</span><span class="stm">4:15–5:15</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="SIDEPIECE" data-stage="PERRY&#x27;S" data-s="1065" data-e="1125" data-region="S" data-open="0" data-disp="5:45–6:45" style="top:517.5px;height:90.0px" aria-pressed="false"><span class="snm">SIDEPIECE</span><span class="stm">5:45–6:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="MUSTARD" data-stage="PERRY&#x27;S" data-s="1140" data-e="1200" data-region="S" data-open="0" data-disp="7:00–8:00" style="top:630.0px;height:90.0px" aria-pressed="false"><span class="snm">MUSTARD</span><span class="stm">7:00–8:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="MAJOR LAZER" data-stage="PERRY&#x27;S" data-s="1230" data-e="1305" data-region="S" data-open="0" data-disp="8:30–9:45" style="top:765.0px;height:112.5px" aria-pressed="false"><span class="snm">MAJOR LAZER</span><span class="stm">8:30–9:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="hreg M">M</span><span class="sname">ALLIANZ</span></div><div class="track"><button type="button" class="set" data-name="THE ARMY, THE NAVY" data-stage="ALLIANZ" data-s="730" data-e="775" data-region="M" data-open="0" data-disp="12:10–12:55" style="top:15.0px;height:67.5px" aria-pressed="false"><span class="snm">THE ARMY, THE NAVY</span><span class="stm">12:10–12:55</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="CLAIRE ROSINKRANZ" data-stage="ALLIANZ" data-s="820" data-e="880" data-region="M" data-open="0" data-disp="1:40–2:40" style="top:150.0px;height:90.0px" aria-pressed="false"><span class="snm">CLAIRE ROSINKRANZ</span><span class="stm">1:40–2:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="SKYE NEWMAN" data-stage="ALLIANZ" data-s="940" data-e="1000" data-region="M" data-open="0" data-disp="3:40–4:40" style="top:330.0px;height:90.0px" aria-pressed="false"><span class="snm">SKYE NEWMAN</span><span class="stm">3:40–4:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="SUKI WATERHOUSE" data-stage="ALLIANZ" data-s="1060" data-e="1120" data-region="M" data-open="0" data-disp="5:40–6:40" style="top:510.0px;height:90.0px" aria-pressed="false"><span class="snm">SUKI WATERHOUSE</span><span class="stm">5:40–6:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="NOT FOR RADIO" data-stage="ALLIANZ" data-s="1180" data-e="1240" data-region="M" data-open="0" data-disp="7:40–8:40" style="top:690.0px;height:90.0px" aria-pressed="false"><span class="snm">NOT FOR RADIO</span><span class="stm">7:40–8:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="sname">KIDZAPALOOZA</span><span class="sub">Presented By Lifeway Kefir</span></div><div class="track"><button type="button" class="set" data-name="MISS TUTTI &amp; THE FRUITY BAND" data-stage="KIDZAPALOOZA" data-s="720" data-e="750" data-region="" data-open="0" data-disp="12:00–12:30" style="top:0.0px;height:45.0px" aria-pressed="false"><span class="snm">MISS TUTTI &amp; THE FRUITY BAND</span><span class="stm">12:00–12:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="MISTER G" data-stage="KIDZAPALOOZA" data-s="810" data-e="840" data-region="" data-open="0" data-disp="1:30–2:00" style="top:135.0px;height:45.0px" aria-pressed="false"><span class="snm">MISTER G</span><span class="stm">1:30–2:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="JAZZY ASH" data-stage="KIDZAPALOOZA" data-s="900" data-e="930" data-region="" data-open="0" data-disp="3:00–3:30" style="top:270.0px;height:45.0px" aria-pressed="false"><span class="snm">JAZZY ASH</span><span class="stm">3:00–3:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="SCHOOL OF ROCK" data-stage="KIDZAPALOOZA" data-s="1035" data-e="1065" data-region="" data-open="0" data-disp="5:15–5:45" style="top:472.5px;height:45.0px" aria-pressed="false"><span class="snm">SCHOOL OF ROCK</span><span class="stm">5:15–5:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="hreg M">M</span><span class="sname">BMI</span></div><div class="track"><button type="button" class="set" data-name="WHITNEY WHITNEY" data-stage="BMI" data-s="720" data-e="750" data-region="M" data-open="0" data-disp="12:00–12:30" style="top:0.0px;height:45.0px" aria-pressed="false"><span class="snm">WHITNEY WHITNEY</span><span class="stm">12:00–12:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="VALENCIA GRACE" data-stage="BMI" data-s="780" data-e="820" data-region="M" data-open="0" data-disp="1:00–1:40" style="top:90.0px;height:60.0px" aria-pressed="false"><span class="snm">VALENCIA GRACE</span><span class="stm">1:00–1:40</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="ELLA BOH" data-stage="BMI" data-s="850" data-e="890" data-region="M" data-open="0" data-disp="2:10–2:50" style="top:195.0px;height:60.0px" aria-pressed="false"><span class="snm">ELLA BOH</span><span class="stm">2:10–2:50</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="EMI GRACE" data-stage="BMI" data-s="920" data-e="960" data-region="M" data-open="0" data-disp="3:20–4:00" style="top:300.0px;height:60.0px" aria-pressed="false"><span class="snm">EMI GRACE</span><span class="stm">3:20–4:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="IVRI" data-stage="BMI" data-s="990" data-e="1030" data-region="M" data-open="0" data-disp="4:30–5:10" style="top:405.0px;height:60.0px" aria-pressed="false"><span class="snm">IVRI</span><span class="stm">4:30–5:10</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="ELLA RED" data-stage="BMI" data-s="1060" data-e="1100" data-region="M" data-open="0" data-disp="5:40–6:20" style="top:510.0px;height:60.0px" aria-pressed="false"><span class="snm">ELLA RED</span><span class="stm">5:40–6:20</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="PALOMA MORPHY" data-stage="BMI" data-s="1130" data-e="1170" data-region="M" data-open="0" data-disp="6:50–7:30" style="top:615.0px;height:60.0px" aria-pressed="false"><span class="snm">PALOMA MORPHY</span><span class="stm">6:50–7:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="sname">AIRBNB</span></div><div class="track"><button type="button" class="set" data-name="BENO" data-stage="AIRBNB" data-s="720" data-e="750" data-region="" data-open="0" data-disp="12:00–12:30" style="top:0.0px;height:45.0px" aria-pressed="false"><span class="snm">BENO</span><span class="stm">12:00–12:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="DAY WE RAN" data-stage="AIRBNB" data-s="770" data-e="810" data-region="" data-open="0" data-disp="12:50–1:30" style="top:75.0px;height:60.0px" aria-pressed="false"><span class="snm">DAY WE RAN</span><span class="stm">12:50–1:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="LOVE SPELLS" data-stage="AIRBNB" data-s="830" data-e="870" data-region="" data-open="0" data-disp="1:50–2:30" style="top:165.0px;height:60.0px" aria-pressed="false"><span class="snm">LOVE SPELLS</span><span class="stm">1:50–2:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="54 ULTRA" data-stage="AIRBNB" data-s="890" data-e="930" data-region="" data-open="0" data-disp="2:50–3:30" style="top:255.0px;height:60.0px" aria-pressed="false"><span class="snm">54 ULTRA</span><span class="stm">2:50–3:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="FINN WOLFHARD" data-stage="AIRBNB" data-s="960" data-e="1005" data-region="" data-open="0" data-disp="4:00–4:45" style="top:360.0px;height:67.5px" aria-pressed="false"><span class="snm">FINN WOLFHARD</span><span class="stm">4:00–4:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="OKLOU" data-stage="AIRBNB" data-s="1050" data-e="1095" data-region="" data-open="0" data-disp="5:30–6:15" style="top:495.0px;height:67.5px" aria-pressed="false"><span class="snm">OKLOU</span><span class="stm">5:30–6:15</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="SLAYYYTER" data-stage="AIRBNB" data-s="1125" data-e="1170" data-region="" data-open="0" data-disp="6:45–7:30" style="top:607.5px;height:67.5px" aria-pressed="false"><span class="snm">SLAYYYTER</span><span class="stm">6:45–7:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="HORSEGIIRL" data-stage="AIRBNB" data-s="1200" data-e="1245" data-region="" data-open="0" data-disp="8:00–8:45" style="top:720.0px;height:67.5px" aria-pressed="false"><span class="snm">HORSEGIIRL</span><span class="stm">8:00–8:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="FREDDIE GIBBS" data-stage="AIRBNB" data-s="1275" data-e="1320" data-region="" data-open="0" data-disp="9:15–10:00" style="top:832.5px;height:67.5px" aria-pressed="false"><span class="snm">FREDDIE GIBBS</span><span class="stm">9:15–10:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="sname">TITO&#x27;S</span><span class="sub">Handmade Vodka</span></div><div class="track"><button type="button" class="set" data-name="CHICAGO MADE" data-stage="TITO&#x27;S" data-s="735" data-e="780" data-region="" data-open="0" data-disp="12:15–1:00" style="top:22.5px;height:67.5px" aria-pressed="false"><span class="snm">CHICAGO MADE</span><span class="stm">12:15–1:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="JULIA WOLF" data-stage="TITO&#x27;S" data-s="825" data-e="870" data-region="" data-open="0" data-disp="1:45–2:30" style="top:157.5px;height:67.5px" aria-pressed="false"><span class="snm">JULIA WOLF</span><span class="stm">1:45–2:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="MOTHER MOTHER" data-stage="TITO&#x27;S" data-s="930" data-e="990" data-region="" data-open="0" data-disp="3:30–4:30" style="top:315.0px;height:90.0px" aria-pressed="false"><span class="snm">MOTHER MOTHER</span><span class="stm">3:30–4:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="LOATHE" data-stage="TITO&#x27;S" data-s="1050" data-e="1110" data-region="" data-open="0" data-disp="5:30–6:30" style="top:495.0px;height:90.0px" aria-pressed="false"><span class="snm">LOATHE</span><span class="stm">5:30–6:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="NETTSPEND" data-stage="TITO&#x27;S" data-s="1170" data-e="1230" data-region="" data-open="0" data-disp="7:30–8:30" style="top:675.0px;height:90.0px" aria-pressed="false"><span class="snm">NETTSPEND</span><span class="stm">7:30–8:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div><div class="col"><div class="chead"><span class="hreg N">N</span><span class="sname">BUD LIGHT</span></div><div class="track"><button type="button" class="set" data-name="HIGH VIS" data-stage="BUD LIGHT" data-s="780" data-e="825" data-region="N" data-open="0" data-disp="1:00–1:45" style="top:90.0px;height:67.5px" aria-pressed="false"><span class="snm">HIGH VIS</span><span class="stm">1:00–1:45</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="BALU BRIGADA" data-stage="BUD LIGHT" data-s="870" data-e="930" data-region="N" data-open="0" data-disp="2:30–3:30" style="top:225.0px;height:90.0px" aria-pressed="false"><span class="snm">BALU BRIGADA</span><span class="stm">2:30–3:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="THE STORY SO FAR" data-stage="BUD LIGHT" data-s="990" data-e="1050" data-region="N" data-open="0" data-disp="4:30–5:30" style="top:405.0px;height:90.0px" aria-pressed="false"><span class="snm">THE STORY SO FAR</span><span class="stm">4:30–5:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="YUNGBLUD" data-stage="BUD LIGHT" data-s="1110" data-e="1170" data-region="N" data-open="0" data-disp="6:30–7:30" style="top:585.0px;height:90.0px" aria-pressed="false"><span class="snm">YUNGBLUD</span><span class="stm">6:30–7:30</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button><button type="button" class="set" data-name="THE SMASHING PUMPKINS" data-stage="BUD LIGHT" data-s="1230" data-e="1320" data-region="N" data-open="0" data-disp="8:30–10:00" style="top:765.0px;height:135.0px" aria-pressed="false"><span class="snm">THE SMASHING PUMPKINS</span><span class="stm">8:30–10:00</span><span class="mustbtn" role="button" aria-label="Mark as must-see" title="Mark as must-see">★</span></button></div></div>
+  </div></div>
+  <section class="results" id="results" aria-live="polite"></section>
+</div></div>
+<div class="actionbar">
+  <span class="count" id="count">No artists selected</span>
+  <button type="button" class="btn ghost" id="clear">Clear</button>
+  <button type="button" class="btn go" id="build" disabled>Build my route</button>
+</div>
+<script>
+(function(){
+  var DAY={big:"FRIDAY",date:"JULY 31, 2026 · GRANT PARK, CHICAGO",tix:"PLATINUM VIP · GOLF CART",mode:"cart",
+    modeword:"Cart",note:"Platinum VIP — transfers are by golf cart, so short gaps between nearby stages are easy. A red CONFLICT means the sets genuinely run at the same time."};
+  var sets=[].slice.call(document.querySelectorAll(".set"));
+  var countEl=document.getElementById("count");
+  var buildBtn=document.getElementById("build");
+  var clearBtn=document.getElementById("clear");
+  var results=document.getElementById("results");
+  var GS=720,GE=1320,SC=1.50;
+
+  // ticket type toggle
+  var togBtns=[].slice.call(document.querySelectorAll(".tix-opt"));
+  togBtns.forEach(function(tb){
+    tb.addEventListener("click",function(){
+      togBtns.forEach(function(b){b.classList.remove("active");});
+      tb.classList.add("active");
+      var m=tb.getAttribute("data-mode");
+      if(m==="cart"){
+        DAY.mode="cart";DAY.modeword="Cart";DAY.tix="PLATINUM VIP \u00b7 GOLF CART";
+        DAY.note="Platinum VIP \u2014 transfers are by golf cart, so short gaps between nearby stages are easy. A red CONFLICT means the sets genuinely run at the same time.";
+      }else{
+        DAY.mode="foot";DAY.modeword="Walk";DAY.tix="GENERAL ADMISSION \u00b7 WALKING";
+        DAY.note="General Admission \u2014 you\u2019re on foot, so a small gap between far-apart stages can be tight (Bud Light is the north end). A red CONFLICT means the sets overlap in time.";
+      }
+      document.querySelector(".tixbadge").textContent="Your ticket: "+DAY.tix;
+    });
+  });
+
+  function fmt(m){var h=Math.floor(m/60),mm=m%60,hh=h>12?h-12:h,ap=h>=12?"PM":"AM";
+    return hh+":"+(mm<10?"0"+mm:mm)+" "+ap;}
+  function regName(r){return r==="S"?"South end":r==="M"?"Mid-park":r==="N"?"North end":"";}
+
+  function selected(){return sets.filter(function(b){return b.classList.contains("sel");});}
+  function updateCount(){
+    var sel=selected();
+    var must=sel.filter(function(b){return b.classList.contains("must");}).length;
+    if(sel.length===0){countEl.innerHTML="No artists selected";}
+    else{countEl.innerHTML="<b>"+sel.length+"</b> selected"+(must?" \u00b7 <i>"+must+" must-see</i>":"");}
+    buildBtn.disabled=sel.length===0;
+  }
+  sets.forEach(function(b){
+    var mb=b.querySelector(".mustbtn");
+    b.addEventListener("click",function(){
+      if(b.classList.contains("sel")){b.classList.remove("sel","must");b.setAttribute("aria-pressed","false");}
+      else{b.classList.add("sel");b.setAttribute("aria-pressed","true");}
+      updateCount();
+    });
+    if(mb){
+      mb.addEventListener("click",function(ev){
+        ev.stopPropagation();
+        if(!b.classList.contains("sel")){b.classList.add("sel");b.setAttribute("aria-pressed","true");}
+        b.classList.toggle("must");
+        updateCount();
+      });
+    }
+  });
+  clearBtn.addEventListener("click",function(){
+    sets.forEach(function(b){b.classList.remove("sel","must");b.setAttribute("aria-pressed","false");});
+    updateCount();results.classList.remove("show");results.innerHTML="";
+  });
+
+  function overlaps(a,b){return a.s<b.e&&b.s<a.e;}
+
+  buildBtn.addEventListener("click",function(){
+    var picks=selected().map(function(b){return{
+      name:b.getAttribute("data-name"),stage:b.getAttribute("data-stage"),
+      s:+b.getAttribute("data-s"),e:+b.getAttribute("data-e"),
+      region:b.getAttribute("data-region"),open:b.getAttribute("data-open")==="1",
+      must:b.classList.contains("must")};});
+    picks.sort(function(a,b){return a.s-b.s||a.e-b.e;});
+
+    // pairwise conflicts
+    picks.forEach(function(p){p.clash=[];});
+    for(var i=0;i<picks.length;i++)for(var j=i+1;j<picks.length;j++)
+      if(overlaps(picks[i],picks[j])){picks[i].clash.push(picks[j].name);picks[j].clash.push(picks[i].name);}
+
+    // lane packing (greedy)
+    var laneEnds=[];
+    picks.forEach(function(p){
+      var placed=-1;
+      for(var k=0;k<laneEnds.length;k++){if(laneEnds[k]<=p.s){placed=k;break;}}
+      if(placed<0){placed=laneEnds.length;laneEnds.push(0);}
+      p.lane=placed;laneEnds[placed]=p.e;
+    });
+    var nLanes=Math.max(1,laneEnds.length);
+
+    // tag per pick
+    picks.forEach(function(p){
+      if(p.must)p.tag="must";
+      else if(p.clash.length)p.tag="partial";
+      else if(p.open)p.tag="head";
+      else p.tag="";
+      // pick vs partial inside a conflict: a must-see in a clash makes the others "partial",
+      // and a non-must single counterpart of a must-see clash is marked partial already.
+    });
+    // upgrade: if a non-must pick clashes only with must-see picks, keep partial; nothing else needed.
+
+    // merged clusters for conflict pills
+    var clusters=[],cur=null;
+    picks.forEach(function(p){
+      if(cur&&p.s<cur.maxe){cur.items.push(p);cur.maxe=Math.max(cur.maxe,p.e);}
+      else{cur={items:[p],maxe:p.e};clusters.push(cur);}
+    });
+
+    var hasClash=picks.some(function(p){return p.clash.length;});
+
+    // ---- build HTML ----
+    var H="";
+    H+='<div class="rmast">'
+     +'<svg class="rwave" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">'
+     +'<path d="M0,30 Q50,12 100,30 T200,30 T300,30 T400,30 V0 H0 Z" fill="#34C6D9"/>'
+     +'<path d="M0,62 Q50,44 100,62 T200,62 T300,62 T400,62" stroke="#9fe3ec" stroke-width="6" fill="none"/>'
+     +'</svg>'
+     +'<svg class="rstar" style="top:10px;right:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>'
+     +'<svg class="rstar" style="top:46px;right:50px;width:16px;height:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>'
+     +'<div class="reb">LOLLAPALOOZA 2026 \u00b7 MY ROUTE MAP</div>'
+     +'<div class="rbig">'+DAY.big+'</div>'
+     +'<div class="rdate">'+DAY.date+'</div></div>';
+
+    H+='<div class="rbar"><span class="rtix">'+DAY.tix+'</span>'
+     +'<div class="rlegend">'
+     +'<span><span class="lsw" style="background:var(--lime);border-color:#15151a"></span>In plan</span>'
+     +'<span><span class="lsw" style="background:var(--lime);border-color:#E6362B;border-width:2px"></span>Must-see</span>'
+     +'<span><span class="rbadge" style="background:var(--orange)">PARTIAL</span>Time clash</span>'
+     +'<span><span class="rbadge" style="background:#15151a">HEADLINER</span>Closer</span>'
+     +'<span style="margin-left:4px">Stage:'
+     +' <span class="rbadge S">S</span>'
+     +' <span class="rbadge M">M</span>'
+     +' <span class="rbadge N">N</span></span>'
+     +'</div>'
+     +'<div class="rkey"><span class="rbadge S">S</span> south end (T-Mobile &amp; Perry\u2019s) \u00b7 '
+     +'<span class="rbadge M">M</span> mid-park (Allianz &amp; BMI) \u00b7 '
+     +'<span class="rbadge N">N</span> north end (Bud Light). The bigger the jump between a set and the next, '
+     +'the longer the trip. Unbadged stages (Tito\u2019s, Airbnb, Kidzapalooza) have no confirmed 2026 location.</div>'
+     +'</div>';
+
+    H+='<div class="ticketnote">'+DAY.note+'</div>';
+
+    var first=picks[0],last=picks[picks.length-1];
+    H+='<div class="summ">'+picks.length+' set'+(picks.length===1?'':'s')
+      +' \u00b7 first at '+fmt(first.s)+' \u00b7 last at '+fmt(last.s)
+      +(hasClash?' \u00b7 \u26a0 contains time clashes':' \u00b7 \u2713 no time clashes')+'</div>';
+
+    // board
+    var boardH=(GE-GS)*SC;
+    H+='<div class="rboard"><div class="rgut">';
+    for(var m=GS;m<=GE;m+=60){var hh=(m/60)>12?(m/60)-12:(m/60);
+      H+='<span class="rhr" style="top:'+((m-GS)*SC)+'px">'+(hh)+' PM</span>';}
+    H+='</div><div class="rlanes" style="height:'+boardH+'px">';
+    for(var m2=GS;m2<=GE;m2+=60){H+='<div class="rline" style="top:'+((m2-GS)*SC)+'px"></div>';}
+    var wPct=100/nLanes;
+    picks.forEach(function(p){
+      var top=(p.s-GS)*SC, end=(p.open?GE:p.e), ht=Math.max(40,(end-p.s)*SC-4);
+      var left='calc('+(p.lane*wPct)+'% + 3px)';
+      var width='calc('+wPct+'% - 6px)';
+      var reg=p.region?'<span class="rreg '+p.region+'">'+p.region+'</span>':'';
+      var time=p.open?(fmt(p.s)+' \u2192'):(fmt(p.s)+' \u2013 '+fmt(p.e));
+      var tagTxt={must:'MUST-SEE',partial:'PARTIAL',head:'HEADLINER'}[p.tag]||'';
+      var tag=tagTxt?'<span class="rtag '+p.tag+'">'+tagTxt+'</span>':'';
+      var starN=p.must?'\u2605 ':'';
+      H+='<div class="rset'+(p.must?' must':'')+'" style="top:'+top+'px;height:'+ht+'px;left:'+left+';width:'+width+'">'
+        +tag+'<div class="rn">'+starN+p.name+'</div>'
+        +'<div class="rmeta">'+reg+p.stage+' \u00b7 '+time+'</div></div>';
+    });
+    // conflict pills (one per clashing cluster)
+    clusters.forEach(function(c){
+      var clashItems=c.items.filter(function(p){return p.clash.length;});
+      if(clashItems.length<2)return;
+      var lo=Math.max.apply(null,clashItems.map(function(p){return p.s;}));
+      var hi=Math.min.apply(null,clashItems.map(function(p){return p.open?GE:p.e;}));
+      var mid=(lo+hi)/2; if(hi<=lo)mid=lo;
+      H+='<div class="rconf" style="top:'+((mid-GS)*SC)+'px">CONFLICT</div>';
+    });
+    H+='</div></div>';
+
+    // route list
+    H+='<div class="route"><div class="rhead">YOUR ROUTE</div>';
+    picks.forEach(function(p,idx){
+      if(idx>0){
+        var prev=picks[idx-1];
+        var gap=p.s-prev.e;
+        var icon=DAY.mode==="cart"?"\ud83d\uded2":"\ud83d\udeb6";
+        var dir=prev.stage===p.stage?("Stay at "+p.stage):(prev.stage+' \u2192 '+p.stage);
+        var pillTxt,tight=false;
+        if(gap<0){pillTxt="overlap";tight=true;dir=prev.stage+' / '+p.stage+' clash';}
+        else{
+          pillTxt=(gap===0)?"back-to-back":(gap+" min gap");
+          if(DAY.mode==="foot"&&gap<15&&prev.stage!==p.stage){tight=true;}
+        }
+        H+='<div class="xfer'+(tight?' tight':'')+'"><span class="xi">'+icon+'</span>'
+          +'<span>'+(gap<0?'':DAY.modeword+' \u00b7 ')+dir+(tight&&gap>=0?' \u00b7 tight on foot':'')+'</span>'
+          +'<span class="xpill">'+pillTxt+'</span></div>';
+      }
+      var spineCls=p.must?'must':(p.clash.length?'partial':'');
+      var time=p.open?(fmt(p.s)+' (close)'):(fmt(p.s)+'\u2013'+fmt(p.e));
+      var reg=p.region?'<span class="rreg '+p.region+'">'+p.region+'</span>':'';
+      H+='<div class="rstep"><div class="rtime">'+time+'</div>'
+        +'<div class="rspine '+spineCls+'"></div><div class="rcont">'
+        +'<div class="rcname">'+(p.must?'\u2605 ':'')+p.name+'</div>'
+        +'<div class="rcstage">'+reg+p.stage+(p.region?(' \u00b7 '+regName(p.region)):'')+'</div>';
+      if(p.clash.length){H+='<div class="rnote warn">\u26a0 Clashes with '+p.clash.join(', ')+' \u2014 split or choose.</div>';}
+      else if(p.open){H+='<div class="rnote">Closing set \u2014 runs to the end of the night.</div>';}
+      H+='</div></div>';
+    });
+    H+='<div class="ractions">'
+      +'<button type="button" class="btn ghost" style="border-color:#bbb;color:#333" onclick="window.scrollTo({top:0,behavior:\'smooth\'})">Edit selection</button>'
+      +'<button type="button" class="btn go" onclick="window.print()">Print / Save PDF</button>'
+      +'</div></div>';
+
+    results.innerHTML=H;
+    results.classList.add("show");
+    results.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  updateCount();
+})();
+</script>
+<footer class="site-footer">
+  <div class="site-footer-links">
+    <a href="/">Home</a>
+    <a href="/">Lineup</a>
+    <a href="/who-to-see.html">Guide</a>
+    <a href="/schedule.html">Schedule Builder</a>
+    <a href="/first-timers-guide.html">First Timer's Guide</a>
+    <a href="/undercard-picks.html">Undercard Picks</a>
+    <a href="/about.html">About</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/terms.html">Terms</a>
+  </div>
+  AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
+  &copy; 2026 LOLLA LINEUP 2026
+</footer>
+</body></html>
