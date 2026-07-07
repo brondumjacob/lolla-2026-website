@@ -14,40 +14,40 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
-  :root{--pink:#F0A6DC;--bg:#7EC8E3;--pink-deep:#C73C98;--cyan:#34C6D9;--cyan-line:rgba(7,40,46,.18);
-    --lime:#D3E64C;--ink:#15151a;--red:#E6362B;--orange:#E8912B;
-    --rS:#2a9fd6;--rM:#d63b9a;--rN:#E6362B;}
+  :root{--pink:#E85BB8;--bg:#FFD9C2;--pink-deep:#C73C98;--cyan:#2FA79C;--cyan-line:rgba(7,40,46,.18);
+    --lime:#CFE23E;--ink:#2B1B14;--red:#E6432E;--orange:#E8912B;
+    --rS:#2a9fd6;--rM:#d63b9a;--rN:#E6432E;}
   *{box-sizing:border-box;} html,body{margin:0;padding:0;}
-  body{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;background:var(--bg);
+  body{font-family:'Manrope', sans-serif;background:var(--bg);
     color:var(--ink);-webkit-text-size-adjust:100%;}
   .frame{padding:10px;min-height:100vh;}
   .card{background:var(--ink);border-radius:14px;overflow:hidden;
     box-shadow:0 10px 30px rgba(0,0,0,.25);padding-bottom:96px;}
   .mast{position:relative;padding:16px 16px 12px;color:#fff;}
-  .word{font-family:"Arial Black",Impact,sans-serif;font-weight:900;letter-spacing:-1px;line-height:.86;}
+  .word{font-family:'Righteous', cursive;font-weight:900;letter-spacing:-1px;line-height:.86;}
   .word .w1{font-size:clamp(34px,9vw,64px);display:block;}
   .word .w2{font-size:clamp(18px,4.6vw,30px);display:block;color:var(--pink);letter-spacing:3px;}
   .when{margin-top:6px;font-size:13px;letter-spacing:1px;opacity:.92;}
   .tixbadge{display:inline-block;margin-top:10px;background:var(--lime);color:var(--ink);
     font-weight:900;font-size:12px;letter-spacing:1px;padding:5px 11px;border-radius:999px;text-transform:uppercase;}
   .tix-toggle{display:flex;gap:6px;margin-top:10px;}
-  .tix-opt{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:11px;letter-spacing:.5px;
+  .tix-opt{font-family:'Righteous', cursive;font-weight:900;font-size:11px;letter-spacing:.5px;
     border:none;border-radius:999px;padding:6px 14px;cursor:pointer;text-transform:uppercase;
     background:#2a2a35;color:#888;}
   .tix-opt.active{background:var(--lime);color:var(--ink);}
-  .day-switcher{display:flex;gap:4px;padding:8px 16px;background:#0e0e13;border-bottom:2px solid #000;}
-  .ds-day{display:inline-block;padding:5px 12px;font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.5);text-decoration:none;border-radius:4px;text-transform:uppercase;}
+  .day-switcher{display:flex;gap:4px;padding:8px 16px;background:#241934;border-bottom:none;}
+  .ds-day{display:inline-block;padding:5px 12px;font-family:'Righteous', cursive;font-weight:900;font-size:0.7rem;letter-spacing:2px;color:rgba(255,255,255,0.5);text-decoration:none;border-radius:4px;text-transform:uppercase;}
   .ds-day:hover{color:#fff;background:rgba(255,255,255,0.08);}
-  .ds-day.active{color:#D3E64C;}
+  .ds-day.active{color:#CFE23E;}
   .star-svg{position:absolute;width:30px;height:30px;opacity:.95;}
   .s1{top:14px;right:18px;} .s2{top:44px;right:52px;width:18px;} .s3{top:20px;right:84px;width:14px;}
   .howto{background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:9px 16px;line-height:1.4;}
   .howto b{font-weight:900;}
   .scrollhint{font-size:11px;font-weight:700;color:var(--pink-deep);background:var(--ink);padding:6px 16px;letter-spacing:.5px;}
-  .skey{background:#1f1f27;color:#dfe6ea;font-size:11px;line-height:1.5;padding:10px 16px;border-top:1px solid #333;}
+  .skey{background:#3a2b4a;color:#dfe6ea;font-size:11px;line-height:1.5;padding:10px 16px;border-top:1px solid #333;}
   .skey b{color:#fff;}
   .kb{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
     border-radius:3px;color:#fff;font-weight:900;font-size:9px;vertical-align:1px;margin:0 1px;}
@@ -63,7 +63,7 @@
   .chead{height:62px;background:var(--ink);color:#fff;text-align:center;display:flex;
     flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:3px 4px;
     position:relative;border-bottom:2px solid var(--pink);}
-  .chead .sname{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:12px;
+  .chead .sname{font-family:'Righteous', cursive;font-weight:900;font-size:12px;
     letter-spacing:.3px;line-height:1;text-transform:uppercase;}
   .chead .sub{font-size:8px;opacity:.75;line-height:1;}
   .hreg{position:absolute;top:4px;right:5px;font-size:8px;font-weight:900;width:14px;height:14px;
@@ -91,7 +91,7 @@
     padding-bottom:calc(10px + env(safe-area-inset-bottom));}
   .count{color:#fff;font-weight:900;font-size:13px;flex:1;letter-spacing:.3px;line-height:1.2;}
   .count b{color:var(--lime);} .count i{color:var(--red);font-style:normal;}
-  .btn{font-family:"Arial Black",Impact,sans-serif;font-weight:900;border:none;border-radius:999px;
+  .btn{font-family:'Righteous', cursive;font-weight:900;border:none;border-radius:999px;
     padding:11px 18px;font-size:13px;letter-spacing:.5px;cursor:pointer;text-transform:uppercase;}
   .btn.go{background:var(--lime);color:var(--ink);} .btn.go:disabled{opacity:.45;cursor:not-allowed;}
   .btn.ghost{background:transparent;color:#fff;border:2px solid #5a5a64;padding:9px 14px;}
@@ -101,7 +101,7 @@
   .rmast{position:relative;background:var(--pink);padding:14px 16px 12px;overflow:hidden;}
   .rwave{position:absolute;inset:0;opacity:.55;}
   .reb{position:relative;font-size:12px;font-weight:900;letter-spacing:3px;color:var(--ink);}
-  .rbig{position:relative;font-family:"Arial Black",Impact,sans-serif;font-weight:900;
+  .rbig{position:relative;font-family:'Righteous', cursive;font-weight:900;
     font-size:clamp(30px,8vw,52px);line-height:.9;color:var(--ink);}
   .rdate{position:relative;font-size:12px;font-weight:900;letter-spacing:1px;color:var(--ink);margin-top:3px;}
   .rstar{position:absolute;width:26px;height:26px;}
@@ -141,7 +141,7 @@
     z-index:6;box-shadow:0 2px 6px rgba(0,0,0,.3);text-transform:uppercase;}
   /* route list */
   .route{padding:14px 16px 18px;}
-  .rhead{font-family:"Arial Black",Impact,sans-serif;font-weight:900;font-size:15px;
+  .rhead{font-family:'Righteous', cursive;font-weight:900;font-size:15px;
     letter-spacing:1px;color:var(--pink-deep);margin-bottom:8px;}
   .rstep{display:flex;gap:10px;padding:8px 0;align-items:flex-start;}
   .rtime{flex:0 0 88px;font-weight:900;font-size:11px;text-align:right;color:var(--ink);padding-top:2px;line-height:1.25;}
@@ -183,6 +183,7 @@
     <a href="/schedule.html" class="active">SCHEDULE</a>
     <a href="/about.html">ABOUT</a>
   </div>
+  <a href="/my-lineup.html" class="nav-mylineup"><span class="star-fill">★</span> My Lineup (<span class="mylineup-count">0</span>)</a>
 </nav>
 <div class="day-switcher">
   <a href="/schedule-thursday.html" class="ds-day">THU</a>
@@ -192,7 +193,7 @@
 </div>
 <div class="frame"><div class="card">
   <header class="mast">
-    <svg class="star-svg s1" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg><svg class="star-svg s2" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg><svg class="star-svg s3" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>
+    <svg class="star-svg s1" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6432E"/></svg><svg class="star-svg s2" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6432E"/></svg><svg class="star-svg s3" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6432E"/></svg>
     <span class="word"><span class="w1">LOLLAPALOOZA</span><span class="w2">SUNDAY</span></span>
     <div class="when">AUG 2, 2026 · GRANT PARK, CHICAGO</div>
     <span class="tixbadge">Your ticket: GENERAL ADMISSION · WALKING</span>
@@ -330,21 +331,21 @@
     var H="";
     H+='<div class="rmast">'
      +'<svg class="rwave" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true">'
-     +'<path d="M0,30 Q50,12 100,30 T200,30 T300,30 T400,30 V0 H0 Z" fill="#34C6D9"/>'
+     +'<path d="M0,30 Q50,12 100,30 T200,30 T300,30 T400,30 V0 H0 Z" fill="#2FA79C"/>'
      +'<path d="M0,62 Q50,44 100,62 T200,62 T300,62 T400,62" stroke="#9fe3ec" stroke-width="6" fill="none"/>'
      +'</svg>'
-     +'<svg class="rstar" style="top:10px;right:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>'
-     +'<svg class="rstar" style="top:46px;right:50px;width:16px;height:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6362B"/></svg>'
+     +'<svg class="rstar" style="top:10px;right:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6432E"/></svg>'
+     +'<svg class="rstar" style="top:46px;right:50px;width:16px;height:16px" viewBox="0 0 100 100"><polygon points="50,2 60,38 97,38 67,60 78,96 50,73 22,96 33,60 3,38 40,38" fill="#E6432E"/></svg>'
      +'<div class="reb">LOLLAPALOOZA 2026 \u00b7 MY ROUTE MAP</div>'
      +'<div class="rbig">'+DAY.big+'</div>'
      +'<div class="rdate">'+DAY.date+'</div></div>';
 
     H+='<div class="rbar"><span class="rtix">'+DAY.tix+'</span>'
      +'<div class="rlegend">'
-     +'<span><span class="lsw" style="background:var(--lime);border-color:#15151a"></span>In plan</span>'
-     +'<span><span class="lsw" style="background:var(--lime);border-color:#E6362B;border-width:2px"></span>Must-see</span>'
+     +'<span><span class="lsw" style="background:var(--lime);border-color:#2B1B14"></span>In plan</span>'
+     +'<span><span class="lsw" style="background:var(--lime);border-color:#E6432E;border-width:2px"></span>Must-see</span>'
      +'<span><span class="rbadge" style="background:var(--orange)">PARTIAL</span>Time clash</span>'
-     +'<span><span class="rbadge" style="background:#15151a">HEADLINER</span>Closer</span>'
+     +'<span><span class="rbadge" style="background:#2B1B14">HEADLINER</span>Closer</span>'
      +'<span style="margin-left:4px">Stage:'
      +' <span class="rbadge S">S</span>'
      +' <span class="rbadge M">M</span>'
@@ -453,5 +454,6 @@
   AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
   &copy; 2026 LOLLA LINEUP 2026
 </footer>
+<script src="/favorites.js"></script>
 <script src="/nav.js"></script>
 </body></html>

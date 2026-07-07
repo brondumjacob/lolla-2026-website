@@ -20,16 +20,16 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   /* Schedule hub page styles */
   .sched-hero {
-    background: #15151a;
+    background: #2B1B14;
     padding: 3rem 2rem 2.5rem;
     position: relative;
     overflow: hidden;
-    border-bottom: 3px solid #000;
+    border-bottom: none;
   }
   .sched-hero-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
   .sched-eyebrow {
@@ -38,7 +38,7 @@
     font-weight: 700;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: #D3E64C;
+    color: #CFE23E;
     margin-bottom: 0.5rem;
   }
   .sched-title {
@@ -64,19 +64,19 @@
   }
   .sched-star {
     position: absolute;
-    fill: #E6362B;
+    fill: #E6432E;
     opacity: 0.9;
   }
 
   /* Day grid */
-  .sched-grid-wrap { padding: 2.5rem 2rem; background: #7EC8E3; }
+  .sched-grid-wrap { padding: 2.5rem 2rem; background: #FFD9C2; }
   .sched-grid-inner { max-width: 860px; margin: 0 auto; }
   .sched-grid-label {
     font-family: var(--font-display);
     font-size: 0.85rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #15151a;
+    color: #2B1B14;
     margin-bottom: 1.25rem;
     opacity: 0.7;
   }
@@ -91,15 +91,15 @@
   .sched-day-card {
     display: block;
     text-decoration: none;
-    background: #15151a;
+    background: #2B1B14;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 4px 4px 0 #000;
+    box-shadow: 0 10px 24px rgba(28,21,38,0.2);
     transition: transform 0.12s, box-shadow 0.12s;
   }
   .sched-day-card:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 #000;
+    box-shadow: 0 16px 32px rgba(28,21,38,0.3);
   }
   .sched-day-accent { height: 6px; }
   .sched-day-body { padding: 1.25rem 1.25rem 1rem; }
@@ -130,8 +130,8 @@
   .sched-day-cta {
     display: inline-block;
     margin-top: 1rem;
-    background: #D3E64C;
-    color: #15151a;
+    background: #CFE23E;
+    color: #2B1B14;
     font-family: var(--font-display);
     font-size: 0.9rem;
     letter-spacing: 2px;
@@ -141,7 +141,7 @@
   }
 
   /* How it works */
-  .sched-how { padding: 2.5rem 2rem; background: #15151a; border-top: 3px solid #000; }
+  .sched-how { padding: 2.5rem 2rem; background: #2B1B14; border-top: none; }
   .sched-how-inner { max-width: 860px; margin: 0 auto; }
   .sched-how-title {
     font-family: var(--font-display);
@@ -157,7 +157,7 @@
   }
   @media (max-width: 600px) { .sched-steps { grid-template-columns: 1fr; gap: 16px; } }
   .sched-step {
-    background: #1f1f27;
+    background: rgba(255,255,255,0.5);
     border-radius: 10px;
     padding: 1.25rem;
     border: 1px solid rgba(255,255,255,0.08);
@@ -165,7 +165,7 @@
   .sched-step-num {
     font-family: var(--font-display);
     font-size: 2.5rem;
-    color: #D3E64C;
+    color: #CFE23E;
     line-height: 1;
     margin-bottom: 0.5rem;
   }
@@ -184,15 +184,15 @@
 
   .sched-back {
     padding: 2rem 2rem;
-    background: #7EC8E3;
+    background: #FFD9C2;
     text-align: center;
-    border-top: 3px solid #000;
+    border-top: none;
   }
   .sched-back a {
     font-family: var(--font-display);
     font-size: 1rem;
     letter-spacing: 2px;
-    color: #15151a;
+    color: #2B1B14;
     text-decoration: none;
   }
   .sched-back a:hover { text-decoration: underline; }
@@ -211,6 +211,7 @@
     <a href="/schedule.html" class="active">SCHEDULE</a>
     <a href="/about.html">ABOUT</a>
   </div>
+  <a href="/my-lineup.html" class="nav-mylineup"><span class="star-fill">★</span> My Lineup (<span class="mylineup-count">0</span>)</a>
 </nav>
 
 <div class="sched-hero">
@@ -309,19 +310,19 @@
     bottom: 28px;
     right: 24px;
     z-index: 500;
-    background: #D3E64C;
-    color: #15151a;
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0 #000;
-    font-family: 'Bebas Neue', sans-serif;
+    background: #CFE23E;
+    color: #2B1B14;
+    border: none;
+    box-shadow: 0 10px 24px rgba(28,21,38,0.2);
+    font-family: 'Righteous', cursive;
     font-size: 1rem;
     letter-spacing: 2px;
     padding: 12px 20px;
     cursor: pointer;
-    border-radius: 0;
+    border-radius: 999px;
     transition: transform 0.1s, box-shadow 0.1s;
   }
-  .planner-fab:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #000; }
+  .planner-fab:hover { transform: translate(-2px,-2px); box-shadow: 0 16px 32px rgba(28,21,38,0.3); }
 
   .planner-panel {
     display: none;
@@ -330,10 +331,10 @@
     right: 24px;
     z-index: 500;
     width: min(420px, calc(100vw - 32px));
-    background: #15151a;
-    border: 3px solid #000;
-    box-shadow: 6px 6px 0 #000;
-    border-radius: 0;
+    background: #2B1B14;
+    border: none;
+    box-shadow: 0 16px 32px rgba(28,21,38,0.3);
+    border-radius: 999px;
     overflow: hidden;
   }
   .planner-panel.open { display: block; }
@@ -342,31 +343,31 @@
     .planner-fab { bottom: 80px; }
   }
   .planner-head {
-    background: #D3E64C;
+    background: #CFE23E;
     padding: 14px 16px 10px;
-    border-bottom: 3px solid #000;
+    border-bottom: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
   .planner-head-title {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Righteous', cursive;
     font-size: 1.3rem;
     letter-spacing: 2px;
-    color: #15151a;
+    color: #2B1B14;
   }
   .planner-close {
     background: none;
     border: none;
     font-size: 1.3rem;
     cursor: pointer;
-    color: #15151a;
+    color: #2B1B14;
     line-height: 1;
     padding: 0 2px;
   }
   .planner-body { padding: 16px; }
   .planner-label {
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -377,17 +378,17 @@
   }
   .planner-input {
     width: 100%;
-    background: #1f1f27;
+    background: rgba(255,255,255,0.5);
     border: 2px solid rgba(255,255,255,0.15);
     color: #fff;
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size: 0.95rem;
     padding: 10px 12px;
-    border-radius: 0;
+    border-radius: 999px;
     outline: none;
     box-sizing: border-box;
   }
-  .planner-input:focus { border-color: #D3E64C; }
+  .planner-input:focus { border-color: #CFE23E; }
   .planner-hint {
     font-size: 0.75rem;
     color: rgba(255,255,255,0.35);
@@ -398,10 +399,10 @@
     display: block;
     width: 100%;
     margin-top: 12px;
-    background: #D3E64C;
-    color: #15151a;
-    border: 2px solid #000;
-    font-family: 'Bebas Neue', sans-serif;
+    background: #CFE23E;
+    color: #2B1B14;
+    border: none;
+    font-family: 'Righteous', cursive;
     font-size: 1.1rem;
     letter-spacing: 2px;
     padding: 11px;
@@ -416,10 +417,10 @@
     padding: 12px 16px 16px;
   }
   .planner-day-head {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Righteous', cursive;
     font-size: 1rem;
     letter-spacing: 2px;
-    color: #D3E64C;
+    color: #CFE23E;
     margin: 12px 0 6px;
   }
   .planner-day-head:first-child { margin-top: 0; }
@@ -442,7 +443,7 @@
   }
   .planner-set-info { flex: 1; min-width: 0; }
   .planner-set-name {
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
     color: #fff;
@@ -455,7 +456,7 @@
   .planner-conflict {
     font-size: 0.7rem;
     font-weight: 700;
-    color: #E6362B;
+    color: #E6432E;
     margin-top: 2px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -471,14 +472,14 @@
     background: transparent;
     border: 2px solid rgba(255,255,255,0.2);
     color: rgba(255,255,255,0.7);
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Righteous', cursive;
     font-size: 0.85rem;
     letter-spacing: 1px;
     padding: 6px 14px;
     text-decoration: none;
     transition: border-color 0.1s, color 0.1s;
   }
-  .planner-link:hover { border-color: #D3E64C; color: #D3E64C; }
+  .planner-link:hover { border-color: #CFE23E; color: #CFE23E; }
 </style>
 
 <button class="planner-fab" id="plannerFab">⚡ PLAN MY SCHEDULE</button>
@@ -624,6 +625,7 @@
   AN UNOFFICIAL FAN GUIDE &middot; NOT AFFILIATED WITH LOLLAPALOOZA, C3 PRESENTS, OR LIVE NATION<br>
   &copy; 2026 LOLLA LINEUP 2026
 </footer>
+<script src="/favorites.js"></script>
 <script src="/nav.js"></script>
 </body>
 </html>
