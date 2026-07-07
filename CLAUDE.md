@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Unofficial fan site for the complete Lollapalooza 2026 lineup (172 artists) with Spotify, Apple Music, and YouTube Music streaming links.
 
 ## Status
-Live / deployed. Multi-page static site with schedule builders. AdSense pending approval. Affiliate links not yet implemented. Sky blue recolor, hamburger mobile nav, collapsible editorial, and smart schedule planner added.
+Live / deployed. Multi-page static site with schedule builders. AdSense wired site-wide (`ca-pub-1043428205440255`). Affiliate links not yet implemented. "Golden Hour" visual redesign integrated (see Design System below) plus a new "My Lineup" favorites feature — star any artist, view/share your picks at `/my-lineup.html`, persisted via `localStorage`.
 
 ## Tech Stack
 - Pure HTML/CSS/JS — no framework, no build tool, no npm
@@ -45,25 +45,34 @@ The entire app lives in one file. Key sections in order:
 - Schedule hub: `schedule.html`
 - Schedule builders: `schedule-thursday.html`, `schedule-friday.html`, `schedule-saturday.html`, `schedule-sunday.html`
 - Supporting pages: `about.html`, `privacy.html`, `contact.html`, `terms.html`, `who-to-see.html`, `first-timers-guide.html`, `undercard-picks.html`
+- My Lineup (favorites) page: `my-lineup.html` — `noindex`, shows starred artists grouped by day + a share/copy button
 - Shared nav JS: `nav.js` (hamburger toggle + editorial collapse)
+- Favorites JS: `favorites.js` — wires every `.star-toggle` button site-wide, persists to `localStorage` (`lolla-my-lineup-v1`), updates the nav counter, renders `my-lineup.html`
 - Schedule data: `schedule-data.js` (191 sets from all 4 days, `window.SCHEDULE`)
 - SEO: `sitemap.xml`, `robots.txt`
 - Design explorations: `.ecc-design/redesign-previews/` (not deployed)
+- Redesign source package: `design-system/` (the "Golden Hour" drop-in package this restyle was integrated from; kept in the repo for reference, not deployed)
 
 ## Navigation Structure
 4-item nav across all pages: **LINEUP · GUIDE · SCHEDULE · ABOUT**
 Builder pages also show a day switcher strip (THU / FRI / SAT / SUN) below the nav.
 
-## Design System
-- `--page-bg: #7EC8E3` (sky blue background — changed from #F0A6DC pink)
-- `--card-bg: #15151a` (dark cards)
-- `--lime: #D3E64C` (CTAs, interactive, nav home)
-- `--cyan: #34C6D9` (accents)
-- `--red: #E6362B` (warnings, stars)
-- `--orange: #E8912B` (Saturday accent, warnings)
-- Neo-brutalist borders: `3px solid #000` with offset shadows
-- Display font: Bebas Neue; Body: Source Sans 3
-- Builder pages use system fonts (Arial Black, Arial Narrow) for self-contained aesthetic
+## Design System — "Golden Hour" (current)
+Full site restyle integrated from a Claude-generated redesign package (`design-system/` folder,
+see `design-system/HANDOFF.md` for the original handoff notes). CSS/fonts only — no JS logic
+changed; same selectors throughout, so no HTML structural rewrite was needed beyond the new
+My Lineup feature markup.
+- `--page-bg: #FFD9C2` → `--bg-stop-4: #FF9478` (warm peach/cream gradient background)
+- `--card-bg: #2B1B14` (dark warm-brown cards, e.g. hero band, guide cards)
+- `--lime: #CFE23E` (CTAs, interactive, nav home)
+- `--pink: #E85BB8`, `--teal`/`--cyan: #2FA79C`, `--red: #E6432E`, `--orange: #E8912B`
+- `--font-display: 'Righteous'`; `--font-body: 'Manrope'`
+- Soft rounded cards (`--radius-card: 20px`, `--radius-pill: 999px`), blurred shadows
+  (`--shadow-sm`/`--shadow-lift`) — no hard borders, no neo-brutalist offset shadows anymore.
+- `.stream-btn` (circular Spotify/Apple/YouTube icon button) lives in the shared `styles.css`
+  (moved there during integration so any page — not just `index.html` — can use it).
+- Builder pages (`schedule-*.html`) keep their own distinct sub-aesthetic per their embedded
+  `<style>` blocks, restyled to the new palette but structurally unchanged.
 
 ## Schedule Builder Architecture
 Each builder is a self-contained single-file HTML app with inline CSS + JS.
