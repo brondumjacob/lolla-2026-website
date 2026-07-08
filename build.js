@@ -37,6 +37,10 @@ const APPLE_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="tru
 
 const YOUTUBE_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.376 0 0 5.376 0 12s5.376 12 12 12 12-5.376 12-12S18.624 0 12 0zm0 19.104c-3.924 0-7.104-3.18-7.104-7.104S8.076 4.896 12 4.896s7.104 3.18 7.104 7.104-3.18 7.104-7.104 7.104zm0-13.332c-3.432 0-6.228 2.796-6.228 6.228S8.568 18.228 12 18.228s6.228-2.796 6.228-6.228S15.432 5.772 12 5.772zM9.684 15.54V8.46L15.816 12l-6.132 3.54z"/></svg>`;
 
+function starButton(a) {
+  return `<button class="star-toggle" data-name="${esc(a.n)}" aria-label="Save ${esc(a.n)} to your lineup" title="Save to My Lineup">★</button>`;
+}
+
 function streamingLinks(a) {
   return `<div class="streaming-links" aria-label="Streaming links for ${esc(a.n)}">` +
     `<a href="${esc(a.sp)}" class="stream-btn" target="_blank" rel="noopener noreferrer" aria-label="Listen to ${esc(a.n)} on Spotify" title="Listen on Spotify">${SPOTIFY_SVG}</a>` +
@@ -55,7 +59,7 @@ function headlinerCard(a) {
   </div>
   <div class="headliner-meta">
     ${dayBadge(a.d)}
-    ${streamingLinks(a)}
+    ${starButton(a)}${streamingLinks(a)}
   </div>
 </div>`;
 }
@@ -71,7 +75,7 @@ function majorCard(a) {
   <div style="font-family:var(--font-body);font-size:0.8rem;color:rgba(0,0,0,0.45);line-height:1.4;margin-bottom:0.5rem">${esc(getDesc(a))}</div>
   <div class="major-card-bottom">
     ${dayBadge(a.d)}
-    ${streamingLinks(a)}
+    ${starButton(a)}${streamingLinks(a)}
   </div>
 </div>`;
 }
@@ -82,7 +86,7 @@ function undercardItem(a, idx) {
   <span class="undercard-name">${esc(a.n)}</span>
   <span class="undercard-genre">${esc(a.g)}</span>
   ${dayBadge(a.d)}
-  <div class="undercard-links" aria-label="Streaming links for ${esc(a.n)}">${streamingLinks(a)}</div>
+  <div class="undercard-links" aria-label="Streaming links for ${esc(a.n)}">${starButton(a)}${streamingLinks(a)}</div>
 </li>`;
 }
 
@@ -236,7 +240,7 @@ if (fs.existsSync('og-image.jpg')) {
 }
 
 // Copy static assets
-const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js', 'lineup.png', 'nav.js', 'schedule-data.js'];
+const staticAssets = ['styles.css', 'robots.txt', 'sitemap.xml', 'ads.txt', 'artists.js', 'lineup.png', 'nav.js', 'schedule-data.js', 'favorites.js'];
 for (const f of staticAssets) {
   if (fs.existsSync(f)) {
     fs.copyFileSync(f, `dist/${f}`);
@@ -250,7 +254,7 @@ const staticPages = [
   'about.html', 'privacy.html', 'contact.html', 'terms.html',
   'who-to-see.html', 'first-timers-guide.html', 'undercard-picks.html',
   'schedule.html', 'schedule-thursday.html', 'schedule-friday.html',
-  'schedule-saturday.html', 'schedule-sunday.html',
+  'schedule-saturday.html', 'schedule-sunday.html', 'my-lineup.html',
 ];
 for (const f of staticPages) {
   if (fs.existsSync(f)) {
