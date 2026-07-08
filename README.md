@@ -14,12 +14,12 @@ The complete Lollapalooza 2026 lineup with direct Spotify and Apple Music links 
 
 ## Deploy
 
-### Option A: Cloudflare Pages (recommended)
-1. Push this repo to GitHub
-2. Go to [dash.cloudflare.com](https://dash.cloudflare.com) > Pages > Create a project
-3. Connect your GitHub repo
-4. Framework preset: None, build command: (leave blank), output directory: `/`
-5. Deploy. Add your custom domain in the Pages settings.
+### Option A: Wrangler (current setup)
+1. `npm install` (installs `wrangler`)
+2. `npm run build` — runs `node build.js`, which pre-renders the lineup from `artists.js` and writes the full site to `dist/` (including `dist/_headers`, which carries the security headers: nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy, and a report-only CSP)
+3. `npm run deploy` — builds and then runs `wrangler deploy`, serving `dist/` via Cloudflare (see `wrangler.jsonc`)
+
+If a Cloudflare Pages Git integration is (re)connected, it must use build command `node build.js` with output directory `dist` — the old "no build, output `/`" setup no longer applies.
 
 ### Option B: Netlify
 1. Go to [app.netlify.com](https://app.netlify.com)

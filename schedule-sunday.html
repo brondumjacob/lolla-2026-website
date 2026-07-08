@@ -252,6 +252,7 @@
     });
   });
 
+  function esc(str){return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
   function fmt(m){var h=Math.floor(m/60),mm=m%60,hh=h>12?h-12:h,ap=h>=12?"PM":"AM";
     return hh+":"+(mm<10?"0"+mm:mm)+" "+ap;}
   function regName(r){return r==="S"?"South end":r==="M"?"Mid-park":r==="N"?"North end":"";}
@@ -376,14 +377,14 @@
       var top=(p.s-GS)*SC, end=(p.open?GE:p.e), ht=Math.max(40,(end-p.s)*SC-4);
       var left='calc('+(p.lane*wPct)+'% + 3px)';
       var width='calc('+wPct+'% - 6px)';
-      var reg=p.region?'<span class="rreg '+p.region+'">'+p.region+'</span>':'';
+      var reg=p.region?'<span class="rreg '+esc(p.region)+'">'+esc(p.region)+'</span>':'';
       var time=p.open?(fmt(p.s)+' \u2192'):(fmt(p.s)+' \u2013 '+fmt(p.e));
       var tagTxt={must:'MUST-SEE',partial:'PARTIAL',head:'HEADLINER'}[p.tag]||'';
       var tag=tagTxt?'<span class="rtag '+p.tag+'">'+tagTxt+'</span>':'';
       var starN=p.must?'\u2605 ':'';
       H+='<div class="rset'+(p.must?' must':'')+'" style="top:'+top+'px;height:'+ht+'px;left:'+left+';width:'+width+'">'
-        +tag+'<div class="rn">'+starN+p.name+'</div>'
-        +'<div class="rmeta">'+reg+p.stage+' \u00b7 '+time+'</div></div>';
+        +tag+'<div class="rn">'+starN+esc(p.name)+'</div>'
+        +'<div class="rmeta">'+reg+esc(p.stage)+' \u00b7 '+time+'</div></div>';
     });
     // conflict pills
     clusters.forEach(function(c){
@@ -403,9 +404,9 @@
         var prev=picks[idx-1];
         var gap=p.s-prev.e;
         var icon=DAY.mode==="cart"?"\ud83d\uded2":"\ud83d\udeb6";
-        var dir=prev.stage===p.stage?("Stay at "+p.stage):(prev.stage+' \u2192 '+p.stage);
+        var dir=prev.stage===p.stage?("Stay at "+esc(p.stage)):(esc(prev.stage)+' \u2192 '+esc(p.stage));
         var pillTxt,tight=false;
-        if(gap<0){pillTxt="overlap";tight=true;dir=prev.stage+' / '+p.stage+' clash';}
+        if(gap<0){pillTxt="overlap";tight=true;dir=esc(prev.stage)+' / '+esc(p.stage)+' clash';}
         else{
           pillTxt=(gap===0)?"back-to-back":(gap+" min gap");
           if(DAY.mode==="foot"&&gap<15&&prev.stage!==p.stage){tight=true;}
@@ -416,12 +417,12 @@
       }
       var spineCls=p.must?'must':(p.clash.length?'partial':'');
       var time=p.open?(fmt(p.s)+' (close)'):(fmt(p.s)+'\u2013'+fmt(p.e));
-      var reg=p.region?'<span class="rreg '+p.region+'">'+p.region+'</span>':'';
+      var reg=p.region?'<span class="rreg '+esc(p.region)+'">'+esc(p.region)+'</span>':'';
       H+='<div class="rstep"><div class="rtime">'+time+'</div>'
         +'<div class="rspine '+spineCls+'"></div><div class="rcont">'
-        +'<div class="rcname">'+(p.must?'\u2605 ':'')+p.name+'</div>'
-        +'<div class="rcstage">'+reg+p.stage+(p.region?(' \u00b7 '+regName(p.region)):'')+'</div>';
-      if(p.clash.length){H+='<div class="rnote warn">\u26a0 Clashes with '+p.clash.join(', ')+' \u2014 split or choose.</div>';}
+        +'<div class="rcname">'+(p.must?'\u2605 ':'')+esc(p.name)+'</div>'
+        +'<div class="rcstage">'+reg+esc(p.stage)+(p.region?(' \u00b7 '+regName(p.region)):'')+'</div>';
+      if(p.clash.length){H+='<div class="rnote warn">\u26a0 Clashes with '+p.clash.map(esc).join(', ')+' \u2014 split or choose.</div>';}
       else if(p.open){H+='<div class="rnote">Closing set \u2014 runs to the end of the night.</div>';}
       H+='</div></div>';
     });

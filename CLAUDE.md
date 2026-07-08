@@ -11,9 +11,10 @@ Unofficial fan site for the complete Lollapalooza 2026 lineup (172 artists) with
 Live / deployed. Multi-page static site with schedule builders. AdSense wired site-wide (`ca-pub-1043428205440255`). Affiliate links not yet implemented. "Golden Hour" visual redesign integrated (see Design System below) plus a new "My Lineup" favorites feature — star any artist, view/share your picks at `/my-lineup.html`, persisted via `localStorage`.
 
 ## Tech Stack
-- Pure HTML/CSS/JS — no framework, no build tool, no npm
+- Pure HTML/CSS/JS — no framework
 - `artists.js` — the single source of truth for all artist data
-- Deployed via Cloudflare Pages (push to GitHub → auto-deploys)
+- `build.js` — pre-renders the lineup into `dist/index.html` and copies an allowlist of static files into `dist/`
+- Deployed with `wrangler` (v4, npm devDependency): `npm run build` → `dist/` → `npm run deploy` (`wrangler deploy`, see `wrangler.jsonc`)
 
 ## Architecture
 
@@ -50,6 +51,7 @@ The entire app lives in one file. Key sections in order:
 - Favorites JS: `favorites.js` — wires every `.star-toggle` button site-wide, persists to `localStorage` (`lolla-my-lineup-v1`), updates the nav counter, renders `my-lineup.html`
 - Schedule data: `schedule-data.js` (191 sets from all 4 days, `window.SCHEDULE`)
 - SEO: `sitemap.xml`, `robots.txt`
+- Security headers: `build.js` emits `dist/_headers` (nosniff, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy, and a Content-Security-Policy that is currently **report-only** until AdSense domain requirements are confirmed)
 - Design explorations: `.ecc-design/redesign-previews/` (not deployed)
 - Redesign source package: `design-system/` (the "Golden Hour" drop-in package this restyle was integrated from; kept in the repo for reference, not deployed)
 
@@ -86,7 +88,8 @@ Each builder is a self-contained single-file HTML app with inline CSS + JS.
 | Task | Command |
 |------|---------|
 | Local preview | Open `index.html` directly in browser (no server needed) |
-| Deploy | Push to GitHub → Cloudflare Pages auto-deploys |
+| Build | `npm run build` (runs `node build.js` → outputs to `dist/`, incl. `dist/_headers`) |
+| Deploy | `npm run deploy` (build + `wrangler deploy` serving `dist/`) |
 | Validate JS | `node -e "$(cat artists.js | sed 's/window\.ARTISTS/const ARTISTS/'); console.log(ARTISTS.length + ' artists')"` |
 
 ## Updating Artist Data
@@ -105,6 +108,13 @@ All changes go in `artists.js`. Each artist entry must have all 8 fields (`n`, `
 - No analytics yet
 - `spotify.html` and `apple-music.html` deleted (replaced by unified `index.html`)
 - Lineup may update as festival approaches
+- CSP is report-only (`Content-Security-Policy-Report-Only` in `dist/_headers`) — observe AdSense domains before enforcing
+
+## Security Hardening (2026-07)
+- HTML escaping (`esc()` helper) added to `favorites.js`, `schedule.html` planner, and all four `schedule-*.html` builders — artist/stage/region data is escaped before flowing into `innerHTML`
+- `localStorage` payload validation in `favorites.js` `getSaved()` (only arrays of strings accepted)
+- `build.js` writes `dist/_headers` with security headers (CSP report-only for now)
+- `wrangler` bumped to `^4`
 
 ## Available Tools (Project Level)
 

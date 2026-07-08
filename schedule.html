@@ -504,6 +504,14 @@
   var DAY_NAMES = {1:'THURSDAY · JUL 30', 2:'FRIDAY · JUL 31', 3:'SATURDAY · AUG 1', 4:'SUNDAY · AUG 2'};
   var DAY_LINKS = {1:'/schedule-thursday.html', 2:'/schedule-friday.html', 3:'/schedule-saturday.html', 4:'/schedule-sunday.html'};
 
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   var fab = document.getElementById('plannerFab');
   var panel = document.getElementById('plannerPanel');
   var closeBtn = document.getElementById('plannerClose');
@@ -592,13 +600,13 @@
         var conflict = '';
         if (i > 0) {
           var prev = byDay[d][i-1];
-          if (s.start < prev.end) conflict = '<div class="planner-conflict">⚠ Overlaps with ' + prev.name + '</div>';
+          if (s.start < prev.end) conflict = '<div class="planner-conflict">⚠ Overlaps with ' + esc(prev.name) + '</div>';
         }
         html += '<div class="planner-set-item">' +
-          '<div class="planner-set-time">' + s.disp + '</div>' +
+          '<div class="planner-set-time">' + esc(s.disp) + '</div>' +
           '<div class="planner-set-info">' +
-            '<div class="planner-set-name">' + s.name + '</div>' +
-            '<div class="planner-set-stage">' + s.stage + (s.region ? ' · ' + s.region + ' zone' : '') + '</div>' +
+            '<div class="planner-set-name">' + esc(s.name) + '</div>' +
+            '<div class="planner-set-stage">' + esc(s.stage) + (s.region ? ' · ' + esc(s.region) + ' zone' : '') + '</div>' +
             conflict +
           '</div></div>';
       });

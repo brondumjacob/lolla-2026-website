@@ -217,6 +217,16 @@ html = inject(html, 'undercards', undercardsHTML);
 html = inject(html, 'hero-img',   heroImgHTML);
 fs.writeFileSync('dist/index.html', html);
 
+// Write security headers for Cloudflare static assets
+const HEADERS_CONTENT = `/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; frame-src https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com; object-src 'none'; base-uri 'self'
+`;
+fs.writeFileSync('dist/_headers', HEADERS_CONTENT);
+
 // Write OG image SVG
 fs.writeFileSync('dist/og-image.svg', generateOgSvg());
 
@@ -264,7 +274,7 @@ for (const f of staticPages) {
   }
 }
 
-const totalFiles = 1 + 2 + staticAssets.length + staticPages.length; // index + svg + jpg + assets + pages
+const totalFiles = 1 + 1 + 2 + staticAssets.length + staticPages.length; // index + _headers + svg + jpg + assets + pages
 console.log(`Build complete: ${HEADLINERS.length} headliners, ${MAJORS.length} majors, ${UNDERCARDS.length} undercards pre-rendered.`);
 console.log(`Total artists in HTML: ${ARTISTS.length}`);
 console.log(`Output: ${totalFiles} files written to dist/`);
