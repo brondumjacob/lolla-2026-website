@@ -1,0 +1,3394 @@
+[
+  {
+    "slug": "5-seconds-of-summer",
+    "name": "5 Seconds of Summer",
+    "old_genre": "Pop",
+    "primary": "Rock",
+    "secondary": [
+      "Pop-Punk",
+      "Teen Pop",
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:830e5c4e-6b7d-431d-86ab-00c751281dc5:pop rock"
+      },
+      {
+        "genre": "Pop-Punk",
+        "source": "musicbrainz:830e5c4e-6b7d-431d-86ab-00c751281dc5:pop punk"
+      },
+      {
+        "genre": "Teen Pop",
+        "source": "musicbrainz:830e5c4e-6b7d-431d-86ab-00c751281dc5:teen pop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:830e5c4e-6b7d-431d-86ab-00c751281dc5:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "54-ultra",
+    "name": "54 Ultra",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ado",
+    "name": "Ado",
+    "old_genre": "J-Pop",
+    "primary": "J-Pop",
+    "secondary": [
+      "Alternative Rock",
+      "Indie Rock",
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "J-Pop",
+        "source": "musicbrainz:e134b52f-2e9e-4734-9bc3-bea9648d1fa1:j-pop"
+      },
+      {
+        "genre": "Alternative Rock",
+        "source": "musicbrainz:e134b52f-2e9e-4734-9bc3-bea9648d1fa1:alternative rock"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:e134b52f-2e9e-4734-9bc3-bea9648d1fa1:indie rock"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:e134b52f-2e9e-4734-9bc3-bea9648d1fa1:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "adela",
+    "name": "Adéla",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Singer-Songwriter"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:f40856e6-079f-4a0a-916e-9e6a5e04f646:pop"
+      },
+      {
+        "genre": "Singer-Songwriter",
+        "source": "musicbrainz:f40856e6-079f-4a0a-916e-9e6a5e04f646:singer-songwriter"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "aespa",
+    "name": "Aespa",
+    "old_genre": "K-Pop",
+    "primary": "K-Pop",
+    "secondary": [
+      "Dance-pop",
+      "Electropop",
+      "Contemporary R&B"
+    ],
+    "sources": [
+      {
+        "genre": "K-Pop",
+        "source": "musicbrainz:b51c672b-85e0-48fe-8648-470a2422229f:k-pop"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:b51c672b-85e0-48fe-8648-470a2422229f:dance-pop"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:b51c672b-85e0-48fe-8648-470a2422229f:electropop"
+      },
+      {
+        "genre": "Contemporary R&B",
+        "source": "musicbrainz:b51c672b-85e0-48fe-8648-470a2422229f:contemporary r&b"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "after",
+    "name": "After",
+    "old_genre": "Rock",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:fdfad2ff-6b6d-4f94-8a33-295944b2bd31:indie pop"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "alison-wonderland",
+    "name": "Alison Wonderland",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "Electro House",
+      "Electronic",
+      "Future Bass"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:a6a4960c-dafe-43ea-b431-7d2dddd8cc1e:edm"
+      },
+      {
+        "genre": "Electro House",
+        "source": "musicbrainz:a6a4960c-dafe-43ea-b431-7d2dddd8cc1e:electro house"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:a6a4960c-dafe-43ea-b431-7d2dddd8cc1e:electronic"
+      },
+      {
+        "genre": "Future Bass",
+        "source": "musicbrainz:a6a4960c-dafe-43ea-b431-7d2dddd8cc1e:future bass"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "amber-mark",
+    "name": "Amber Mark",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [
+      "Indie Soul",
+      "Left-field Pop"
+    ],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "musicbrainz:b44e2752-deb5-4f10-b8e9-6671484acb34:alternative r&b"
+      },
+      {
+        "genre": "Indie Soul",
+        "source": "musicbrainz:b44e2752-deb5-4f10-b8e9-6671484acb34:indie soul"
+      },
+      {
+        "genre": "Left-field Pop",
+        "source": "musicbrainz:b44e2752-deb5-4f10-b8e9-6671484acb34:left-field pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "amble",
+    "name": "Amble",
+    "old_genre": "Indie",
+    "primary": "Folk",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Folk",
+        "source": "musicbrainz:c77f4f7a-da77-4487-aa29-a91cd4d29808:folk"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "the-army-the-navy",
+    "name": "The Army, the Navy",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "asha-banks",
+    "name": "Asha Banks",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "audrey-hobert",
+    "name": "Audrey Hobert",
+    "old_genre": "Indie",
+    "primary": "Pop",
+    "secondary": [
+      "Alt Pop",
+      "Indie Pop",
+      "Pop Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:bf2bf522-581e-4c93-81c2-cb5b826b02e4:pop"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:bf2bf522-581e-4c93-81c2-cb5b826b02e4:alternative pop"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:bf2bf522-581e-4c93-81c2-cb5b826b02e4:indie pop"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:bf2bf522-581e-4c93-81c2-cb5b826b02e4:pop rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "avello",
+    "name": "Avello",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ayybo",
+    "name": "Ayybo",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:34de8e23-7918-4ee4-b07e-5daa1f9eac91:techno"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "bad-nerves",
+    "name": "Bad Nerves",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Punk",
+      "Punk Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:e3855311-3405-44e7-b942-2e50f64bfbca:garage rock"
+      },
+      {
+        "genre": "Punk",
+        "source": "musicbrainz:e3855311-3405-44e7-b942-2e50f64bfbca:punk"
+      },
+      {
+        "genre": "Punk Rock",
+        "source": "musicbrainz:e3855311-3405-44e7-b942-2e50f64bfbca:punk rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "balu-brigada",
+    "name": "Balu Brigada",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "bbnos",
+    "name": "BBNOS",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "beabadoobee",
+    "name": "Beabadoobee",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Indie Rock",
+      "Bedroom Pop",
+      "Lo-fi"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:88d17133-abbc-42db-9526-4e2c1db60336:indie pop"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:88d17133-abbc-42db-9526-4e2c1db60336:indie rock"
+      },
+      {
+        "genre": "Bedroom Pop",
+        "source": "musicbrainz:88d17133-abbc-42db-9526-4e2c1db60336:bedroom pop"
+      },
+      {
+        "genre": "Lo-fi",
+        "source": "musicbrainz:88d17133-abbc-42db-9526-4e2c1db60336:lo-fi"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "bella-kay",
+    "name": "Bella Kay",
+    "old_genre": "Pop",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:acd1a23c-eba0-4d76-8b92-109d404d5531:indie pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "beno",
+    "name": "Beno",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "between-friends",
+    "name": "Between Friends",
+    "old_genre": "Indie",
+    "primary": "Alt Pop",
+    "secondary": [
+      "Bedroom Pop",
+      "Electronic",
+      "Indie Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:77ec6c49-66f9-46ff-9179-a63511e345d8:alternative pop"
+      },
+      {
+        "genre": "Bedroom Pop",
+        "source": "musicbrainz:77ec6c49-66f9-46ff-9179-a63511e345d8:bedroom pop"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:77ec6c49-66f9-46ff-9179-a63511e345d8:electronic"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:77ec6c49-66f9-46ff-9179-a63511e345d8:indie pop"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "bixby",
+    "name": "Bixby",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "blood-orange",
+    "name": "Blood Orange",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [
+      "Baroque Pop",
+      "Country",
+      "Folk"
+    ],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "musicbrainz:3d254f1e-7d18-431b-baeb-68e57695dfdb:soul"
+      },
+      {
+        "genre": "Baroque Pop",
+        "source": "musicbrainz:3d254f1e-7d18-431b-baeb-68e57695dfdb:baroque pop"
+      },
+      {
+        "genre": "Country",
+        "source": "musicbrainz:3d254f1e-7d18-431b-baeb-68e57695dfdb:country"
+      },
+      {
+        "genre": "Folk",
+        "source": "musicbrainz:3d254f1e-7d18-431b-baeb-68e57695dfdb:folk"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "boris-brejcha",
+    "name": "Boris Brejcha",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "Tech House",
+      "Electronic",
+      "Techno"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:ae0d1794-c9d3-4436-94fc-ceff6130da2c:minimal techno"
+      },
+      {
+        "genre": "Tech House",
+        "source": "musicbrainz:ae0d1794-c9d3-4436-94fc-ceff6130da2c:tech house"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:ae0d1794-c9d3-4436-94fc-ceff6130da2c:electronic"
+      },
+      {
+        "genre": "Techno",
+        "source": "musicbrainz:ae0d1794-c9d3-4436-94fc-ceff6130da2c:techno"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "boys-noize",
+    "name": "Boys Noize",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "Techno",
+      "Acid Techno",
+      "Electronic"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:d2f4a968-1f6e-4a4a-9376-ee2b2a50c87a:electro house"
+      },
+      {
+        "genre": "Techno",
+        "source": "musicbrainz:d2f4a968-1f6e-4a4a-9376-ee2b2a50c87a:techno"
+      },
+      {
+        "genre": "Acid Techno",
+        "source": "musicbrainz:d2f4a968-1f6e-4a4a-9376-ee2b2a50c87a:acid techno"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:d2f4a968-1f6e-4a4a-9376-ee2b2a50c87a:electronic"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "bradeazy",
+    "name": "Bradeazy",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "calder-allen",
+    "name": "Calder Allen",
+    "old_genre": "Country",
+    "primary": "Country",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Country",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "cameron-whitcomb",
+    "name": "Cameron Whitcomb",
+    "old_genre": "Country",
+    "primary": "Country",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Country",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "case-oats",
+    "name": "Case Oats",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "chace",
+    "name": "Chace",
+    "old_genre": "Pop",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:3f7336ae-ce96-460b-a9f1-6d451bf087fa:electronic"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "chalk",
+    "name": "Chalk",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Post-Punk"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:d8339825-470a-4dde-9792-d5c724e14e18:dance-punk"
+      },
+      {
+        "genre": "Post-Punk",
+        "source": "musicbrainz:d8339825-470a-4dde-9792-d5c724e14e18:post-punk"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "charli-xcx",
+    "name": "Charli XCX",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Dance-pop",
+      "Electronic",
+      "Hyperpop"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:260b6184-8828-48eb-945c-bc4cb6fc34ca:electropop"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:260b6184-8828-48eb-945c-bc4cb6fc34ca:dance-pop"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:260b6184-8828-48eb-945c-bc4cb6fc34ca:electronic"
+      },
+      {
+        "genre": "Hyperpop",
+        "source": "musicbrainz:260b6184-8828-48eb-945c-bc4cb6fc34ca:hyperpop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "the-chainsmokers",
+    "name": "The Chainsmokers",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [
+      "Dance-pop",
+      "Electronic",
+      "Electropop"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:91a81925-92f9-4fc9-b897-93cf01226282:electro house"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:91a81925-92f9-4fc9-b897-93cf01226282:dance-pop"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:91a81925-92f9-4fc9-b897-93cf01226282:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:91a81925-92f9-4fc9-b897-93cf01226282:electropop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "chezile",
+    "name": "Chezile",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "chicago-made",
+    "name": "Chicago Made",
+    "old_genre": "Various",
+    "primary": "Various",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Various",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "chicago-youth-symphony-orchestra",
+    "name": "Chicago Youth Symphony Orchestra",
+    "old_genre": "Classical",
+    "primary": "Classical",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Classical",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "claire-rosinkranz",
+    "name": "Claire Rosinkranz",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:4ccfc097-7034-4aa7-97c3-b5d4ed52865a:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "clipse",
+    "name": "Clipse",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:e6424fa5-08d3-41c6-96f3-8549f733708c:coke rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "cmat",
+    "name": "CMAT",
+    "old_genre": "Folk",
+    "primary": "Indie",
+    "secondary": [
+      "Alternative Rock",
+      "Country",
+      "Folk Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:2ac533ad-f3ec-4083-a2d4-6f30393414b3:indie pop"
+      },
+      {
+        "genre": "Alternative Rock",
+        "source": "musicbrainz:2ac533ad-f3ec-4083-a2d4-6f30393414b3:alternative rock"
+      },
+      {
+        "genre": "Country",
+        "source": "musicbrainz:2ac533ad-f3ec-4083-a2d4-6f30393414b3:country"
+      },
+      {
+        "genre": "Folk Pop",
+        "source": "musicbrainz:2ac533ad-f3ec-4083-a2d4-6f30393414b3:folk pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "cortis",
+    "name": "Cortis",
+    "old_genre": "K-Pop",
+    "primary": "K-Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "K-Pop",
+        "source": "musicbrainz:d27808c8-d3a6-4bbe-acc2-22d5e19f3bca:k-pop"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "cruz-beckham-and-the-breakers",
+    "name": "Cruz Beckham and the Breakers",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "day-we-ran",
+    "name": "Day We Ran",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "destin-conrad",
+    "name": "Destin Conrad",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MB tags present but none mapped to known genre taxonomy"
+  },
+  {
+    "slug": "devault",
+    "name": "Devault",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "die-spitz",
+    "name": "Die Spitz",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Punk",
+      "Punk Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:81cefa59-d9cd-410f-ac11-7b66519a9514:grunge"
+      },
+      {
+        "genre": "Punk",
+        "source": "musicbrainz:81cefa59-d9cd-410f-ac11-7b66519a9514:punk"
+      },
+      {
+        "genre": "Punk Rock",
+        "source": "musicbrainz:81cefa59-d9cd-410f-ac11-7b66519a9514:punk rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "disco-lines",
+    "name": "Disco Lines",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "dj-trixie-mattel",
+    "name": "DJ Trixie Mattel",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "dombresky",
+    "name": "Dombresky",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "duke-dumont",
+    "name": "Duke Dumont",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "Electronic",
+      "House",
+      "Tech House"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:6060d1bb-94f8-4863-89b9-425487f2f6b2:deep house"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:6060d1bb-94f8-4863-89b9-425487f2f6b2:electronic"
+      },
+      {
+        "genre": "House",
+        "source": "musicbrainz:6060d1bb-94f8-4863-89b9-425487f2f6b2:house"
+      },
+      {
+        "genre": "Tech House",
+        "source": "musicbrainz:6060d1bb-94f8-4863-89b9-425487f2f6b2:tech house"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "easy-honey",
+    "name": "Easy Honey",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ecca-vandal",
+    "name": "Ecca Vandal",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Electronic",
+      "Hip-Hop",
+      "Punk Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:6b4e962d-3dbc-4bda-82f0-25d35786f076:alternative rock"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:6b4e962d-3dbc-4bda-82f0-25d35786f076:electronic"
+      },
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:6b4e962d-3dbc-4bda-82f0-25d35786f076:hip hop"
+      },
+      {
+        "genre": "Punk Rock",
+        "source": "musicbrainz:6b4e962d-3dbc-4bda-82f0-25d35786f076:punk rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "eli-brown",
+    "name": "Eli Brown",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ella-boh",
+    "name": "Ella Boh",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ella-red",
+    "name": "Ella Red",
+    "old_genre": "Pop",
+    "primary": "Alt Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:b4c9b7af-68c4-4392-8b17-a9976acc115d:alternative pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "elizabeth-nichols",
+    "name": "Elizabeth Nichols",
+    "old_genre": "Indie",
+    "primary": "Country",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Country",
+        "source": "musicbrainz:4328aed7-e00e-466e-8bb1-cdc814f2373b:country"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "emi-grace",
+    "name": "EMI Grace",
+    "old_genre": "Pop",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:46bdee3e-509e-4650-98e8-158705678345:pop punk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "empire-of-the-sun",
+    "name": "Empire of the Sun",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [
+      "Electropop",
+      "Dance-pop",
+      "Indietronica"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:ac7e838c-3d95-47c2-92a9-81767ad7c217:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:ac7e838c-3d95-47c2-92a9-81767ad7c217:electropop"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:ac7e838c-3d95-47c2-92a9-81767ad7c217:dance-pop"
+      },
+      {
+        "genre": "Indietronica",
+        "source": "musicbrainz:ac7e838c-3d95-47c2-92a9-81767ad7c217:indietronica"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "ethel-cain",
+    "name": "Ethel Cain",
+    "old_genre": "Alt Pop",
+    "primary": "Indie",
+    "secondary": [
+      "Americana",
+      "Singer-Songwriter",
+      "Dark Ambient"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:677e31f1-4035-463c-8ca4-41175440c919:dream pop"
+      },
+      {
+        "genre": "Americana",
+        "source": "musicbrainz:677e31f1-4035-463c-8ca4-41175440c919:americana"
+      },
+      {
+        "genre": "Singer-Songwriter",
+        "source": "musicbrainz:677e31f1-4035-463c-8ca4-41175440c919:singer-songwriter"
+      },
+      {
+        "genre": "Dark Ambient",
+        "source": "musicbrainz:677e31f1-4035-463c-8ca4-41175440c919:dark ambient"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "evening-elephants",
+    "name": "Evening Elephants",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "fakemink",
+    "name": "Fakemink",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "faouzia",
+    "name": "Faouzia",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Contemporary R&B",
+      "Dance-pop",
+      "Downtempo"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:6aed0a74-92a7-47e6-97d1-7b6a72afec4b:pop"
+      },
+      {
+        "genre": "Contemporary R&B",
+        "source": "musicbrainz:6aed0a74-92a7-47e6-97d1-7b6a72afec4b:contemporary r&b"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:6aed0a74-92a7-47e6-97d1-7b6a72afec4b:dance-pop"
+      },
+      {
+        "genre": "Downtempo",
+        "source": "musicbrainz:6aed0a74-92a7-47e6-97d1-7b6a72afec4b:downtempo"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "finn-wolfhard",
+    "name": "Finn Wolfhard",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:becca5db-ec3a-404d-8e94-03ebf27276e3:indie rock"
+      },
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:becca5db-ec3a-404d-8e94-03ebf27276e3:rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "freddie-gibbs",
+    "name": "Freddie Gibbs",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "Hardcore Hip Hop",
+      "Alternative Hip Hop",
+      "Midwest Rap"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:21645c31-fe1c-45a4-955c-3e172b12c3f9:gangsta rap"
+      },
+      {
+        "genre": "Hardcore Hip Hop",
+        "source": "musicbrainz:21645c31-fe1c-45a4-955c-3e172b12c3f9:hardcore hip hop"
+      },
+      {
+        "genre": "Alternative Hip Hop",
+        "source": "musicbrainz:21645c31-fe1c-45a4-955c-3e172b12c3f9:alternative hip hop"
+      },
+      {
+        "genre": "Midwest Rap",
+        "source": "musicbrainz:21645c31-fe1c-45a4-955c-3e172b12c3f9:midwest rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "frost-children",
+    "name": "Frost Children",
+    "old_genre": "Electronic",
+    "primary": "Pop",
+    "secondary": [
+      "Digital Hardcore",
+      "Electro House",
+      "Electropop"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:3f1ed758-50e4-401f-8dc6-e0066e546e7c:hyperpop"
+      },
+      {
+        "genre": "Digital Hardcore",
+        "source": "musicbrainz:3f1ed758-50e4-401f-8dc6-e0066e546e7c:digital hardcore"
+      },
+      {
+        "genre": "Electro House",
+        "source": "musicbrainz:3f1ed758-50e4-401f-8dc6-e0066e546e7c:electro house"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:3f1ed758-50e4-401f-8dc6-e0066e546e7c:electropop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "geese",
+    "name": "Geese",
+    "old_genre": "Rock",
+    "primary": "Indie",
+    "secondary": [
+      "Art Punk",
+      "Post-Punk",
+      "Punk Blues"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:e0c97a4d-c392-41a9-a374-57af3e3eeab3:indie rock"
+      },
+      {
+        "genre": "Art Punk",
+        "source": "musicbrainz:e0c97a4d-c392-41a9-a374-57af3e3eeab3:art punk"
+      },
+      {
+        "genre": "Post-Punk",
+        "source": "musicbrainz:e0c97a4d-c392-41a9-a374-57af3e3eeab3:post-punk"
+      },
+      {
+        "genre": "Punk Blues",
+        "source": "musicbrainz:e0c97a4d-c392-41a9-a374-57af3e3eeab3:punk blues"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "goldie-boutilier",
+    "name": "Goldie Boutilier",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "haute-freddy",
+    "name": "Haute & Freddy",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "high-vis",
+    "name": "High Vis",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:29acd2bb-7e67-4722-97ed-472e365ae860:punk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "horsegirl",
+    "name": "Horsegirl",
+    "old_genre": "Rock",
+    "primary": "Indie",
+    "secondary": [
+      "Shoegaze",
+      "Dream Pop",
+      "Experimental Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:4424a6e5-5232-4410-b1f0-b8b510d31ffd:indie rock"
+      },
+      {
+        "genre": "Shoegaze",
+        "source": "musicbrainz:4424a6e5-5232-4410-b1f0-b8b510d31ffd:shoegaze"
+      },
+      {
+        "genre": "Dream Pop",
+        "source": "musicbrainz:4424a6e5-5232-4410-b1f0-b8b510d31ffd:dream pop"
+      },
+      {
+        "genre": "Experimental Rock",
+        "source": "musicbrainz:4424a6e5-5232-4410-b1f0-b8b510d31ffd:experimental rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "hot-mulligan",
+    "name": "Hot Mulligan",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Pop-Punk",
+      "Indie Rock",
+      "Math Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:12a9e259-f7cb-4fca-87b1-a6c5fd38c300:emo"
+      },
+      {
+        "genre": "Pop-Punk",
+        "source": "musicbrainz:12a9e259-f7cb-4fca-87b1-a6c5fd38c300:pop punk"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:12a9e259-f7cb-4fca-87b1-a6c5fd38c300:indie rock"
+      },
+      {
+        "genre": "Math Rock",
+        "source": "musicbrainz:12a9e259-f7cb-4fca-87b1-a6c5fd38c300:math rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "i-dle",
+    "name": "I-DLE",
+    "old_genre": "K-Pop",
+    "primary": "K-Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "K-Pop",
+        "source": "musicbrainz:0068ae6c-7156-40f9-a81f-39294af6a549:k-pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "ink",
+    "name": "INK",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "inji",
+    "name": "Inji",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Electropop",
+      "Hip House",
+      "Tech House"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:ebef0d7f-3cd6-4ac3-ad2e-1afef7e2fc15:dance-pop"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:ebef0d7f-3cd6-4ac3-ad2e-1afef7e2fc15:electropop"
+      },
+      {
+        "genre": "Hip House",
+        "source": "musicbrainz:ebef0d7f-3cd6-4ac3-ad2e-1afef7e2fc15:hip house"
+      },
+      {
+        "genre": "Tech House",
+        "source": "musicbrainz:ebef0d7f-3cd6-4ac3-ad2e-1afef7e2fc15:tech house"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "ivri",
+    "name": "IVRI",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Indie Pop",
+      "Shoegaze"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:d5952849-0b94-4401-ba6f-81559f17f4b9:dream pop"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:d5952849-0b94-4401-ba6f-81559f17f4b9:indie pop"
+      },
+      {
+        "genre": "Shoegaze",
+        "source": "musicbrainz:d5952849-0b94-4401-ba6f-81559f17f4b9:shoegaze"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "jackie-hollander",
+    "name": "Jackie Hollander",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "jade",
+    "name": "Jade",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "jae-stephens",
+    "name": "Jae Stephens",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "jennie",
+    "name": "Jennie",
+    "old_genre": "K-Pop",
+    "primary": "K-Pop",
+    "secondary": [
+      "Hip-Hop",
+      "Pop",
+      "Dance-pop"
+    ],
+    "sources": [
+      {
+        "genre": "K-Pop",
+        "source": "musicbrainz:779351de-0da5-4943-928b-495a3c40e8c0:k-pop"
+      },
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:779351de-0da5-4943-928b-495a3c40e8c0:hip hop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:779351de-0da5-4943-928b-495a3c40e8c0:pop"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:779351de-0da5-4943-928b-495a3c40e8c0:dance-pop"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "jim-legxacy",
+    "name": "Jim Legxacy",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:9ca998cf-c1cd-493b-9a5d-a32fd33859ea:rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "john-summit",
+    "name": "John Summit",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [
+      "House",
+      "Progressive House"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:2547c5e3-314c-4332-981d-f18c902a4086:edm"
+      },
+      {
+        "genre": "House",
+        "source": "musicbrainz:2547c5e3-314c-4332-981d-f18c902a4086:house"
+      },
+      {
+        "genre": "Progressive House",
+        "source": "musicbrainz:2547c5e3-314c-4332-981d-f18c902a4086:progressive house"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "julia-wolf",
+    "name": "Julia Wolf",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "justine-skye",
+    "name": "Justine Skye",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "musicbrainz:34f26428-3b53-4c37-bf8e-a71314750dc3:alternative r&b"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "kettama",
+    "name": "Kettama",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "khamari",
+    "name": "Khamari",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "kim-theory",
+    "name": "Kim Theory",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "kingfishr",
+    "name": "Kingfishr",
+    "old_genre": "Indie",
+    "primary": "Folk",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Folk",
+        "source": "musicbrainz:0e8afdae-d488-44d6-85b5-a5007096c049:folk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "klo",
+    "name": "KLO",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "know-good",
+    "name": "Know Good",
+    "old_genre": "Indie",
+    "primary": "Rock",
+    "secondary": [
+      "Dubstep",
+      "Pop",
+      "Rap Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:2e52e79c-26eb-4e12-9a34-70d3923e4e11:classic rock"
+      },
+      {
+        "genre": "Dubstep",
+        "source": "musicbrainz:2e52e79c-26eb-4e12-9a34-70d3923e4e11:dubstep"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:2e52e79c-26eb-4e12-9a34-70d3923e4e11:pop"
+      },
+      {
+        "genre": "Rap Rock",
+        "source": "musicbrainz:2e52e79c-26eb-4e12-9a34-70d3923e4e11:rap rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "kwn",
+    "name": "KWN",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "leon-thomas",
+    "name": "Leon Thomas",
+    "old_genre": "R&B",
+    "primary": "R&B",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MB tags present but none mapped to known genre taxonomy"
+  },
+  {
+    "slug": "lil-uzi-vert",
+    "name": "Lil Uzi Vert",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "East Coast Hip Hop",
+      "Emo Rap",
+      "Cloud Rap"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:8837b875-3689-4646-b3fd-d8b53815c7a8:hip hop"
+      },
+      {
+        "genre": "East Coast Hip Hop",
+        "source": "musicbrainz:8837b875-3689-4646-b3fd-d8b53815c7a8:east coast hip hop"
+      },
+      {
+        "genre": "Emo Rap",
+        "source": "musicbrainz:8837b875-3689-4646-b3fd-d8b53815c7a8:emo rap"
+      },
+      {
+        "genre": "Cloud Rap",
+        "source": "musicbrainz:8837b875-3689-4646-b3fd-d8b53815c7a8:cloud rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "little-simz",
+    "name": "Little Simz",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "Pop Rap"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:3cdb40fe-a63e-4bb9-b40d-17cda5f50979:hip hop"
+      },
+      {
+        "genre": "Pop Rap",
+        "source": "musicbrainz:3cdb40fe-a63e-4bb9-b40d-17cda5f50979:pop rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "loathe",
+    "name": "Loathe",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Shoegaze"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:56eb02c4-1f16-4613-8bb3-b4a752283fc3:alternative metal"
+      },
+      {
+        "genre": "Shoegaze",
+        "source": "musicbrainz:56eb02c4-1f16-4613-8bb3-b4a752283fc3:shoegaze"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "lorde",
+    "name": "Lorde",
+    "old_genre": "Alt Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Alt Pop",
+      "Synth-Pop",
+      "Art Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:8e494408-8620-4c6a-82c2-c2ca4a1e4f12:pop"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:8e494408-8620-4c6a-82c2-c2ca4a1e4f12:alternative pop"
+      },
+      {
+        "genre": "Synth-Pop",
+        "source": "musicbrainz:8e494408-8620-4c6a-82c2-c2ca4a1e4f12:synth-pop"
+      },
+      {
+        "genre": "Art Pop",
+        "source": "musicbrainz:8e494408-8620-4c6a-82c2-c2ca4a1e4f12:art pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "los-retros",
+    "name": "Los Retros",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Indie Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:6500c69f-288d-4aef-b0f4-a89dfd9c38b9:bedroom pop"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:6500c69f-288d-4aef-b0f4-a89dfd9c38b9:indie pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "love-spells",
+    "name": "Love Spells",
+    "old_genre": "Indie",
+    "primary": "Rock",
+    "secondary": [
+      "Indie Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:51770605-c74f-4048-a660-cf61bd3dce3e:alternative rock"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:51770605-c74f-4048-a660-cf61bd3dce3e:indie rock"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "lucy-bedroque",
+    "name": "Lucy Bedroque",
+    "old_genre": "Electronic",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "Hyperpop"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:bb7959ac-84cc-45c4-8138-d80ee5f2bd9a:cloud rap"
+      },
+      {
+        "genre": "Hyperpop",
+        "source": "musicbrainz:bb7959ac-84cc-45c4-8138-d80ee5f2bd9a:hyperpop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "lyny",
+    "name": "Lyny",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "major-lazer",
+    "name": "Major Lazer",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [
+      "Electropop",
+      "EDM",
+      "Art Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:75be165a-ad83-4d12-bd28-f589a15c479f:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:75be165a-ad83-4d12-bd28-f589a15c479f:electropop"
+      },
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:75be165a-ad83-4d12-bd28-f589a15c479f:edm"
+      },
+      {
+        "genre": "Art Pop",
+        "source": "musicbrainz:75be165a-ad83-4d12-bd28-f589a15c479f:art pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "marlon-funaki",
+    "name": "Marlon Funaki",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "max-styler",
+    "name": "Max Styler",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:d7d6d740-ac1d-49be-bcb7-047db7943acc:tech house"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "mc4d",
+    "name": "MC4D",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "momma",
+    "name": "Momma",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Indie Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:a17342a6-e661-4874-9687-957caf010377:alternative rock"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:a17342a6-e661-4874-9687-957caf010377:indie rock"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "monaleo",
+    "name": "Monaleo",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:ce49d491-8c6f-48eb-bd9e-38b6cf1d4552:hip hop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "mother-mother",
+    "name": "Mother Mother",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Rock",
+      "Indie Pop",
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:69681b02-05b8-4685-80cb-e98983b7a96f:indie rock"
+      },
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:69681b02-05b8-4685-80cb-e98983b7a96f:rock"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:69681b02-05b8-4685-80cb-e98983b7a96f:indie pop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:69681b02-05b8-4685-80cb-e98983b7a96f:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "mph",
+    "name": "MPH",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "UK Garage"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:59fb9339-0065-42e9-8c2c-110c9f7eb863:tech house"
+      },
+      {
+        "genre": "UK Garage",
+        "source": "musicbrainz:59fb9339-0065-42e9-8c2c-110c9f7eb863:uk garage"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "muna",
+    "name": "Muna",
+    "old_genre": "Indie",
+    "primary": "Pop",
+    "secondary": [
+      "Indie Pop",
+      "Pop Rock",
+      "Indie"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:19991eaf-c64b-4db7-bc06-12cade54bfe5:pop"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:19991eaf-c64b-4db7-bc06-12cade54bfe5:indie pop"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:19991eaf-c64b-4db7-bc06-12cade54bfe5:pop rock"
+      },
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:19991eaf-c64b-4db7-bc06-12cade54bfe5:indie"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "mustard",
+    "name": "Mustard",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "Contemporary R&B"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:0612bcce-e351-40be-b3d7-2bb5e1c23479:hip hop"
+      },
+      {
+        "genre": "Contemporary R&B",
+        "source": "musicbrainz:0612bcce-e351-40be-b3d7-2bb5e1c23479:contemporary r&b"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "nat-myers",
+    "name": "Nat Myers",
+    "old_genre": "Folk",
+    "primary": "Folk",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Folk",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "the-neighbourhood",
+    "name": "The Neighbourhood",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Alternative Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:97b8d224-5660-419c-8dff-4b3bf0c33983:indie pop"
+      },
+      {
+        "genre": "Alternative Rock",
+        "source": "musicbrainz:97b8d224-5660-419c-8dff-4b3bf0c33983:alternative rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "nettspend",
+    "name": "Nettspend",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "new-constellations",
+    "name": "New Constellations",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "next-of-kin",
+    "name": "Next of Kin",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ninajirachi",
+    "name": "Ninajirachi",
+    "old_genre": "Electronic",
+    "primary": "EDM",
+    "secondary": [
+      "Electronic",
+      "Electropop",
+      "Bubblegum Bass"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:6897b46a-9236-4480-9ed7-300f6b85d62f:edm"
+      },
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:6897b46a-9236-4480-9ed7-300f6b85d62f:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:6897b46a-9236-4480-9ed7-300f6b85d62f:electropop"
+      },
+      {
+        "genre": "Bubblegum Bass",
+        "source": "musicbrainz:6897b46a-9236-4480-9ed7-300f6b85d62f:bubblegum bass"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "not-for-radio",
+    "name": "Not for Radio",
+    "old_genre": "Alt Pop",
+    "primary": "Alt Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Alt Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "notion",
+    "name": "Notion",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "oklou",
+    "name": "Oklou",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [
+      "Indietronica",
+      "Art Pop",
+      "Alt Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:13e2db47-3010-48b8-a8b9-667551f37119:ambient pop"
+      },
+      {
+        "genre": "Indietronica",
+        "source": "musicbrainz:13e2db47-3010-48b8-a8b9-667551f37119:indietronica"
+      },
+      {
+        "genre": "Art Pop",
+        "source": "musicbrainz:13e2db47-3010-48b8-a8b9-667551f37119:art pop"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:13e2db47-3010-48b8-a8b9-667551f37119:alternative pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "olivia-dean",
+    "name": "Olivia Dean",
+    "old_genre": "Soul/Pop",
+    "primary": "R&B",
+    "secondary": [
+      "Pop Soul",
+      "Indie Pop",
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "musicbrainz:15e0d608-0869-429b-898d-3d8db3ecedd5:neo soul"
+      },
+      {
+        "genre": "Pop Soul",
+        "source": "musicbrainz:15e0d608-0869-429b-898d-3d8db3ecedd5:pop soul"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:15e0d608-0869-429b-898d-3d8db3ecedd5:indie pop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:15e0d608-0869-429b-898d-3d8db3ecedd5:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "omnom",
+    "name": "Omnom",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "paloma-morphy",
+    "name": "Paloma Morphy",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "paris-paloma",
+    "name": "Paris Paloma",
+    "old_genre": "Folk",
+    "primary": "Folk",
+    "secondary": [
+      "Dark Folk",
+      "Indie Folk",
+      "Pagan Folk"
+    ],
+    "sources": [
+      {
+        "genre": "Folk",
+        "source": "musicbrainz:2ba1af4b-9d6b-4a0a-af47-f00769700da2:alternative folk"
+      },
+      {
+        "genre": "Dark Folk",
+        "source": "musicbrainz:2ba1af4b-9d6b-4a0a-af47-f00769700da2:dark folk"
+      },
+      {
+        "genre": "Indie Folk",
+        "source": "musicbrainz:2ba1af4b-9d6b-4a0a-af47-f00769700da2:indie folk"
+      },
+      {
+        "genre": "Pagan Folk",
+        "source": "musicbrainz:2ba1af4b-9d6b-4a0a-af47-f00769700da2:pagan folk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "partyof2",
+    "name": "PartyOf2",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "peace-control",
+    "name": "Peace Control",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "pearly-drops",
+    "name": "Pearly Drops",
+    "old_genre": "Indie",
+    "primary": "Alt Pop",
+    "secondary": [
+      "Hyperpop"
+    ],
+    "sources": [
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:40acbc57-d70a-470c-8362-d045a36d208d:alternative pop"
+      },
+      {
+        "genre": "Hyperpop",
+        "source": "musicbrainz:40acbc57-d70a-470c-8362-d045a36d208d:hyperpop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "penelope-road",
+    "name": "Penelope Road",
+    "old_genre": "Pop",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:f540ee0f-3052-4a6f-9673-08151f3a67e4:indie rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "porch-light",
+    "name": "Porch Light",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "quadeca",
+    "name": "Quadeca",
+    "old_genre": "Hip-Hop",
+    "primary": "Indie",
+    "secondary": [
+      "Experimental Hip Hop",
+      "Emo Rap",
+      "Alternative R&B"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:3a4024dc-cc62-4d9b-8bed-c22426136a52:art pop"
+      },
+      {
+        "genre": "Experimental Hip Hop",
+        "source": "musicbrainz:3a4024dc-cc62-4d9b-8bed-c22426136a52:experimental hip hop"
+      },
+      {
+        "genre": "Emo Rap",
+        "source": "musicbrainz:3a4024dc-cc62-4d9b-8bed-c22426136a52:emo rap"
+      },
+      {
+        "genre": "Alternative R&B",
+        "source": "musicbrainz:3a4024dc-cc62-4d9b-8bed-c22426136a52:alternative r&b"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "riordan",
+    "name": "Riordan",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "roz",
+    "name": "Roz",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "ryman",
+    "name": "Ryman",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "sb19",
+    "name": "SB19",
+    "old_genre": "K-Pop",
+    "primary": "K-Pop",
+    "secondary": [
+      "Pinoy Pop",
+      "Pop",
+      "Singer-Songwriter"
+    ],
+    "sources": [
+      {
+        "genre": "K-Pop",
+        "source": "musicbrainz:9252ca18-015c-484c-ae59-5670784887d3:p-pop"
+      },
+      {
+        "genre": "Pinoy Pop",
+        "source": "musicbrainz:9252ca18-015c-484c-ae59-5670784887d3:pinoy pop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:9252ca18-015c-484c-ae59-5670784887d3:pop"
+      },
+      {
+        "genre": "Singer-Songwriter",
+        "source": "musicbrainz:9252ca18-015c-484c-ae59-5670784887d3:singer-songwriter"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "sienna-spiro",
+    "name": "Sienna Spiro",
+    "old_genre": "Pop",
+    "primary": "R&B",
+    "secondary": [
+      "Alt Pop",
+      "Classical Crossover",
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "R&B",
+        "source": "musicbrainz:ea696191-407a-4bf2-8302-7e05f6c163c5:pop soul"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:ea696191-407a-4bf2-8302-7e05f6c163c5:alternative pop"
+      },
+      {
+        "genre": "Classical Crossover",
+        "source": "musicbrainz:ea696191-407a-4bf2-8302-7e05f6c163c5:classical crossover"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:ea696191-407a-4bf2-8302-7e05f6c163c5:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "sidepiece",
+    "name": "Sidepiece",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "simon-grossmann",
+    "name": "Simon Grossmann",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "skye-newman",
+    "name": "Skye Newman",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "slayyter",
+    "name": "Slayyter",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "the-smashing-pumpkins",
+    "name": "The Smashing Pumpkins",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Dream Pop",
+      "Shoegaze",
+      "Grunge"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:ba0d6274-db14-4ef5-b28d-657ebde1a396:alternative rock"
+      },
+      {
+        "genre": "Dream Pop",
+        "source": "musicbrainz:ba0d6274-db14-4ef5-b28d-657ebde1a396:dream pop"
+      },
+      {
+        "genre": "Shoegaze",
+        "source": "musicbrainz:ba0d6274-db14-4ef5-b28d-657ebde1a396:shoegaze"
+      },
+      {
+        "genre": "Grunge",
+        "source": "musicbrainz:ba0d6274-db14-4ef5-b28d-657ebde1a396:grunge"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "snacktime",
+    "name": "Snacktime",
+    "old_genre": "Hip-Hop",
+    "primary": "Hip-Hop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "snow-strippers",
+    "name": "Snow Strippers",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [
+      "Electropop",
+      "Indie Sleaze",
+      "Post Hyperpop"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:33243fef-ce1a-4ba7-a81e-ec72e4c5029a:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:33243fef-ce1a-4ba7-a81e-ec72e4c5029a:electropop"
+      },
+      {
+        "genre": "Indie Sleaze",
+        "source": "musicbrainz:33243fef-ce1a-4ba7-a81e-ec72e4c5029a:indie sleaze"
+      },
+      {
+        "genre": "Post Hyperpop",
+        "source": "musicbrainz:33243fef-ce1a-4ba7-a81e-ec72e4c5029a:post hyperpop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "sombr",
+    "name": "Sombr",
+    "old_genre": "Alt Pop",
+    "primary": "Indie",
+    "secondary": [
+      "Pop Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:502cf908-9921-48bc-bf0e-265c881c0156:indie pop"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:502cf908-9921-48bc-bf0e-265c881c0156:pop rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "spacey-jane",
+    "name": "Spacey Jane",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:496100ef-b264-4b7b-9d7c-bf90a2f9c9ef:indie pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "stella-lefty",
+    "name": "Stella Lefty",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "the-story-so-far",
+    "name": "The Story So Far",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Punk Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:bc303c9e-3ffb-49ca-acf1-088ef4d46ed7:pop punk"
+      },
+      {
+        "genre": "Punk Rock",
+        "source": "musicbrainz:bc303c9e-3ffb-49ca-acf1-088ef4d46ed7:punk rock"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "suki-waterhouse",
+    "name": "Suki Waterhouse",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Pop Rock",
+      "Singer-Songwriter",
+      "Alternative Country"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:8389ff77-a7a4-4ba4-bf1b-17ded47d41a1:indie pop"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:8389ff77-a7a4-4ba4-bf1b-17ded47d41a1:pop rock"
+      },
+      {
+        "genre": "Singer-Songwriter",
+        "source": "musicbrainz:8389ff77-a7a4-4ba4-bf1b-17ded47d41a1:singer-songwriter"
+      },
+      {
+        "genre": "Alternative Country",
+        "source": "musicbrainz:8389ff77-a7a4-4ba4-bf1b-17ded47d41a1:alternative country"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "sunday-1994",
+    "name": "Sunday (1994)",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Dream Pop",
+      "Shoegaze"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:27e3f0c6-4127-4a7b-9d6a-97203d36b15e:indie pop"
+      },
+      {
+        "genre": "Dream Pop",
+        "source": "musicbrainz:27e3f0c6-4127-4a7b-9d6a-97203d36b15e:dream pop"
+      },
+      {
+        "genre": "Shoegaze",
+        "source": "musicbrainz:27e3f0c6-4127-4a7b-9d6a-97203d36b15e:shoegaze"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "sunshine",
+    "name": "Sunshine",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "surfing-for-daisy",
+    "name": "Surfing for Daisy",
+    "old_genre": "Indie",
+    "primary": "Folk",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Folk",
+        "source": "musicbrainz:228bcb8d-1462-45dc-bdb5-a3e55021c6dc:folk rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "tate-mcrae",
+    "name": "Tate McRae",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Dance-pop",
+      "Contemporary R&B",
+      "Pop Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:f9133869-f87c-459c-9aa7-2f176cda7e06:pop"
+      },
+      {
+        "genre": "Dance-pop",
+        "source": "musicbrainz:f9133869-f87c-459c-9aa7-2f176cda7e06:dance-pop"
+      },
+      {
+        "genre": "Contemporary R&B",
+        "source": "musicbrainz:f9133869-f87c-459c-9aa7-2f176cda7e06:contemporary r&b"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:f9133869-f87c-459c-9aa7-2f176cda7e06:pop rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "the-bends",
+    "name": "The Bends",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "the-braymores",
+    "name": "The Braymores",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "the-creekers",
+    "name": "The Creekers",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "the-xx",
+    "name": "The XX",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Indietronica",
+      "Alt Pop",
+      "Alternative R&B"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6:indie pop"
+      },
+      {
+        "genre": "Indietronica",
+        "source": "musicbrainz:c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6:indietronica"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6:alternative pop"
+      },
+      {
+        "genre": "Alternative R&B",
+        "source": "musicbrainz:c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6:alternative r&b"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "turnstile",
+    "name": "Turnstile",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Punk",
+      "Alternative Rock",
+      "Post-hardcore"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:7b748dac-f5ce-45a7-9b95-c1d8b5b013ed:hardcore punk"
+      },
+      {
+        "genre": "Punk",
+        "source": "musicbrainz:7b748dac-f5ce-45a7-9b95-c1d8b5b013ed:punk"
+      },
+      {
+        "genre": "Alternative Rock",
+        "source": "musicbrainz:7b748dac-f5ce-45a7-9b95-c1d8b5b013ed:alternative rock"
+      },
+      {
+        "genre": "Post-hardcore",
+        "source": "musicbrainz:7b748dac-f5ce-45a7-9b95-c1d8b5b013ed:post-hardcore"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "valencia-grace",
+    "name": "Valencia Grace",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "vandelux",
+    "name": "Vandelux",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "viagra-boys",
+    "name": "Viagra Boys",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Garage Punk",
+      "Art Punk",
+      "Dance-punk"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:9df0c0ec-619e-447d-a155-23e19d9c84ce:post-punk"
+      },
+      {
+        "genre": "Garage Punk",
+        "source": "musicbrainz:9df0c0ec-619e-447d-a155-23e19d9c84ce:garage punk"
+      },
+      {
+        "genre": "Art Punk",
+        "source": "musicbrainz:9df0c0ec-619e-447d-a155-23e19d9c84ce:art punk"
+      },
+      {
+        "genre": "Dance-punk",
+        "source": "musicbrainz:9df0c0ec-619e-447d-a155-23e19d9c84ce:dance-punk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "villanelle",
+    "name": "Villanelle",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "water-from-your-eyes",
+    "name": "Water From Your Eyes",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:09f91305-e193-48af-92e3-252b3dd5e718:indie pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "waylon-wyatt",
+    "name": "Waylon Wyatt",
+    "old_genre": "Country",
+    "primary": "Country",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Country",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "westend",
+    "name": "Westend",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [
+      "Tech House"
+    ],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "musicbrainz:06196448-a090-497f-af55-e9e581e4ff5f:house"
+      },
+      {
+        "genre": "Tech House",
+        "source": "musicbrainz:06196448-a090-497f-af55-e9e581e4ff5f:tech house"
+      }
+    ],
+    "ambiguousMatch": true
+  },
+  {
+    "slug": "wet-leg",
+    "name": "Wet Leg",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [
+      "Indie Pop",
+      "Post-punk Revival",
+      "Post-Punk"
+    ],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:90744b3e-363a-458e-8da1-e3e392a489c4:indie rock"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:90744b3e-363a-458e-8da1-e3e392a489c4:indie pop"
+      },
+      {
+        "genre": "Post-punk Revival",
+        "source": "musicbrainz:90744b3e-363a-458e-8da1-e3e392a489c4:post-punk revival"
+      },
+      {
+        "genre": "Post-Punk",
+        "source": "musicbrainz:90744b3e-363a-458e-8da1-e3e392a489c4:post-punk"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "whatmore",
+    "name": "Whatmore",
+    "old_genre": "Indie",
+    "primary": "Hip-Hop",
+    "secondary": [
+      "Indie",
+      "Rap"
+    ],
+    "sources": [
+      {
+        "genre": "Hip-Hop",
+        "source": "musicbrainz:8f61a701-7281-44e8-8ea9-c48a07f05902:hip hop"
+      },
+      {
+        "genre": "Indie",
+        "source": "musicbrainz:8f61a701-7281-44e8-8ea9-c48a07f05902:indie"
+      },
+      {
+        "genre": "Rap",
+        "source": "musicbrainz:8f61a701-7281-44e8-8ea9-c48a07f05902:rap"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "whethan",
+    "name": "Whethan",
+    "old_genre": "Electronic",
+    "primary": "Electronic",
+    "secondary": [
+      "Electropop",
+      "Future Bass",
+      "Hyperpop"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:9dbb9d00-e2d3-484d-8049-10e5e125913c:electronic"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:9dbb9d00-e2d3-484d-8049-10e5e125913c:electropop"
+      },
+      {
+        "genre": "Future Bass",
+        "source": "musicbrainz:9dbb9d00-e2d3-484d-8049-10e5e125913c:future bass"
+      },
+      {
+        "genre": "Hyperpop",
+        "source": "musicbrainz:9dbb9d00-e2d3-484d-8049-10e5e125913c:hyperpop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "whitney-whitney",
+    "name": "Whitney Whitney",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "no confident MusicBrainz match"
+  },
+  {
+    "slug": "will-swinton",
+    "name": "Will Swinton",
+    "old_genre": "Indie",
+    "primary": "Indie",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Indie",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "wolf-alice",
+    "name": "Wolf Alice",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Indie Rock",
+      "Dream Pop",
+      "Indie Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:3547f34a-db02-4ab7-b4a0-380e1ef951a9:alternative rock"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:3547f34a-db02-4ab7-b4a0-380e1ef951a9:indie rock"
+      },
+      {
+        "genre": "Dream Pop",
+        "source": "musicbrainz:3547f34a-db02-4ab7-b4a0-380e1ef951a9:dream pop"
+      },
+      {
+        "genre": "Indie Pop",
+        "source": "musicbrainz:3547f34a-db02-4ab7-b4a0-380e1ef951a9:indie pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "worship",
+    "name": "Worship",
+    "old_genre": "Rock",
+    "primary": "Electronic",
+    "secondary": [
+      "Drum & Bass"
+    ],
+    "sources": [
+      {
+        "genre": "Electronic",
+        "source": "musicbrainz:c9d357fe-a149-4556-9174-305f81f2a289:disambiguation"
+      },
+      {
+        "genre": "Drum & Bass",
+        "source": "musicbrainz:c9d357fe-a149-4556-9174-305f81f2a289:disambiguation"
+      }
+    ]
+  },
+  {
+    "slug": "wunderhorse",
+    "name": "Wunderhorse",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:5126db33-86ad-469d-88fb-4158350e1515:rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "yoasobi",
+    "name": "Yoasobi",
+    "old_genre": "J-Pop",
+    "primary": "J-Pop",
+    "secondary": [
+      "Pop"
+    ],
+    "sources": [
+      {
+        "genre": "J-Pop",
+        "source": "musicbrainz:df6c619f-4334-43e2-8b6a-4a32af1e4f85:j-pop"
+      },
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:df6c619f-4334-43e2-8b6a-4a32af1e4f85:pop"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "yungblud",
+    "name": "Yungblud",
+    "old_genre": "Rock",
+    "primary": "Rock",
+    "secondary": [
+      "Rap Rock",
+      "Indie Rock",
+      "Pop Rock"
+    ],
+    "sources": [
+      {
+        "genre": "Rock",
+        "source": "musicbrainz:97529a9e-4b5a-4a9c-9c08-c42401d1c268:alternative rock"
+      },
+      {
+        "genre": "Rap Rock",
+        "source": "musicbrainz:97529a9e-4b5a-4a9c-9c08-c42401d1c268:rap rock"
+      },
+      {
+        "genre": "Indie Rock",
+        "source": "musicbrainz:97529a9e-4b5a-4a9c-9c08-c42401d1c268:indie rock"
+      },
+      {
+        "genre": "Pop Rock",
+        "source": "musicbrainz:97529a9e-4b5a-4a9c-9c08-c42401d1c268:pop rock"
+      }
+    ],
+    "ambiguousMatch": false
+  },
+  {
+    "slug": "zack-martino",
+    "name": "Zack Martino",
+    "old_genre": "EDM",
+    "primary": "EDM",
+    "secondary": [],
+    "sources": [
+      {
+        "genre": "EDM",
+        "source": "claude-knowledge"
+      }
+    ],
+    "fallbackReason": "MBID matched but no genre/tag data"
+  },
+  {
+    "slug": "zara-larsson",
+    "name": "Zara Larsson",
+    "old_genre": "Pop",
+    "primary": "Pop",
+    "secondary": [
+      "Electropop",
+      "Contemporary R&B",
+      "Alt Pop"
+    ],
+    "sources": [
+      {
+        "genre": "Pop",
+        "source": "musicbrainz:134e6410-6954-45d1-bd4a-0f2d2ad5471d:dance-pop"
+      },
+      {
+        "genre": "Electropop",
+        "source": "musicbrainz:134e6410-6954-45d1-bd4a-0f2d2ad5471d:electropop"
+      },
+      {
+        "genre": "Contemporary R&B",
+        "source": "musicbrainz:134e6410-6954-45d1-bd4a-0f2d2ad5471d:contemporary r&b"
+      },
+      {
+        "genre": "Alt Pop",
+        "source": "musicbrainz:134e6410-6954-45d1-bd4a-0f2d2ad5471d:alternative pop"
+      }
+    ],
+    "ambiguousMatch": false
+  }
+]
