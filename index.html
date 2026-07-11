@@ -97,14 +97,16 @@
     .major-card-bottom { display: flex; align-items: center; justify-content: space-between; }
 
     .undercards-list { list-style: none; }
-    .undercard-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0.75rem; border-radius: 14px; transition: background var(--transition); }
+    .undercard-item { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.6rem 0.75rem; border-radius: 14px; transition: background var(--transition); }
     .undercard-item:nth-child(even) { background: rgba(255,255,255,0.3); }
     .undercard-item.filtered-out { display: none; }
     .undercard-item:hover { background: rgba(255,255,255,0.55); }
+    .undercard-row { display: flex; align-items: center; gap: 0.75rem; }
     .undercard-num { font-family: var(--font-display); font-size: 0.9rem; color: rgba(28,21,38,0.65); min-width: 2rem; text-align: right; }
     .undercard-name { font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; flex: 1; }
     .undercard-genre { font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(28,21,38,0.65); }
     .undercard-links { display: flex; gap: 0.3rem; align-items: center; }
+    .undercard-desc { font-family: var(--font-body); font-size: 0.78rem; color: rgba(28,21,38,0.55); line-height: 1.4; padding-left: 2.75rem; }
 
     .sidebar { flex: 0 0 var(--sidebar-width); width: var(--sidebar-width); position: sticky; top: 0; max-height: 100vh; overflow-y: auto; scrollbar-width: thin; }
     .sidebar::-webkit-scrollbar { width: 4px; }
@@ -174,6 +176,14 @@
     .genre-strip-pill.is-active { background: var(--black); color: var(--white); box-shadow: var(--shadow-lift); }
     .genre-strip-pill:hover:not(.is-active) { background: rgba(255,255,255,0.85); }
 
+    .artist-search-wrap { position: relative; margin: 0 0 1rem; }
+    .artist-search { width: 100%; padding: 0.75rem 2.75rem 0.75rem 1.1rem; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; border: none; border-radius: var(--radius-pill); background: rgba(255,255,255,0.6); box-shadow: var(--shadow-sm); color: var(--black); transition: background var(--transition), box-shadow var(--transition); }
+    .artist-search::placeholder { color: rgba(28,21,38,0.45); font-weight: 500; }
+    .artist-search:focus { outline: none; background: rgba(255,255,255,0.9); box-shadow: var(--shadow-lift); }
+    .artist-search-clear { position: absolute; right: 0.4rem; top: 50%; transform: translateY(-50%); width: 2.1rem; height: 2.1rem; border: none; border-radius: 999px; background: transparent; color: rgba(28,21,38,0.5); font-size: 1.2rem; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; }
+    .artist-search-clear.visible { display: flex; }
+    .artist-search-clear:hover { background: rgba(28,21,38,0.08); color: var(--black); }
+
     @media (max-width: 700px) { .editorial-intro { padding: 1.5rem 1rem 1.25rem; } }
 
     @media (max-width: 1023px) {
@@ -204,7 +214,8 @@
       .headliner-meta { width: 100%; flex-direction: row; align-items: center; gap: 0.5rem; }
       .undercard-genre { display: none; }
       .undercard-num { display: none; }
-      .undercard-item { gap: 0.5rem; }
+      .undercard-row { gap: 0.5rem; }
+      .undercard-desc { padding-left: 0; }
     }
 
     @media (max-width: 400px) { .day-panel { flex: 0 0 140px; } }
@@ -266,10 +277,12 @@
 <div class="editorial-intro">
   <h2 class="editorial-title">THE 2026 LINEUP, UNPACKED</h2>
   <p>Lollapalooza returns to Grant Park for its 2026 edition with one of the most genre-diverse lineups in the festival's history. Spread across four days, from Thursday, July 30 through Sunday, August 2, the bill runs 172 artists deep, from arena-headlining pop acts to underground electronic producers playing their first major U.S. festival slot.</p>
+  <p>The festival unfolds across eight stages inside Grant Park's 319 acres on Chicago's lakefront, with the city's skyline as a backdrop for every set. General admission, GA+, and VIP tiers are all available for single days or the full four-day run, and gates open at 11 AM each day with music running until 10 PM.</p>
   <button class="editorial-toggle" aria-expanded="false">READ MORE ▾</button>
   <div class="editorial-body">
-    <p>The headliner tier alone tells the story of where popular music stands in 2026. Charli XCX rides the cultural momentum of <em>brat</em> into a Friday night headline set. Lorde brings a decade of critically acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top for the first time with Jennie's solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to Lollapalooza's 1990s origins. Sunday closes with Tate McRae's arena-pop spectacle alongside The XX's minimalist indie, a pairing that captures the festival's range in a single evening.</p>
+    <p>The headliner tier alone tells the story of where popular music stands in 2026. Charli XCX rides the cultural momentum of <em>brat</em> into a Friday night headline set. Lorde brings a decade of critically acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top with Jennie's solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to Lollapalooza's 1990s origins — the band played the festival's original touring lineup in 1994. Sunday closes with Tate McRae's arena-pop spectacle alongside The XX's minimalist indie, a pairing that captures the festival's range in a single evening.</p>
     <p>Below the headliners, the lineup rewards exploration. The major tier includes Freddie Gibbs and Clipse for hip-hop purists, Turnstile for the hardcore-crossover crowd, and Ethel Cain's gothic Americana for anyone who wants to feel something. The undercard is where Lolla 2026 quietly stacks its strongest hand. Little Simz, Wolf Alice, Paris Paloma, and Geese are all artists playing stages smaller than their talent warrants. That's the real opportunity: catching tomorrow's headliners on today's side stages.</p>
+    <p>Lollapalooza's genre range didn't happen by accident — it's been the festival's defining trait since Perry Farrell built the original touring bill in 1991. Read the full <a href="/lolla-history.html">history of Lollapalooza</a> for how a one-off farewell tour became a Chicago institution, or dig into our <a href="/genre-guide.html">genre-by-genre breakdown</a> of everything on this year's bill.</p>
     <p>Use the filters below to explore the full lineup by day, genre, or tier. Every artist links directly to Spotify, Apple Music, and YouTube Music so you can start building your personal schedule now.</p>
   </div>
 </div>
@@ -300,6 +313,12 @@
 
     <!-- ─── MAIN COLUMN ───────────────────────────────────────────────── -->
     <main class="main-col" id="main-content">
+
+      <!-- Artist name search -->
+      <div class="artist-search-wrap">
+        <input type="text" class="artist-search" id="artist-search" placeholder="Search artists by name…" aria-label="Search artists by name" autocomplete="off">
+        <button class="artist-search-clear" id="artist-search-clear" aria-label="Clear search" title="Clear search">✕</button>
+      </div>
 
       <!-- Mobile genre filter strip (hidden on desktop) -->
       <div class="genre-strip" id="genre-strip" role="list" aria-label="Filter by genre"></div>
@@ -1866,12 +1885,14 @@ const DAY_META = {
 /* ─── STATE ─────────────────────────────────────────────────────────────── */
 let activeDay = 0;    // 0 = all
 let activeGenre = ''; // '' = all
+let activeSearch = ''; // '' = no search filter, else lowercased/trimmed query
 
 /* ─── HELPERS ───────────────────────────────────────────────────────────── */
 function artistPassesFilter(artist) {
   const dayOk  = activeDay === 0 || artist.d === activeDay;
   const genreOk = activeGenre === '' || artist.g === activeGenre;
-  return dayOk && genreOk;
+  const searchOk = activeSearch === '' || artist.n.toLowerCase().includes(activeSearch);
+  return dayOk && genreOk && searchOk;
 }
 
 /* ─── RENDER HEADLINERS ─────────────────────────────────────────────────── */
@@ -1879,7 +1900,8 @@ function renderHeadliners() {
   const cards = document.querySelectorAll('#headliners-list .headliner-row');
   cards.forEach(card => {
     const passes = (activeDay === 0 || parseInt(card.dataset.day) === activeDay) &&
-                   (activeGenre === '' || card.dataset.genre === activeGenre);
+                   (activeGenre === '' || card.dataset.genre === activeGenre) &&
+                   (activeSearch === '' || card.dataset.name.toLowerCase().includes(activeSearch));
     card.classList.toggle('filtered-out', !passes);
   });
   const anyVisible = [...cards].some(c => !c.classList.contains('filtered-out'));
@@ -1891,7 +1913,8 @@ function renderMajors() {
   const cards = document.querySelectorAll('#majors-grid .major-card');
   cards.forEach(card => {
     const passes = (activeDay === 0 || parseInt(card.dataset.day) === activeDay) &&
-                   (activeGenre === '' || card.dataset.genre === activeGenre);
+                   (activeGenre === '' || card.dataset.genre === activeGenre) &&
+                   (activeSearch === '' || card.dataset.name.toLowerCase().includes(activeSearch));
     card.classList.toggle('filtered-out', !passes);
   });
   const anyVisible = [...cards].some(c => !c.classList.contains('filtered-out'));
@@ -1903,7 +1926,8 @@ function renderUndercards() {
   const items = document.querySelectorAll('#undercards-list .undercard-item');
   items.forEach(item => {
     const passes = (activeDay === 0 || parseInt(item.dataset.day) === activeDay) &&
-                   (activeGenre === '' || item.dataset.genre === activeGenre);
+                   (activeGenre === '' || item.dataset.genre === activeGenre) &&
+                   (activeSearch === '' || item.dataset.name.toLowerCase().includes(activeSearch));
     item.classList.toggle('filtered-out', !passes);
   });
   const visible = [...items].filter(i => !i.classList.contains('filtered-out'));
@@ -2065,6 +2089,21 @@ function toggleGenre(g) {
   renderAll();
 }
 
+/* ─── ARTIST NAME SEARCH ────────────────────────────────────────────────── */
+function setSearch(query) {
+  activeSearch = query.trim().toLowerCase();
+  document.getElementById('artist-search-clear').classList.toggle('visible', activeSearch !== '');
+  renderAll();
+}
+
+document.getElementById('artist-search').addEventListener('input', e => setSearch(e.target.value));
+document.getElementById('artist-search-clear').addEventListener('click', () => {
+  const input = document.getElementById('artist-search');
+  input.value = '';
+  setSearch('');
+  input.focus();
+});
+
 /* ─── RENDER ALL ────────────────────────────────────────────────────────── */
 function renderAll() {
   renderHeadliners();
@@ -2125,6 +2164,8 @@ setInterval(updateCountdown, 1000);
     <a href="/schedule.html">Schedule Builder</a>
     <a href="/first-timers-guide.html">First Timer's Guide</a>
     <a href="/undercard-picks.html">Undercard Picks</a>
+    <a href="/lolla-history.html">Lolla History</a>
+    <a href="/genre-guide.html">Genre Guide</a>
     <a href="/about.html">About</a>
     <a href="/privacy.html">Privacy</a>
     <a href="/contact.html">Contact</a>
