@@ -3,8 +3,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createBuildTimeClient } from './supabase';
 import { ArtistRecordSchema, GenreRecordSchema, type ArtistWithGenre } from './types';
-
-const FESTIVAL_SLUG = 'lollapalooza-2026';
+import { FESTIVAL_SLUG } from './constants';
 
 interface LegacyArtist {
   n: string;

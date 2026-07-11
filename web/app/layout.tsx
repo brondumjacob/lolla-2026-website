@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import { FavoritesProvider } from '@/components/FavoritesProvider';
 import { ADSENSE_CLIENT, SITE_URL } from '@/lib/constants';
 import './globals.css';
 
@@ -37,10 +38,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Nav />
-        {children}
-        <Footer />
-        <Script src="/favorites.js" strategy="afterInteractive" />
+        <FavoritesProvider>
+          <Nav />
+          {children}
+          <Footer />
+        </FavoritesProvider>
         <Script
           async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}

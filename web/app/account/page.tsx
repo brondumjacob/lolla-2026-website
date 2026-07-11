@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import SignOutButton from '@/components/SignOutButton';
@@ -32,9 +33,8 @@ export default async function AccountPage() {
       <div className="account-panel">
         <h2>Your lineup &amp; schedules</h2>
         <p>
-          Saved favorites and multi-day schedules land here in the next phase of the migration. For now, your
-          starred artists still live in{' '}
-          <a href="/my-lineup.html">My Lineup</a> on this device.
+          Your starred artists sync to your account automatically — <Link href="/my-lineup">view your lineup</Link>.
+          Multi-day schedules land here in a later phase of the migration.
         </p>
       </div>
 

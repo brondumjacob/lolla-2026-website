@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import AuthStatus from './AuthStatus';
+import MyLineupCount from './MyLineupCount';
 
 const LINKS = [
   { href: '/', label: 'LINEUP' },
@@ -69,9 +70,9 @@ export default function Nav() {
           </Link>
         ))}
       </div>
-      <a href="/my-lineup.html" className="nav-mylineup">
-        <span className="star-fill">★</span> My Lineup (<span className="mylineup-count">0</span>)
-      </a>
+      <Link href="/my-lineup" className="nav-mylineup">
+        <span className="star-fill">★</span> My Lineup (<MyLineupCount />)
+      </Link>
       <AuthStatus />
     </nav>
   );

@@ -32,3 +32,16 @@ export const ArtistWithGenreSchema = ArtistRecordSchema.extend({
   genre: z.string(),
 });
 export type ArtistWithGenre = z.infer<typeof ArtistWithGenreSchema>;
+
+// Input to the favorites sync/toggle server actions — validated before it
+// ever reaches a Supabase query, since it originates from localStorage (an
+// external, user-writable boundary).
+export const FavoriteNameListSchema = z.array(z.string().min(1)).max(1000);
+
+// A `user_favorites` row joined back to its artist name, the shape the
+// favorites server actions read/return.
+export const FavoriteArtistRowSchema = z.object({
+  artist_id: z.string(),
+  name: z.string(),
+});
+export type FavoriteArtistRow = z.infer<typeof FavoriteArtistRowSchema>;
