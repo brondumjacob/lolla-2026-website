@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import AuthStatus from './AuthStatus';
 
 const LINKS = [
   { href: '/', label: 'LINEUP' },
@@ -71,6 +72,7 @@ export default function Nav() {
       <a href="/my-lineup.html" className="nav-mylineup">
         <span className="star-fill">★</span> My Lineup (<span className="mylineup-count">0</span>)
       </a>
+      <AuthStatus />
     </nav>
   );
 }

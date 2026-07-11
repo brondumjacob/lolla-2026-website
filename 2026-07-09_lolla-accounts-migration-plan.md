@@ -5,8 +5,10 @@
 - **Phase 0 (Discovery):** Done.
 - **Phase 1 (Supabase schema + RLS):** Done AND deployed. Live Supabase project created ("Festival Builder"), `0001_init.sql` applied via SQL Editor, `seed.sql` (festivals + 172 artists + PRE-AUDIT placeholder genres) applied via direct `psql` connection (web SQL editor paste was corrupting apostrophes in artist descriptions — root cause not fully diagnosed, worked around via psql + `.pgpass`). Artist/festival row counts confirmed by Jacob.
 - **Phase 2 (Genre audit):** Done AND applied. `artists.js` corrected, `data/genre-diff.md`/`genres.json` generated, `seed_genres.sql` written, verified correct, and **confirmed applied to the live database by Jacob (2026-07-11)**. The live `artist_genres` table now reflects the cited, audited genres (Worship corrected, etc.), not the pre-audit placeholders. The build-time cross-check safety net added during Phase 3 (see below) is now expected to pass silently — if it warns after this point, that's a real signal something drifted, not stale-doc noise.
-- **Phase 3 (Next.js + Vercel scaffold):** Scaffolded, builds cleanly, and **fully verified end-to-end with real Supabase data as of 2026-07-11** (172 artists render correctly, Worship confirmed showing corrected "Electronic" genre live). **Not yet deployed to Vercel** — dashboard settings still need updating (Root Directory, build command/output, env vars) before that happens. Details in the dedicated Phase 3 section.
-- **Phases 4-6 (auth UI, favorites migration, multi-schedule export):** Not started.
+- **Phase 3 (Next.js + Vercel scaffold):** Done and **deployed live**. Scaffolded, builds cleanly, fully verified end-to-end with real Supabase data as of 2026-07-11 (172 artists render correctly, Worship confirmed showing corrected "Electronic" genre live), Vercel dashboard settings updated (Root Directory `web`, framework defaults), and **confirmed live in production at `lolla-2026-website.vercel.app`**: all 9 routes return 200 with matching security headers, and the same real-data checks (172 artists, correct tier breakdown, Worship → Electronic) pass against the deployed site, not just locally. Details in the dedicated Phase 3 section.
+- **Phase 4 (Auth UI):** Done AND fully verified. Google OAuth wired end-to-end via `@supabase/ssr` — `proxy.ts` (Next.js 16 renamed `middleware.ts`), browser/server client factories, `/login`, `/auth/callback`, `/account` (protected), sign-out action, and nav auth status. `next build` passes with content pages still static; Playwright E2E confirms anonymous `/account` redirects to `/login`. Google Cloud OAuth client + Supabase provider dashboard config completed, and **live sign-in confirmed working end-to-end by Jacob (2026-07-11)** — real Google account → consent screen → `/auth/callback` → `/account`. Details in the dedicated Phase 4 section.
+- **Phases 5-6 (favorites migration, multi-schedule export):** Not started.
+- **Two loose threads still open, neither blocking:** (1) Worship's `description` text still reads "riff-driven rock..." while its genre correctly shows "Electronic" — Phase 2 only touched the genre field, description was never reconciled, and this is now live in production, more visible than when it was just a git diff. (2) The Vercel "deployment from about a day ago" timestamp anomaly flagged during the 2026-07-09 smoke test was never independently confirmed by Jacob — hasn't caused any observed problem through all the Phase 3 production verification, so likely benign, but still unverified.
 
 ## Decisions resolved 2026-07-09 (was "Open decisions blocking Phase 3")
 1. SMTP provider: **Resend**.
@@ -127,13 +129,13 @@ Deploy a subagent to fetch and record, with exact citations:
 
 **Full build verified (2026-07-11):** once Jacob provided real Supabase credentials (`web/.env.local`, gitignored — not committed), `next build` succeeded end-to-end with zero errors. All 10 routes prerender as static content. Remaining gaps are visual screenshot-diff and Lighthouse, not functional correctness.
 
-**Vercel deploy config — flagged, not changed:** the existing Vercel project (`lolla-2026-website`) is still configured for the *old* static site (Framework Preset `Other`, Build Command `npm run build`, Output Directory `dist`, Root Directory unset/repo-root). None of this was touched. Before deploying Phase 3, the Vercel dashboard needs:
-- **Root Directory:** `web`
-- **Framework Preset:** Next.js (should auto-detect once Root Directory is set)
-- **Build Command / Output Directory:** framework defaults (`next build` / `.next`) — clear the old `npm run build` / `dist` overrides
-- **Environment Variables:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (from the Supabase dashboard's Project Settings → API)
+**Vercel deploy config — applied and verified live:** the Vercel project (`lolla-2026-website`) was reconfigured for the Next.js app (Root Directory `web`, Framework Preset Next.js, build command/output on framework defaults, `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` set as env vars) and redeployed. **Live verification (2026-07-11), directly against `https://lolla-2026-website.vercel.app`:**
+- All 9 routes return HTTP 200 (`curl -sI` + status loop).
+- Security headers present and matching local build: CSP (report-only), `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy`, `Referrer-Policy`; `x-nextjs-prerender: 1` confirms static pages are actually served prerendered, not SSR'd on every request.
+- Real data correctness holds in production, not just locally: 172 total artists (8 headliners / 37 majors / 127 undercards), Worship shows "Electronic".
+- `/schedule`'s supporting scripts (`schedule-data.js`, `schedule-planner.js`) and `favorites.js` all resolve with 200.
 
-None of this was applied — only documented here per the instruction to flag it as part of the deploy config work, not silently change dashboard settings.
+DNS/Cloudflare remain untouched — this is the standalone `*.vercel.app` preview domain, not the production domain fans currently use.
 
 **DNS/Cloudflare:** untouched, as instructed. No production traffic is affected by any of this work.
 
@@ -145,8 +147,31 @@ None of this was applied — only documented here per the instruction to flag it
 - Login/signup pages, session handling, protected routes for `/my-lineup` and the schedule builder pages.
 
 **Verification checklist:**
-- [ ] Sign up, log out, log back in via OAuth — session persists correctly.
-- [ ] Attempt to hit a protected route logged out → redirected to login, not a broken page.
+- [x] Sign up, log out, log back in via OAuth — session persists correctly. **Confirmed working end-to-end by Jacob, 2026-07-11**, against local dev (`localhost:3000`) with the real Google Cloud client + Supabase provider config in place.
+- [x] Attempt to hit a protected route logged out → redirected to login, not a broken page. Playwright-verified against a real `next build`/`next start`: `/account` → `/login?next=/account`.
+
+### Execution notes (2026-07-11)
+
+**Scope:** Google OAuth only, per the plan's earlier decision (sidesteps Supabase's 2-email/hour built-in SMTP cap; email/password is deferred until Resend is configured). No email/password UI was built.
+
+**Next.js 16 breaking change caught before writing code:** `middleware.ts` is deprecated and renamed to `proxy.ts` (confirmed in the bundled `node_modules/next/dist/docs/.../file-conventions/proxy.md`, v16.0.0 changelog) — the file now exports a `proxy` function instead of `middleware`, and the build output labels it "Proxy (Middleware)". Session refresh and route protection live in `web/proxy.ts`, not a `middleware.ts` that would have silently never run.
+
+**`@supabase/ssr` API confirmed against current docs** (context7, not training data): `createServerClient`/`createBrowserClient` factory split, cookie `getAll`/`setAll` contract, PKCE `exchangeCodeForSession` in the callback route, and `getClaims()` (JWT-verified) rather than `getSession()` for authorization decisions — matches the Phase 0 Appendix.
+
+**Files added (`web/`):** `lib/supabase-browser.ts` / `lib/supabase-server.ts` (client factories — `lib/supabase.ts`'s build-time client is untouched), `proxy.ts` (session refresh + redirects unauthenticated requests to `/account`), `app/auth/callback/route.ts`, `app/auth/actions.ts` (`signOut` server action), `app/login/page.tsx` + `components/GoogleSignInButton.tsx`, `components/AuthStatus.tsx` + `components/SignOutButton.tsx` (wired into `Nav.tsx`), `app/account/page.tsx` (protected, defense-in-depth re-checks `getClaims()` server-side per Next's own proxy.md guidance not to rely on proxy alone).
+
+**Static generation preserved:** `AuthStatus` reads auth state client-side (browser client + `onAuthStateChange`), so `next build` still prerenders all content pages as static (`○`) — only `/login`, `/account`, and `/auth/callback` are dynamic (`ƒ`), confirmed in the build output.
+
+**`/my-lineup` and the schedule builders are not yet protected** — they don't exist as Next.js routes in `web/` yet (still on the static site; Phase 5/6 own porting them). `/account` is the concrete protected-route proof for this phase's checklist; the same `proxy.ts` matcher gets extended once those pages land.
+
+**Playwright added** (`web/playwright.config.ts`, `web/e2e/auth.spec.ts`) — first E2E setup in this repo. 3 tests pass against a real production build: anonymous `/account` redirect, `/login` renders the Google button, nav shows "Sign in" when logged out. `npm run test:e2e` in `web/`.
+
+**Blocked on dashboard config (not code) — handed off:**
+1. Google Cloud Console → OAuth 2.0 Client ID (Web) with redirect URI `https://dtcuzunuuzwsomydluwk.supabase.co/auth/v1/callback` and JS origins for `localhost:3000` + `lolla-2026-website.vercel.app`.
+2. Supabase Dashboard → Authentication → Providers → Google → paste the Client ID/Secret, enable.
+3. Supabase Dashboard → Authentication → URL Configuration → add `http://localhost:3000/**` and `https://lolla-2026-website.vercel.app/**` as allowed redirect URLs.
+
+Once those three steps are done, sign-in should work with no code changes — the app-side implementation doesn't hold any Google secret (that lives in Supabase's dashboard only).
 
 ---
 

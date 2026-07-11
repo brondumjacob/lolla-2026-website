@@ -84,6 +84,14 @@ body {
 .nav-mylineup:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); background: #382a49 !important; }
 .nav-mylineup .star-fill { color: var(--lime); }
 
+.nav-signin { font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.04em; color: rgba(28,21,38,0.6); text-decoration: none; padding: 8px 14px; border-radius: var(--radius-pill); transition: background var(--transition), color var(--transition); }
+.nav-signin:hover { background: rgba(255,255,255,0.5); color: var(--black); }
+.nav-auth { display: flex; align-items: center; gap: 8px; }
+.nav-account { font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; color: var(--black); text-decoration: none; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-account:hover { color: var(--teal); }
+.nav-signout { font-family: var(--font-body); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(28,21,38,0.45); background: transparent; border: none; cursor: pointer; padding: 4px 6px; transition: color var(--transition); }
+.nav-signout:hover { color: var(--red); }
+
 /* ===== HAMBURGER ===== */
 .hamburger-btn { display: none; flex-direction: column; justify-content: space-between; width: 28px; height: 20px; padding: 0; background: transparent; border: none; cursor: pointer; }
 .hamburger-btn span { display: block; width: 100%; height: 3px; background: var(--black); border-radius: 2px; transition: transform 200ms ease, opacity 200ms ease; }
@@ -97,6 +105,8 @@ body {
   .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: #FFF0E4; border-bottom: var(--border-hair); z-index: 99; padding: 6px 8px 10px; }
   .nav-links.open { display: flex; box-shadow: 0 10px 24px rgba(28,21,38,0.2); }
   .site-nav a:not(.nav-home) { border-left: none; border-top: none; height: 48px; padding: 0 16px; font-size: 0.95rem; border-radius: var(--radius-sm); }
+  .nav-account { max-width: 70px; }
+  .nav-signin { padding: 8px 10px; font-size: 0.75rem; }
 }
 
 /* ===== EDITORIAL COLLAPSE ===== */
@@ -791,3 +801,26 @@ body {
   transition: border-color 0.1s, color 0.1s;
 }
 .planner-link:hover { border-color: #CFE23E; color: #CFE23E; }
+
+/* ===== AUTH (login / account) ===== */
+.login-wrap { display: flex; justify-content: center; padding-top: 64px; }
+.login-card { width: 100%; max-width: 380px; background: var(--card-bg); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 36px 32px; text-align: center; }
+.login-card h1 { font-family: var(--font-display); font-size: 26px; color: #fff; margin-bottom: 8px; }
+.login-sub { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.6); margin-bottom: 28px; }
+.login-error { font-family: var(--font-body); font-size: 13px; color: var(--red); margin-top: 12px; }
+
+.google-signin-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+  font-family: var(--font-body); font-weight: 700; font-size: 14px; color: var(--black);
+  background: #fff; border: none; border-radius: var(--radius-pill); padding: 13px 20px;
+  cursor: pointer; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition);
+}
+.google-signin-btn:hover:not(:disabled) { box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+.google-signin-btn:disabled { opacity: 0.6; cursor: default; }
+
+.account-wrap .account-email { font-family: var(--font-body); font-weight: 700; font-size: 15px; color: rgba(28,21,38,0.5); margin-top: -4px; margin-bottom: 28px; }
+.account-panel { background: rgba(255,255,255,0.55); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); padding: 22px 24px; margin-bottom: 24px; }
+.account-panel h2 { font-family: var(--font-display); font-size: 17px; color: var(--black); margin: 0 0 10px; }
+.account-panel p { font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: rgba(28,21,38,0.6); margin-bottom: 0; }
+.account-wrap .nav-signout { border: 2px solid rgba(28,21,38,0.15); border-radius: var(--radius-pill); padding: 10px 18px; color: rgba(28,21,38,0.6); text-transform: none; font-size: 13px; }
+.account-wrap .nav-signout:hover { border-color: var(--red); color: var(--red); }
