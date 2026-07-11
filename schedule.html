@@ -121,7 +121,7 @@
   .sched-day-headliner {
     font-size: 0.8rem;
     font-weight: 700;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.6);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-top: 0.75rem;
@@ -139,6 +139,20 @@
     border-radius: 999px;
     font-weight: 900;
   }
+  .sched-day-today-badge {
+    display: none;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    color: #2B1B14;
+    background: #CFE23E;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-top: 0.6rem;
+  }
+  .sched-day-card.is-today { box-shadow: 0 0 0 3px #CFE23E, 0 10px 24px rgba(28,21,38,0.2); }
+  .sched-day-card.is-today .sched-day-today-badge { display: inline-block; }
 
   /* How it works */
   .sched-how { padding: 2.5rem 2rem; background: #2B1B14; border-top: none; }
@@ -157,7 +171,7 @@
   }
   @media (max-width: 600px) { .sched-steps { grid-template-columns: 1fr; gap: 16px; } }
   .sched-step {
-    background: rgba(255,255,255,0.5);
+    background: #3C2D27;
     border-radius: 10px;
     padding: 1.25rem;
     border: 1px solid rgba(255,255,255,0.08);
@@ -178,7 +192,7 @@
   }
   .sched-step-desc {
     font-size: 0.85rem;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.6);
     line-height: 1.5;
   }
 
@@ -222,52 +236,56 @@
   </div>
   <div class="sched-hero-inner">
     <div class="sched-eyebrow">Lollapalooza 2026 · July 30 – Aug 2 · Grant Park, Chicago</div>
-    <div class="sched-title">BUILD YOUR<br>SCHEDULE</div>
+    <h1 class="sched-title">BUILD YOUR<br>SCHEDULE</h1>
     <p class="sched-sub">Tap artists to add them to your plan, star your must-sees, detect time conflicts, and generate a printable walking route — one day at a time.</p>
   </div>
 </div>
 
 <div class="sched-grid-wrap">
   <div class="sched-grid-inner">
-    <div class="sched-grid-label">Pick your day</div>
+    <h2 class="sched-grid-label">Pick your day</h2>
     <div class="sched-day-grid">
 
-      <a href="/schedule-thursday.html" class="sched-day-card">
+      <a href="/schedule-thursday.html" class="sched-day-card" data-day="1">
         <div class="sched-day-accent" style="background:#8B5CF6"></div>
         <div class="sched-day-body">
-          <div class="sched-day-label">THURSDAY</div>
+          <h3 class="sched-day-label">THURSDAY</h3>
           <div class="sched-day-date">July 30, 2026</div>
           <div class="sched-day-headliner">Lorde · John Summit</div>
+          <span class="sched-day-today-badge">TODAY</span>
           <div class="sched-day-cta">BUILD →</div>
         </div>
       </a>
 
-      <a href="/schedule-friday.html" class="sched-day-card">
-        <div class="sched-day-accent" style="background:#E91E8C"></div>
+      <a href="/schedule-friday.html" class="sched-day-card" data-day="2">
+        <div class="sched-day-accent" style="background:#E85BB8"></div>
         <div class="sched-day-body">
-          <div class="sched-day-label">FRIDAY</div>
+          <h3 class="sched-day-label">FRIDAY</h3>
           <div class="sched-day-date">July 31, 2026</div>
           <div class="sched-day-headliner">Charli XCX · The Smashing Pumpkins</div>
+          <span class="sched-day-today-badge">TODAY</span>
           <div class="sched-day-cta">BUILD →</div>
         </div>
       </a>
 
-      <a href="/schedule-saturday.html" class="sched-day-card">
+      <a href="/schedule-saturday.html" class="sched-day-card" data-day="3">
         <div class="sched-day-accent" style="background:#F97316"></div>
         <div class="sched-day-body">
-          <div class="sched-day-label">SATURDAY</div>
+          <h3 class="sched-day-label">SATURDAY</h3>
           <div class="sched-day-date">August 1, 2026</div>
           <div class="sched-day-headliner">Olivia Dean · Jennie</div>
+          <span class="sched-day-today-badge">TODAY</span>
           <div class="sched-day-cta">BUILD →</div>
         </div>
       </a>
 
-      <a href="/schedule-sunday.html" class="sched-day-card">
-        <div class="sched-day-accent" style="background:#00BCD4"></div>
+      <a href="/schedule-sunday.html" class="sched-day-card" data-day="4">
+        <div class="sched-day-accent" style="background:#2FA79C"></div>
         <div class="sched-day-body">
-          <div class="sched-day-label">SUNDAY</div>
+          <h3 class="sched-day-label">SUNDAY</h3>
           <div class="sched-day-date">August 2, 2026</div>
           <div class="sched-day-headliner">Tate McRae · The xx</div>
+          <span class="sched-day-today-badge">TODAY</span>
           <div class="sched-day-cta">BUILD →</div>
         </div>
       </a>
@@ -278,7 +296,7 @@
 
 <div class="sched-how">
   <div class="sched-how-inner">
-    <div class="sched-how-title">HOW IT WORKS</div>
+    <h2 class="sched-how-title">HOW IT WORKS</h2>
     <div class="sched-steps">
       <div class="sched-step">
         <div class="sched-step-num">1</div>
@@ -334,7 +352,7 @@
     background: #2B1B14;
     border: none;
     box-shadow: 0 16px 32px rgba(28,21,38,0.3);
-    border-radius: 999px;
+    border-radius: var(--radius-card);
     overflow: hidden;
   }
   .planner-panel.open { display: block; }
@@ -378,7 +396,7 @@
   }
   .planner-input {
     width: 100%;
-    background: rgba(255,255,255,0.5);
+    background: #3C2D27;
     border: 2px solid rgba(255,255,255,0.15);
     color: #fff;
     font-family: 'Manrope', sans-serif;
@@ -391,7 +409,7 @@
   .planner-input:focus { border-color: #CFE23E; }
   .planner-hint {
     font-size: 0.75rem;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.6);
     margin-top: 6px;
     line-height: 1.4;
   }
@@ -435,7 +453,7 @@
   .planner-set-time {
     font-size: 0.75rem;
     font-weight: 700;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.6);
     white-space: nowrap;
     flex-shrink: 0;
     padding-top: 2px;
@@ -450,7 +468,7 @@
   }
   .planner-set-stage {
     font-size: 0.75rem;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.6);
     margin-top: 1px;
   }
   .planner-conflict {
@@ -462,7 +480,7 @@
     letter-spacing: 0.05em;
   }
   .planner-no-match {
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.6);
     font-size: 0.85rem;
     padding: 8px 0;
   }
@@ -614,6 +632,19 @@
     });
     results.innerHTML = html;
   }
+})();
+
+(function() {
+  var FESTIVAL_DATES = {1: [2026,6,30], 2: [2026,6,31], 3: [2026,7,1], 4: [2026,7,2]};
+  var now = new Date();
+  var todayKey = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+  Object.keys(FESTIVAL_DATES).forEach(function(day) {
+    var d = FESTIVAL_DATES[day];
+    if ((d[0] + '-' + d[1] + '-' + d[2]) === todayKey) {
+      var card = document.querySelector('.sched-day-card[data-day="' + day + '"]');
+      if (card) card.classList.add('is-today');
+    }
+  });
 })();
 </script>
 
