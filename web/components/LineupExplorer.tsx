@@ -10,31 +10,34 @@ interface LineupExplorerProps {
   artists: ArtistWithGenre[];
 }
 
-function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: string) {
+function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: string, activeSearch: string) {
   const dayOk = activeDay === 0 || artist.day === activeDay;
   const genreOk = activeGenre === '' || artist.genre === activeGenre;
-  return dayOk && genreOk;
+  const searchOk = activeSearch === '' || artist.name.toLowerCase().includes(activeSearch);
+  return dayOk && genreOk && searchOk;
 }
 
 export default function LineupExplorer({ artists }: LineupExplorerProps) {
   const [activeDay, setActiveDay] = useState(0); // 0 = all
   const [activeGenre, setActiveGenre] = useState(''); // '' = all
+  const [searchQuery, setSearchQuery] = useState(''); // raw input value
+  const activeSearch = searchQuery.trim().toLowerCase();
 
   const headliners = useMemo(() => artists.filter((a) => a.tier === 'headliner'), [artists]);
   const majors = useMemo(() => artists.filter((a) => a.tier === 'major'), [artists]);
   const undercards = useMemo(() => artists.filter((a) => a.tier === 'undercard'), [artists]);
 
   const visibleHeadliners = useMemo(
-    () => headliners.filter((a) => passesFilter(a, activeDay, activeGenre)),
-    [headliners, activeDay, activeGenre]
+    () => headliners.filter((a) => passesFilter(a, activeDay, activeGenre, activeSearch)),
+    [headliners, activeDay, activeGenre, activeSearch]
   );
   const visibleMajors = useMemo(
-    () => majors.filter((a) => passesFilter(a, activeDay, activeGenre)),
-    [majors, activeDay, activeGenre]
+    () => majors.filter((a) => passesFilter(a, activeDay, activeGenre, activeSearch)),
+    [majors, activeDay, activeGenre, activeSearch]
   );
   const visibleUndercards = useMemo(
-    () => undercards.filter((a) => passesFilter(a, activeDay, activeGenre)),
-    [undercards, activeDay, activeGenre]
+    () => undercards.filter((a) => passesFilter(a, activeDay, activeGenre, activeSearch)),
+    [undercards, activeDay, activeGenre, activeSearch]
   );
 
   // Genre counts computed from the day-filtered pool only, matching the
@@ -106,6 +109,26 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
 
       <div className="two-col">
         <main className="main-col" id="main-content">
+          <div className="artist-search-wrap">
+            <input
+              type="text"
+              className="artist-search"
+              placeholder="Search artists by name…"
+              aria-label="Search artists by name"
+              autoComplete="off"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button
+              className={`artist-search-clear${searchQuery !== '' ? ' visible' : ''}`}
+              aria-label="Clear search"
+              title="Clear search"
+              onClick={() => setSearchQuery('')}
+            >
+              ✕
+            </button>
+          </div>
+
           <div className="genre-strip" id="genre-strip" role="list" aria-label="Filter by genre">
             <button
               className={`genre-strip-pill${activeGenre === '' ? ' is-active' : ''}`}
@@ -186,14 +209,17 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
           <ul className="undercards-list" role="list" aria-label="Undercard artists">
             {visibleUndercards.map((a, i) => (
               <li className="undercard-item" role="listitem" key={a.id}>
-                <span className="undercard-num">{String(i + 1).padStart(2, '0')}</span>
-                <span className="undercard-name">{a.name}</span>
-                <span className="undercard-genre">{a.genre}</span>
-                <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
-                <div className="undercard-links" aria-label={`Streaming links for ${a.name}`}>
-                  <StarToggle artistName={a.name} />
-                  <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
+                <div className="undercard-row">
+                  <span className="undercard-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="undercard-name">{a.name}</span>
+                  <span className="undercard-genre">{a.genre}</span>
+                  <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
+                  <div className="undercard-links" aria-label={`Streaming links for ${a.name}`}>
+                    <StarToggle artistName={a.name} />
+                    <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
+                  </div>
                 </div>
+                {a.description && <div className="undercard-desc">{a.description}</div>}
               </li>
             ))}
           </ul>

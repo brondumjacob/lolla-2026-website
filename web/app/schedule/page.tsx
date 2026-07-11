@@ -98,6 +98,18 @@ export default function SchedulePage() {
         </div>
       </div>
 
+      <div className="sched-editorial">
+        <div className="sched-editorial-inner">
+          <p>
+            Each day at Lollapalooza 2026 runs on its own timetable across eight stages in Grant Park, and sets
+            overlap constantly — there&apos;s no way to catch every artist you want without a plan. This builder
+            lays out the full timetable for whichever day you pick, lets you tap artists onto a personal schedule,
+            and flags the conflicts before you&apos;re standing between two stages trying to decide. Pick a day
+            below, or use the planner to auto-build a route from a list of names.
+          </p>
+        </div>
+      </div>
+
       <div className="sched-how">
         <div className="sched-how-inner">
           <div className="sched-how-title">HOW IT WORKS</div>

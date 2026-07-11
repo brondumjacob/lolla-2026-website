@@ -256,8 +256,10 @@ export default function FirstTimersGuidePage() {
           </p>
 
           <p>
-            Ready to plan your schedule? Browse the <Link href="/">full lineup</Link> or read our{' '}
-            <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for discovery picks.
+            Ready to plan your schedule? Browse the <Link href="/">full lineup</Link>, read our{' '}
+            <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for discovery picks,
+            or check out <Link href="/lolla-history">the history of Lollapalooza</Link> for how the festival ended
+            up in Grant Park in the first place.
           </p>
         </div>
       </div>

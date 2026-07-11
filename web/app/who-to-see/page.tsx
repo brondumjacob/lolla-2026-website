@@ -244,8 +244,9 @@ export default function WhoToSeePage() {
           </p>
 
           <p>
-            Check the <Link href="/">full lineup</Link> to start building your schedule, or read our{' '}
-            <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for deeper discovery picks.
+            Check the <Link href="/">full lineup</Link> to start building your schedule, read our{' '}
+            <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for deeper discovery
+            picks, or dig into our <Link href="/genre-guide">genre-by-genre breakdown</Link> of the entire 2026 bill.
           </p>
         </div>
       </div>

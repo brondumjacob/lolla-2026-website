@@ -51,7 +51,7 @@ function streamingLinks(a) {
 
 // ── Card generators ────────────────────────────────────────────────────────
 function headlinerCard(a) {
-  return `<div class="headliner-row" role="listitem" data-tier="headliner" data-genre="${esc(a.g)}" data-day="${a.d}">
+  return `<div class="headliner-row" role="listitem" data-tier="headliner" data-genre="${esc(a.g)}" data-day="${a.d}" data-name="${esc(a.n)}">
   <div class="headliner-accent" aria-hidden="true"></div>
   <div style="flex:1;min-width:0">
     <div class="headliner-name">${esc(a.n)}</div>
@@ -65,7 +65,7 @@ function headlinerCard(a) {
 }
 
 function majorCard(a) {
-  return `<div class="major-card" role="listitem" data-tier="major" data-genre="${esc(a.g)}" data-day="${a.d}">
+  return `<div class="major-card" role="listitem" data-tier="major" data-genre="${esc(a.g)}" data-day="${a.d}" data-name="${esc(a.n)}">
   <div class="major-card-top">
     <div>
       <div class="major-name">${esc(a.n)}</div>
@@ -81,12 +81,15 @@ function majorCard(a) {
 }
 
 function undercardItem(a, idx) {
-  return `<li class="undercard-item" data-tier="undercard" data-genre="${esc(a.g)}" data-day="${a.d}">
-  <span class="undercard-num">${String(idx).padStart(2, '0')}</span>
-  <span class="undercard-name">${esc(a.n)}</span>
-  <span class="undercard-genre">${esc(a.g)}</span>
-  ${dayBadge(a.d)}
-  <div class="undercard-links" aria-label="Streaming links for ${esc(a.n)}">${starButton(a)}${streamingLinks(a)}</div>
+  return `<li class="undercard-item" data-tier="undercard" data-genre="${esc(a.g)}" data-day="${a.d}" data-name="${esc(a.n)}">
+  <div class="undercard-row">
+    <span class="undercard-num">${String(idx).padStart(2, '0')}</span>
+    <span class="undercard-name">${esc(a.n)}</span>
+    <span class="undercard-genre">${esc(a.g)}</span>
+    ${dayBadge(a.d)}
+    <div class="undercard-links" aria-label="Streaming links for ${esc(a.n)}">${starButton(a)}${streamingLinks(a)}</div>
+  </div>
+  <div class="undercard-desc">${esc(getDesc(a))}</div>
 </li>`;
 }
 
@@ -263,6 +266,7 @@ for (const f of staticAssets) {
 const staticPages = [
   'about.html', 'privacy.html', 'contact.html', 'terms.html',
   'who-to-see.html', 'first-timers-guide.html', 'undercard-picks.html',
+  'lolla-history.html', 'genre-guide.html',
   'schedule.html', 'schedule-thursday.html', 'schedule-friday.html',
   'schedule-saturday.html', 'schedule-sunday.html', 'my-lineup.html',
 ];

@@ -57,14 +57,21 @@ export default async function HomePage() {
           172 artists deep, from arena-headlining pop acts to underground electronic producers playing their first
           major U.S. festival slot.
         </p>
+        <p>
+          The festival unfolds across eight stages inside Grant Park&apos;s 319 acres on Chicago&apos;s lakefront,
+          with the city&apos;s skyline as a backdrop for every set. General admission, GA+, and VIP tiers are all
+          available for single days or the full four-day run, and gates open at 11 AM each day with music running
+          until 10 PM.
+        </p>
         <EditorialToggle>
           <p>
             The headliner tier alone tells the story of where popular music stands in 2026. Charli XCX rides the
             cultural momentum of <em>brat</em> into a Friday night headline set. Lorde brings a decade of critically
-            acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top for the first time
-            with Jennie&apos;s solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to
-            Lollapalooza&apos;s 1990s origins. Sunday closes with Tate McRae&apos;s arena-pop spectacle alongside The
-            XX&apos;s minimalist indie, a pairing that captures the festival&apos;s range in a single evening.
+            acclaimed alt-pop to open the festival on Thursday. K-Pop is represented at the top with Jennie&apos;s
+            solo headline on Saturday, while The Smashing Pumpkins offer a direct line back to Lollapalooza&apos;s
+            1990s origins — the band played the festival&apos;s original touring lineup in 1994. Sunday closes with
+            Tate McRae&apos;s arena-pop spectacle alongside The XX&apos;s minimalist indie, a pairing that captures
+            the festival&apos;s range in a single evening.
           </p>
           <p>
             Below the headliners, the lineup rewards exploration. The major tier includes Freddie Gibbs and Clipse
@@ -73,6 +80,13 @@ export default async function HomePage() {
             hand — Little Simz, Wolf Alice, Paris Paloma, and Geese are all artists playing stages smaller than their
             talent warrants. That&apos;s the real opportunity: catching tomorrow&apos;s headliners on today&apos;s
             side stages.
+          </p>
+          <p>
+            Lollapalooza&apos;s genre range didn&apos;t happen by accident — it&apos;s been the festival&apos;s
+            defining trait since Perry Farrell built the original touring bill in 1991. Read the full{' '}
+            <Link href="/lolla-history">history of Lollapalooza</Link> for how a one-off farewell tour became a
+            Chicago institution, or dig into our <Link href="/genre-guide">genre-by-genre breakdown</Link> of
+            everything on this year&apos;s bill.
           </p>
           <p>
             Use the filters below to explore the full lineup by day, genre, or tier. Every artist links directly to
