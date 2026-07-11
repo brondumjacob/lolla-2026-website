@@ -8,13 +8,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Unofficial fan site for the complete Lollapalooza 2026 lineup (172 artists) with Spotify, Apple Music, and YouTube Music streaming links.
 
 ## Status
-Live / deployed. Multi-page static site with schedule builders. AdSense wired site-wide (`ca-pub-1043428205440255`). Affiliate links not yet implemented. "Golden Hour" visual redesign integrated (see Design System below) plus a new "My Lineup" favorites feature — star any artist, view/share your picks at `/my-lineup.html`, persisted via `localStorage`.
+Live / deployed (the repo-root static site). Multi-page static site with schedule builders. AdSense wired site-wide (`ca-pub-1043428205440255`). Affiliate links not yet implemented. "Golden Hour" visual redesign integrated (see Design System below) plus a new "My Lineup" favorites feature — star any artist, view/share your picks at `/my-lineup.html`, persisted via `localStorage`.
+
+**In progress (on the `expansion` branch, not merged/deployed):** a migration to Supabase (Postgres + Auth) + Next.js + Vercel for accounts, saved schedules, and multi-festival support — see `2026-07-09_lolla-accounts-migration-plan.md` for the full plan and current phase status. Phase 3 (Next.js scaffold, in `web/`) is built but not yet deployed. The repo-root static site is untouched by this work and keeps deploying to production via Cloudflare Pages exactly as before.
 
 ## Tech Stack
 - Pure HTML/CSS/JS — no framework
 - `artists.js` — the single source of truth for all artist data
 - `build.js` — pre-renders the lineup into `dist/index.html` and copies an allowlist of static files into `dist/`
 - Deployed with `wrangler` (v4, npm devDependency): `npm run build` → `dist/` → `npm run deploy` (`wrangler deploy`, see `wrangler.jsonc`)
+
+## Next.js Migration (`web/`)
+A separate Next.js 16 (App Router, TypeScript) project, deliberately isolated in its own subdirectory so it can be developed and deployed to Vercel independently while the repo-root static site keeps serving production via Cloudflare Pages unchanged.
+- `web/app/` — routes: `/`, `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/schedule` (all 9 pages from the migration plan's Phase 3)
+- `web/lib/data.ts` — fetches festivals/artists/artist_genres from Supabase at build time (public-read RLS tables, plain `@supabase/supabase-js` client, no `@supabase/ssr` needed yet); Zod-validates every row
+- `web/components/LineupExplorer.tsx` — the index page's day/genre filtering, reimplemented as React state (was imperative DOM class-toggling in the static site)
+- `web/public/favorites.js`, `web/public/schedule-data.js`, `web/public/schedule-planner.js` — vanilla JS kept close to its original form (favorites/star system, schedule fuzzy-planner), per the migration plan's explicit allowance not to force a premature React rewrite of code Phase 5 will replace anyway
+- `web/next.config.ts` — CSP/security headers ported verbatim from `dist/_headers`
+- Requires `web/.env.local` (see `web/.env.local.example`) with real Supabase credentials before `next build`/`next dev` will fully work — not yet configured in this environment
+- Not yet connected to Vercel (the existing Vercel project still targets the old static site's build settings — see the migration plan doc for the exact dashboard changes needed before deploying this)
+
+## Design Context
+`PRODUCT.md` (register: product, web) and `DESIGN.md` (North Star: "The Golden Hour Set") capture the strategic and visual design system for the `impeccable` skill — read before any design work (`/impeccable critique|audit|polish|...`). Positioning: most accurate/curated way to explore the lineup and build a real schedule, direct streaming links, cited genre data. `.impeccable/design.json` sidecar + `.impeccable/live/config.json` (live variant mode, glob `*.html` at repo root) are also configured.
 
 ## Architecture
 

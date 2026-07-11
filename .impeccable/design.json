@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-10T00:00:00Z",
+  "title": "Design System: Lolla Lineup 2026",
+  "extensions": {
+    "colorMeta": {
+      "stage-light-lime": { "role": "primary", "displayName": "Stage Light Lime", "canonical": "#CFE23E", "tonalRamp": ["#3C430A", "#646F11", "#8C9B17", "#B4C81E", "#CDE137", "#DCEA71", "#E9F2A6", "#F6FADC"] },
+      "neon-pink": { "role": "secondary", "displayName": "Neon Pink", "canonical": "#E85BB8", "tonalRamp": ["#43092F", "#70104F", "#9D166F", "#C91C8E", "#E336A8", "#EB70C1", "#F2A6D8", "#FADBF0"] },
+      "afterglow-teal": { "role": "primary", "displayName": "Afterglow Teal", "canonical": "#2FA79C", "tonalRamp": ["#113C38", "#1C635D", "#278B82", "#32B3A7", "#4CCDC1", "#80DBD3", "#AFE9E3", "#DFF6F4"] },
+      "sunset-orange": { "role": "secondary", "displayName": "Sunset Orange", "canonical": "#E8912B", "tonalRamp": ["#452907", "#73440C", "#A15F11", "#CF7A16", "#E99430", "#EFB36C", "#F5CFA3", "#FBECDA"] },
+      "signal-red": { "role": "secondary", "displayName": "Signal Red", "canonical": "#E6432E", "tonalRamp": ["#440F08", "#72190E", "#9F2313", "#CD2D19", "#E64732", "#EE7C6D", "#F4ADA4", "#FBDEDB"] },
+      "backstage-brown": { "role": "neutral", "displayName": "Backstage Brown", "canonical": "#2B1B14", "tonalRamp": ["#342118", "#573728", "#7A4D39", "#9D6249", "#B67C62", "#CBA290", "#DFC5B9", "#F2E8E3"] },
+      "ink-black": { "role": "neutral", "displayName": "Ink Black", "canonical": "#211611", "tonalRamp": ["#32221A", "#54382B", "#764F3D", "#97654E", "#B17E68", "#C8A493", "#DCC6BC", "#F1E8E4"] },
+      "day-1-violet": { "role": "accent", "displayName": "Day 1 Violet", "canonical": "#8B5CF6" },
+      "day-2-pink": { "role": "accent", "displayName": "Day 2 Pink", "canonical": "#E85BB8" },
+      "day-3-orange": { "role": "accent", "displayName": "Day 3 Orange", "canonical": "#F97316" },
+      "day-4-teal": { "role": "accent", "displayName": "Day 4 Teal", "canonical": "#2FA79C" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The hero LOLLAPALOOZA title only — the single loudest moment on any page." },
+      "headline": { "displayName": "Headline", "purpose": "Article and guide page titles." },
+      "title": { "displayName": "Title", "purpose": "Headliner/artist names, section titles, countdown numbers — Righteous at conversational size." },
+      "body": { "displayName": "Body", "purpose": "All running prose, Manrope, capped ~70ch." },
+      "label": { "displayName": "Label", "purpose": "Uppercase tracked labels — genre tags, day labels, eyebrows, button/pill text." }
+    },
+    "shadows": [
+      { "name": "ambient", "value": "0 6px 16px rgba(28,21,38,0.14)", "purpose": "Resting-state shadow on cards, pills, buttons." },
+      { "name": "lifted", "value": "0 14px 28px rgba(28,21,38,0.24)", "purpose": "Hover-state shadow, always paired with an upward translateY." }
+    ],
+    "motion": [
+      { "name": "standard", "value": "200ms ease", "purpose": "Default transition for hover/interaction state changes (background, transform, box-shadow)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "480px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1023px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Highest-commitment action — solid Ink Black pill, used for the nav's My Lineup link and back-to-top.",
+      "html": "<button class=\"ds-btn-primary\">★ MY LINEUP</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 6px; background: var(--black); color: #fff; border: none; border-radius: var(--radius-pill); padding: 8px 16px; font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: transform var(--transition), box-shadow var(--transition), background var(--transition); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); background: #382a49; } .ds-btn-primary:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button (Lime)",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "In-content toggle action — Stage Light Lime pill, used for the editorial \"Read more\" toggle.",
+      "html": "<button class=\"ds-btn-secondary\">Read more</button>",
+      "css": ".ds-btn-secondary { background: var(--lime); color: var(--black); border: none; border-radius: var(--radius-pill); padding: 0.55rem 1.2rem; font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.02em; cursor: pointer; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition); } .ds-btn-secondary:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); background: #c3d62e; } .ds-btn-secondary:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }"
+    },
+    {
+      "name": "Day Badge",
+      "kind": "chip",
+      "refersTo": "chip-day-1",
+      "description": "Solid-color pill marking which festival day an artist plays. Recolors per the Four-Day Rule (violet/pink/orange/teal) — this sample shows Day 1.",
+      "html": "<span class=\"ds-day-badge\">THU 7/30</span>",
+      "css": ".ds-day-badge { display: inline-block; font-family: var(--font-body); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.04em; padding: 4px 12px; border-radius: 999px; white-space: nowrap; background: #8B5CF6; color: #fff; }"
+    },
+    {
+      "name": "Major Artist Card",
+      "kind": "card",
+      "refersTo": "card-major",
+      "description": "Translucent-white floating card for the mid-tier artist grid — lifts and brightens on hover.",
+      "html": "<div class=\"ds-major-card\"><div class=\"ds-major-top\"><span class=\"ds-major-name\">John Summit</span></div><span class=\"ds-major-genre\">House</span></div>",
+      "css": ".ds-major-card { border: none; box-shadow: var(--shadow-sm); background: rgba(255,255,255,0.55); border-radius: 20px; padding: 1.1rem 1.3rem; transition: box-shadow var(--transition), transform var(--transition), background var(--transition); } .ds-major-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); background: rgba(255,255,255,0.85); } .ds-major-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; } .ds-major-name { font-family: var(--font-display); font-size: 1.2rem; } .ds-major-genre { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); }"
+    },
+    {
+      "name": "Guide Card",
+      "kind": "card",
+      "refersTo": "card-guide",
+      "description": "Dark Backstage Brown card for editorial/guide links — one of the two 'anchor against the busy sky' dark surfaces alongside headliner cards.",
+      "html": "<a class=\"ds-guide-card\" href=\"#\"><span class=\"ds-guide-title\">Who to See</span><span class=\"ds-guide-desc\">Our picks for every day of the festival.</span></a>",
+      "css": ".ds-guide-card { display: block; padding: 18px 18px; border: none; border-radius: 20px; text-decoration: none; background: #2B1B14; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition); } .ds-guide-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); } .ds-guide-title { display: block; font-family: var(--font-display); font-size: 15px; color: var(--lime); margin-bottom: 6px; } .ds-guide-desc { display: block; font-family: var(--font-body); font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }"
+    },
+    {
+      "name": "Star Toggle (Favorite)",
+      "kind": "custom",
+      "refersTo": "star-toggle",
+      "description": "The My Lineup favoriting control on every artist row/card — circular icon button, filled + rotated on save.",
+      "html": "<button class=\"ds-star-toggle ds-star-toggle--saved\" aria-pressed=\"true\" aria-label=\"Remove from My Lineup\">★</button>",
+      "css": ".ds-star-toggle { background: none; border: none; cursor: pointer; font-size: 1.15rem; color: rgba(28,21,38,0.3); border-radius: 50%; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.15s, color 0.15s; } .ds-star-toggle:hover { color: #B8940F; background: rgba(207,226,62,0.3); transform: scale(1.15); } .ds-star-toggle--saved { color: #A8890A; } .ds-star-toggle--saved:hover { transform: scale(1.15) rotate(-8deg); }"
+    },
+    {
+      "name": "Streaming Link Button",
+      "kind": "button",
+      "refersTo": "stream-btn",
+      "description": "Circular icon button linking to Spotify/Apple Music/YouTube Music for an artist — the direct-streaming feature that's a core differentiator.",
+      "html": "<a class=\"ds-stream-btn\" href=\"#\" aria-label=\"Listen on Spotify\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"#1DB954\"><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg></a>",
+      "css": ".ds-stream-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; border-radius: 50%; background: rgba(255,255,255,0.7); box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition); cursor: pointer; text-decoration: none; } .ds-stream-btn:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); background: #fff; } .ds-stream-btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }"
+    },
+    {
+      "name": "Day Panel",
+      "kind": "custom",
+      "refersTo": "day-panel",
+      "description": "Signature sidebar component — one solid-color block per festival day (name, date, artist count, headliners), the clearest expression of the Four-Day color rule.",
+      "html": "<div class=\"ds-day-panel\"><div class=\"ds-dp-top\"><span class=\"ds-dp-day\">THU</span><div class=\"ds-dp-count\"><span class=\"ds-dp-count-num\">42</span><span class=\"ds-dp-count-label\">Artists</span></div></div><span class=\"ds-dp-date\">Jul 30</span></div>",
+      "css": ".ds-day-panel { background: #8B5CF6; color: #fff; border-radius: 18px; overflow: hidden; padding: 1rem 1.25rem; cursor: pointer; transition: opacity 0.2s ease, transform 0.2s ease; } .ds-day-panel:hover { opacity: 0.9; transform: translateY(-1px); } .ds-dp-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; } .ds-dp-day { font-family: var(--font-display); font-size: 1.5rem; line-height: 1; } .ds-dp-date { font-family: var(--font-body); font-size: 0.78rem; font-weight: 700; opacity: 0.85; } .ds-dp-count { text-align: right; } .ds-dp-count-num { display: block; font-family: var(--font-display); font-size: 1.7rem; line-height: 1; } .ds-dp-count-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Golden Hour Set",
+    "overview": "The whole system reads as warm sunset light hitting a festival crowd right before the headliner walks out: a peach-to-coral sky gradient behind everything, dark stage-lit cards for the moments that matter most (headliner rows, guide cards), and lime/pink/teal accents cutting through like stage lighting. The palette was pulled directly from the real 2026 official Lollapalooza lineup poster, so the site should feel like an extension of that print artifact rather than a generic web template wearing festival colors. This system explicitly rejects: generic ticketing/corporate sterility, cluttered fan-wiki density, and the generic AI-SaaS look.",
+    "keyCharacteristics": [
+      "Warm gradient sky as the constant background, never a flat neutral",
+      "Dark 'backstage' surfaces reserved for the highest-priority content (headliners, guide cards)",
+      "Four festival days each carry their own signature hue (violet / pink / orange / teal) used consistently everywhere a day is represented",
+      "Fully rounded pills and soft-cornered cards throughout — nothing sharp-edged",
+      "Shadows are soft, diffuse, and only appear as a response to hover/interaction"
+    ],
+    "rules": [
+      { "name": "The Four-Day Rule", "body": "Every one of the four festival days has exactly one signature hue, applied identically everywhere that day appears. Never reassign these or introduce a fifth ad-hoc day color.", "section": "colors" },
+      { "name": "The Translucent Float Rule", "body": "Cards sitting on the gradient background use rgba(255,255,255,0.4–0.55) at rest, brightening to 0.7–0.9 on hover — never flat opaque white.", "section": "colors" },
+      { "name": "The One Display Face Rule", "body": "Righteous never appears at body-copy sizes or in dense paragraph text — it's reserved for names, titles, and numbers that need poster-level presence.", "section": "typography" },
+      { "name": "The Interaction-Only Elevation Rule", "body": "Nothing gets a heavy shadow at rest. Depth is earned by hovering, tapping, or being active.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep the four-stop peach/coral gradient as the constant page background across every page.",
+      "Do use fully rounded pills (999px) for every button, badge, and filter chip — no exceptions.",
+      "Do apply each festival day's signature color consistently everywhere that day is represented.",
+      "Do reserve Righteous for names, titles, and numbers; keep Manrope for running text.",
+      "Do keep shadows soft, warm-tinted, and interaction-only.",
+      "Do maintain WCAG 2.1 AA contrast, especially body text against the warm gradient background."
+    ],
+    "donts": [
+      "Don't build a generic ticketing/corporate look.",
+      "Don't let the site read as a cluttered fan-wiki or forum.",
+      "Don't default to the generic AI-generated SaaS look: no cream/beige near-white base, no gradient text, no identical repeating card grids, no tracked eyebrow line above every section.",
+      "Don't use a colored border-left/border-right as a decorative accent stripe on any card or list item.",
+      "Don't introduce a fifth day color or reassign an existing day's color.",
+      "Don't use Righteous below ~15px or inside a paragraph of running text."
+    ]
+  }
+}

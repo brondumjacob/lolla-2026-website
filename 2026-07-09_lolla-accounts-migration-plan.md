@@ -1,6 +1,25 @@
 # Lolla 2026 Website — Accounts, Multi-Festival Schema & Genre Audit
 **Plan date:** 2026-07-09 | **Author:** Cowork planning session | **For execution in:** Claude Code (`do` skill, subagents encouraged for Phases 2 and 3 in parallel)
 
+## Status (updated 2026-07-11)
+- **Phase 0 (Discovery):** Done.
+- **Phase 1 (Supabase schema + RLS):** Done AND deployed. Live Supabase project created ("Festival Builder"), `0001_init.sql` applied via SQL Editor, `seed.sql` (festivals + 172 artists + PRE-AUDIT placeholder genres) applied via direct `psql` connection (web SQL editor paste was corrupting apostrophes in artist descriptions — root cause not fully diagnosed, worked around via psql + `.pgpass`). Artist/festival row counts confirmed by Jacob.
+- **Phase 2 (Genre audit):** Done AND applied. `artists.js` corrected, `data/genre-diff.md`/`genres.json` generated, `seed_genres.sql` written, verified correct, and **confirmed applied to the live database by Jacob (2026-07-11)**. The live `artist_genres` table now reflects the cited, audited genres (Worship corrected, etc.), not the pre-audit placeholders. The build-time cross-check safety net added during Phase 3 (see below) is now expected to pass silently — if it warns after this point, that's a real signal something drifted, not stale-doc noise.
+- **Phase 3 (Next.js + Vercel scaffold):** Scaffolded, builds cleanly, and **fully verified end-to-end with real Supabase data as of 2026-07-11** (172 artists render correctly, Worship confirmed showing corrected "Electronic" genre live). **Not yet deployed to Vercel** — dashboard settings still need updating (Root Directory, build command/output, env vars) before that happens. Details in the dedicated Phase 3 section.
+- **Phases 4-6 (auth UI, favorites migration, multi-schedule export):** Not started.
+
+## Decisions resolved 2026-07-09 (was "Open decisions blocking Phase 3")
+1. SMTP provider: **Resend**.
+2. Vercel plan: **Pro confirmed** ($20/mo/seat) — required since Hobby is non-commercial-only and this site runs AdSense. Verified live in the Vercel dashboard (badge shows "Pro").
+3. DNS topology: **Cloudflare stays as DNS-only in front of Vercel** — keeps existing security headers/WAF config, Vercel serves the app behind it.
+
+## Vercel connection smoke-tested 2026-07-09 (resolved, one flag)
+- Connected `brondumjacob/lolla-2026-website` to a Vercel Pro project. First deploy attempt failed: "No Output Directory named 'public' found" — Vercel auto-detection didn't know this repo's build output goes to `dist/` (per `build.js` + `wrangler.jsonc`), not a framework-default `public/`.
+- Fixed via Vercel dashboard (Settings → Build and Deployment): Framework Preset `Other`, Build Command `npm run build`, Output Directory `dist`, Install Command left default. Redeploy succeeded (Production: Ready).
+- This smoke-tests the *old static site* only (commit `368c9a0`, pre-Supabase) — confirms Vercel Pro can build this repo, nothing more. No Supabase/auth integration exists on Vercel yet; that's Phase 3.
+- **Unresolved flag:** while verifying, a second "Ready" deployment was found already sitting above the failed one in the deployments list, reportedly "about a day ago" per a Claude-in-Chrome session — chronologically inconsistent with this being a same-session-fresh Vercel connection (deployment lists sort newest-first, so an item above a "created 2m ago" failed deploy should be more recent, not older). Not independently verified by Jacob — worth a direct look at exact timestamps in the Vercel dashboard before assuming it's benign. Does not block Phase 3, but flagging so it isn't lost.
+- The deployed static site currently has **no security headers** (Vercel doesn't read Cloudflare Pages' `dist/_headers` format) — fine for a smoke test, not something to leave as a real production URL. Needs a `vercel.json` headers block if this deployment is kept around past Phase 3 landing.
+
 ## Decisions confirmed with Jacob (2026-07-09)
 1. **Stack:** Supabase (Auth + Postgres) + Vercel + Next.js. This is a deliberate migration off the current framework-free static HTML/Cloudflare Pages setup — see Risk Register below for what that costs.
 2. **Genre audit:** Automated pull (MusicBrainz + Last.fm) with Claude doing best-guess research/synthesis per artist; Jacob spot-checks later rather than reviewing all 172 upfront.
@@ -81,9 +100,42 @@ Deploy a subagent to fetch and record, with exact citations:
 - Leave the DNS/Cloudflare-vs-Vercel topology decision to Jacob before this phase's deploy step (see Risk Register).
 
 **Verification checklist:**
-- [ ] Every ported page visually matches current production (screenshot diff or manual check).
-- [ ] `curl -I` the deployed site, confirm CSP/security headers are present and match current `dist/_headers` intent.
-- [ ] Lighthouse/basic perf check — static generation should keep this fast; flag if it regresses vs. current Cloudflare Pages static site.
+- [x] `curl -I` the local dev **and** production (`next start`) build, confirm CSP/security headers are present and match `dist/_headers` intent — confirmed byte-identical on both.
+- [x] Full `next build` succeeding end-to-end, including `/` — **confirmed 2026-07-11** once real Supabase credentials (URL + publishable key) were provided. All 10 routes prerender as static content (`○ Static`), zero build errors.
+- [x] Real data flows correctly: 172 total artists rendered (8 headliners + 37 majors + 127 undercards, matching the known tier breakdown), and **Worship confirmed rendering "Electronic" live** (not the pre-audit "Rock") — proves `seed_genres.sql`'s application is actually reflected end-to-end through Supabase → Next.js build → rendered HTML, not just in the raw DB.
+- [ ] Every ported page visually matches current production (screenshot diff or manual check) — content/markup/data verified programmatically, not yet visually screenshot-diffed against production.
+- [ ] Lighthouse/basic perf check — not yet run.
+
+### Execution notes (2026-07-11)
+
+**Scaffold:** New Next.js 16 (App Router, TypeScript, Turbopack) project lives in `web/` — a dedicated subdirectory, not the repo root. This is a deliberate architectural choice not spelled out explicitly in the original plan: it lets Cloudflare Pages keep building/serving the live static site from the repo root completely untouched while Vercel is reconfigured to point at `web/` as its Root Directory. Both deployments coexist during testing; nothing about the live production site changed.
+
+**Pages ported** (all 9 from the plan): `/` (index — the complex one, see below), `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/schedule`. All 8 non-index pages build to fully static HTML and were verified rendering correct content via a local `next dev` + `curl` pass (200 status, expected `<h1>`/JSON-LD content present).
+
+**Index page (`/`):** the day/genre filtering UI (headliners/majors/undercards, sidebar day panels, genre list, quick filters, countdown) was rewired from the original's imperative DOM-class-toggling JS into a proper React client component (`LineupExplorer.tsx`) driven by state, fed by artist data fetched from Supabase at build time via `lib/data.ts`. The schedule hub's fuzzy-match "Plan My Schedule" widget was kept as vanilla JS (extracted verbatim to `public/schedule-planner.js`), per the plan's explicit allowance to leave schedule-builder-style JS in its current form rather than force a premature rewrite — same reasoning extended to `favorites.js` (star/My-Lineup toggling), copied unchanged, since Phase 5 is what actually migrates that system to Supabase.
+
+**Data layer:** `lib/data.ts` fetches from the Phase 1 Supabase tables (public-read RLS, so a plain `@supabase/supabase-js` client with the publishable key is sufficient — no `@supabase/ssr`/cookie machinery needed until Phase 4's authenticated routes). Zod schemas (`lib/types.ts`) validate every row read back from Supabase before it flows into rendering, per this repo's coding-style convention of validating at system boundaries.
+
+**seed_genres.sql safety net:** because Jacob's application status for `seed_genres.sql` couldn't be confirmed (see Status section above), `lib/data.ts` cross-checks fetched primary genres against the already-corrected `artists.js` at build time and prints a loud `console.warn` if more than 10% mismatch — a strong signal the live `artist_genres` table still has pre-audit placeholder data. This is a build-tooling warning (same category as `build.js`'s existing `console.warn` usage), not shipped client-side code.
+
+**Security re-implementation:**
+- CSP/security headers ported verbatim into `next.config.ts`'s `headers()` — same header names, same values, same `Content-Security-Policy-Report-Only` (not enforcing) posture as `dist/_headers`. Confirmed via `curl -I` against a local dev server: byte-identical output.
+- `esc()`-equivalent escaping: JSX auto-escapes all rendered text by default. Exactly one `dangerouslySetInnerHTML` was used anywhere in the port — for JSON-LD `<script type="application/ld+json">` tags (index + the 3 article pages), which is the officially documented Next.js pattern for structured data. Audited and safe: the content is fully static/hardcoded (no interpolated user or external data), `JSON.stringify` produces valid escaped JSON, and there is no other `dangerouslySetInnerHTML` use anywhere else in the codebase.
+- `favorites.js`'s existing `localStorage` payload validation and HTML-escaping (`esc()`) carried over unchanged since the file itself is unchanged.
+
+**Known interim gaps (expected, not bugs):** the nav's "My Lineup" link and the schedule hub's four day-builder links still point to `.html` routes (`/my-lineup.html`, `/schedule-thursday.html`, etc.) that live on the *static* site, not this Next.js app — those pages are explicitly out of Phase 3's scope (My Lineup/favorites migration is Phase 5; the day builders were never listed in Phase 3's port list). These links will 404 on the standalone Vercel preview during testing until either those pages are ported in a later phase or DNS cutover happens and both sites merge under one domain. Not a regression — the plan never scoped those pages into Phase 3.
+
+**Full build verified (2026-07-11):** once Jacob provided real Supabase credentials (`web/.env.local`, gitignored — not committed), `next build` succeeded end-to-end with zero errors. All 10 routes prerender as static content. Remaining gaps are visual screenshot-diff and Lighthouse, not functional correctness.
+
+**Vercel deploy config — flagged, not changed:** the existing Vercel project (`lolla-2026-website`) is still configured for the *old* static site (Framework Preset `Other`, Build Command `npm run build`, Output Directory `dist`, Root Directory unset/repo-root). None of this was touched. Before deploying Phase 3, the Vercel dashboard needs:
+- **Root Directory:** `web`
+- **Framework Preset:** Next.js (should auto-detect once Root Directory is set)
+- **Build Command / Output Directory:** framework defaults (`next build` / `.next`) — clear the old `npm run build` / `dist` overrides
+- **Environment Variables:** `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (from the Supabase dashboard's Project Settings → API)
+
+None of this was applied — only documented here per the instruction to flag it as part of the deploy config work, not silently change dashboard settings.
+
+**DNS/Cloudflare:** untouched, as instructed. No production traffic is affected by any of this work.
 
 ---
 
