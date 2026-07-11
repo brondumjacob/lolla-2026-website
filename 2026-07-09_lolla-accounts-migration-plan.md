@@ -320,6 +320,19 @@ Queried the live `artists` table directly via Supabase MCP: Worship's `descripti
 
 ---
 
+## Operational Notes (infrastructure housekeeping, not a numbered phase)
+
+### Supabase keep-alive cron (added 2026-07-11)
+
+Supabase's Free tier auto-pauses a project after 7 days with no database activity, which would break the live Vercel deployment (`lolla-2026-website.vercel.app`) without warning. Added a daily Vercel Cron Job that pings the database so it never goes 7 days idle — well inside the pause window with margin.
+
+- `web/vercel.json` — `crons` entry, `GET /api/cron/keep-alive` once daily (`0 9 * * *`, UTC per Vercel's cron semantics).
+- `web/app/api/cron/keep-alive/route.ts` — does a trivial `select id from festivals limit 1` using the existing build-time Supabase client (`lib/supabase.ts`'s `createBuildTimeClient()`, same publishable-key/public-read pattern `lib/data.ts` already uses). Only needs to register as activity, not accomplish anything functionally.
+- **Request verification:** confirmed current against Vercel's docs (fetched 2026-07-11, docs page last updated 2026-06-02) rather than assumed from training data — Vercel's documented mechanism is a `CRON_SECRET` env var, auto-sent as an `Authorization: Bearer <value>` header on every real cron invocation. The route checks that header against `process.env.CRON_SECRET` and 401s otherwise, so the URL can't be hit by an arbitrary public request.
+- **Action required (not yet done):** add `CRON_SECRET` (a random 16+ char string) to the Vercel project's Production environment variables in the dashboard — documented in `web/.env.local.example` but not something this session can set. The cron job will 401 on every real invocation until that's added.
+
+---
+
 ## Appendix — Allowed APIs (Phase 0 output, confirmed 2026-07-09)
 
 Everything below was verified against live docs today. Do not deviate from these without re-checking — this appendix exists specifically so the executor doesn't invent API surface from training data.
