@@ -45,3 +45,51 @@ export const FavoriteArtistRowSchema = z.object({
   name: z.string(),
 });
 export type FavoriteArtistRow = z.infer<typeof FavoriteArtistRowSchema>;
+
+// A set entry from public/schedule-data.js's window.SCHEDULE (191 rows) —
+// read at build time via node:vm (same technique as lib/data.ts's
+// warnIfGenresLookStale, see lib/schedule-data.ts) and validated before it
+// flows into the schedule builder. start/end are minutes since midnight.
+export const ScheduleSetSchema = z.object({
+  name: z.string().min(1),
+  day: z.number().int().min(1).max(4),
+  dayName: z.string(),
+  stage: z.string(),
+  start: z.number().int().min(0),
+  end: z.number().int().min(0),
+  region: z.string(),
+  open: z.boolean(),
+  disp: z.string(),
+});
+export type ScheduleSet = z.infer<typeof ScheduleSetSchema>;
+
+// A `user_schedules` row — one named, saved schedule for a user+day.
+export const ScheduleRecordSchema = z.object({
+  id: z.string(),
+  day: z.number().int().min(1).max(4),
+  name: z.string(),
+});
+export type ScheduleRecord = z.infer<typeof ScheduleRecordSchema>;
+
+// A `schedule_artists` row joined back to its artist name, the shape the
+// schedule server actions read/return (mirrors FavoriteArtistRowSchema, plus
+// the must-see flag — see supabase/migrations/0002_schedule_artists_must_see.sql).
+export const ScheduleArtistRowSchema = z.object({
+  artist_id: z.string(),
+  name: z.string(),
+  is_must_see: z.boolean(),
+});
+export type ScheduleArtistRow = z.infer<typeof ScheduleArtistRowSchema>;
+
+// Input to the schedule create/save server actions — validated before it
+// ever reaches a Supabase query, since it originates from client state that
+// traces back to localStorage (an external, user-writable boundary).
+export const ScheduleSetInputSchema = z
+  .array(
+    z.object({
+      name: z.string().min(1),
+      must: z.boolean(),
+    })
+  )
+  .max(200);
+export type ScheduleSetInput = z.infer<typeof ScheduleSetInputSchema>;

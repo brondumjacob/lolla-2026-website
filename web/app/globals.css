@@ -823,4 +823,144 @@ body {
 .account-panel h2 { font-family: var(--font-display); font-size: 17px; color: var(--black); margin: 0 0 10px; }
 .account-panel p { font-family: var(--font-body); font-size: 14px; line-height: 1.7; color: rgba(28,21,38,0.6); margin-bottom: 0; }
 .account-wrap .nav-signout { border: 2px solid rgba(28,21,38,0.15); border-radius: var(--radius-pill); padding: 10px 18px; color: rgba(28,21,38,0.6); text-transform: none; font-size: 13px; }
+
+/* ===== SCHEDULE BUILDER (Phase 6) =====
+   Ported from the static site's schedule-thursday/friday/saturday/sunday.html
+   inline <style> blocks (identical across all four), which were themselves
+   self-contained single-page apps with their own scoped CSS. Every class is
+   prefixed sb- here because this stylesheet is shared site-wide — the
+   original's bare names (.card, .btn, .set, .count, .route...) would be too
+   easy to collide with something else added to globals.css later. Colors
+   reuse this file's existing custom properties (--card-bg === the original's
+   --ink, same #2B1B14 value) rather than redefining a second --ink. */
+:root {
+  --sb-region-s: #2a9fd6;
+  --sb-region-m: #d63b9a;
+  --sb-region-n: #E6432E;
+}
+.sb-frame { padding: 10px; min-height: 100vh; }
+.sb-card { background: var(--card-bg); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.25); padding-bottom: 96px; }
+.sb-mast { position: relative; padding: 16px 16px 12px; color: #fff; }
+.sb-word { font-family: var(--font-display); font-weight: 900; letter-spacing: -1px; line-height: .86; }
+.sb-word .sb-w1 { font-size: clamp(34px,9vw,64px); display: block; }
+.sb-word .sb-w2 { font-size: clamp(18px,4.6vw,30px); display: block; color: var(--pink); letter-spacing: 3px; }
+.sb-when { margin-top: 6px; font-size: 13px; letter-spacing: 1px; opacity: .92; }
+.sb-tixbadge { display: inline-block; margin-top: 10px; background: var(--lime); color: var(--card-bg); font-weight: 900; font-size: 12px; letter-spacing: 1px; padding: 5px 11px; border-radius: 999px; text-transform: uppercase; }
+.sb-tix-toggle { display: flex; gap: 6px; margin-top: 10px; }
+.sb-tix-opt { font-family: var(--font-display); font-weight: 900; font-size: 11px; letter-spacing: .5px; border: none; border-radius: 999px; padding: 6px 14px; cursor: pointer; text-transform: uppercase; background: #2a2a35; color: #888; }
+.sb-tix-opt.active { background: var(--lime); color: var(--card-bg); }
+.sb-day-switcher { display: flex; gap: 4px; padding: 8px 16px; background: #241934; }
+.sb-ds-day { display: inline-block; padding: 5px 12px; font-family: var(--font-display); font-weight: 900; font-size: 0.7rem; letter-spacing: 2px; color: rgba(255,255,255,0.5); text-decoration: none; border-radius: 4px; text-transform: uppercase; }
+.sb-ds-day:hover { color: #fff; background: rgba(255,255,255,0.08); }
+.sb-ds-day.active { color: var(--lime); }
+.sb-star-svg { position: absolute; width: 30px; height: 30px; opacity: .95; }
+.sb-howto { background: var(--lime); color: var(--card-bg); font-weight: 700; font-size: 13px; padding: 9px 16px; line-height: 1.4; }
+.sb-howto b { font-weight: 900; }
+.sb-scrollhint { font-size: 11px; font-weight: 700; color: var(--pink-deep); background: var(--card-bg); padding: 6px 16px; letter-spacing: .5px; }
+.sb-skey { background: #3a2b4a; color: #dfe6ea; font-size: 11px; line-height: 1.5; padding: 10px 16px; border-top: 1px solid #333; }
+.sb-skey b { color: #fff; }
+.sb-kb { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 3px; color: #fff; font-weight: 900; font-size: 9px; vertical-align: 1px; margin: 0 1px; }
+.sb-kb.sb-region-s { background: var(--sb-region-s); } .sb-kb.sb-region-m { background: var(--sb-region-m); } .sb-kb.sb-region-n { background: var(--sb-region-n); }
+/* selection grid */
+.sb-gridwrap { overflow: auto; -webkit-overflow-scrolling: touch; background: var(--card-bg); }
+.sb-grid { display: flex; min-width: max-content; position: relative; }
+.sb-gutter { position: sticky; left: 0; z-index: 6; flex: 0 0 46px; width: 46px; background: var(--card-bg); }
+.sb-gutter .sb-ghead { height: 62px; } .sb-gutter .sb-gtrack { position: relative; height: 900px; }
+.sb-hr { position: absolute; left: 0; right: 2px; text-align: right; padding-right: 5px; font-size: 10px; font-weight: 700; color: #cfd6da; transform: translateY(-6px); }
+.sb-col { flex: 0 0 116px; width: 116px; border-left: 1px solid rgba(255,255,255,.10); }
+.sb-chead { height: 62px; background: var(--card-bg); color: #fff; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 3px 4px; position: relative; border-bottom: 2px solid var(--pink); }
+.sb-chead .sb-sname { font-family: var(--font-display); font-weight: 900; font-size: 12px; letter-spacing: .3px; line-height: 1; text-transform: uppercase; }
+.sb-chead .sb-sub { font-size: 8px; opacity: .75; line-height: 1; }
+.sb-hreg { position: absolute; top: 4px; right: 5px; font-size: 8px; font-weight: 900; width: 14px; height: 14px; border-radius: 3px; display: flex; align-items: center; justify-content: center; color: #fff; }
+.sb-hreg.sb-region-s { background: var(--sb-region-s); } .sb-hreg.sb-region-m { background: var(--sb-region-m); } .sb-hreg.sb-region-n { background: var(--sb-region-n); }
+.sb-track { position: relative; height: 900px; background: var(--cyan); background-image: repeating-linear-gradient(to bottom,transparent 0 89px,rgba(7,40,46,.18) 89px 90px); }
+.sb-set { position: absolute; left: 4px; right: 4px; background: var(--lime); border: 1px solid var(--card-bg); border-radius: 6px; color: var(--card-bg); font-family: inherit; text-align: left; padding: 3px 5px; cursor: pointer; overflow: hidden; display: flex; flex-direction: column; gap: 1px; }
+.sb-set:hover { filter: brightness(1.03); } .sb-set:focus-visible { outline: 3px solid #0a2a30; outline-offset: 1px; }
+.sb-set .sb-snm { font-weight: 900; font-size: 10.5px; line-height: 1.05; text-transform: uppercase; }
+.sb-set .sb-stm { font-size: 9px; font-weight: 700; opacity: .85; }
+.sb-mustbtn { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 1.5px solid var(--card-bg); color: #c9ccd1; font-size: 11px; line-height: 15px; text-align: center; cursor: pointer; display: none; font-weight: 900; }
+.sb-set.sel { border: 3px solid var(--card-bg); z-index: 3; }
+.sb-set.sel .sb-mustbtn { display: block; }
+.sb-set.must { border: 3px solid var(--red); z-index: 4; }
+.sb-set.must .sb-mustbtn { background: var(--red); color: #fff; border-color: var(--red); }
+.sb-set.sel .sb-snm { padding-right: 18px; }
+/* action bar */
+.sb-actionbar { position: sticky; bottom: 0; z-index: 20; background: var(--card-bg); border-top: 2px solid var(--pink); display: flex; align-items: center; gap: 10px; padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+.sb-count { color: #fff; font-weight: 900; font-size: 13px; flex: 1; letter-spacing: .3px; line-height: 1.2; }
+.sb-count b { color: var(--lime); } .sb-count i { color: var(--red); font-style: normal; }
+.sb-btn { font-family: var(--font-display); font-weight: 900; border: none; border-radius: 999px; padding: 11px 18px; font-size: 13px; letter-spacing: .5px; cursor: pointer; text-transform: uppercase; }
+.sb-btn.sb-go { background: var(--lime); color: var(--card-bg); } .sb-btn.sb-go:disabled { opacity: .45; cursor: not-allowed; }
+.sb-btn.sb-ghost { background: transparent; color: #fff; border: 2px solid #5a5a64; padding: 9px 14px; }
+/* schedule switcher (new — not in the original static builders, which had
+   no persistence and therefore no concept of multiple saved schedules) */
+.sb-switcher { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 16px; background: #241934; align-items: center; }
+.sb-switcher-item { font-family: var(--font-body); font-weight: 700; font-size: 12px; border-radius: 999px; padding: 6px 12px; border: 2px solid rgba(255,255,255,0.15); background: transparent; color: rgba(255,255,255,0.7); cursor: pointer; }
+.sb-switcher-item.active { background: var(--lime); color: var(--card-bg); border-color: var(--lime); }
+.sb-switcher-del { background: transparent; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 12px; margin-left: 4px; }
+.sb-switcher-del:hover { color: var(--red); }
+.sb-signin-prompt { font-family: var(--font-body); font-size: 12px; color: rgba(255,255,255,0.6); padding: 8px 16px; background: #241934; }
+.sb-signin-prompt a { color: var(--lime); }
+/* ===== route-map results ===== */
+.sb-results { background: #fff; }
+.sb-rmast { position: relative; background: var(--pink); padding: 14px 16px 12px; overflow: hidden; }
+.sb-reb { position: relative; font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--card-bg); }
+.sb-rbig { position: relative; font-family: var(--font-display); font-weight: 900; font-size: clamp(30px,8vw,52px); line-height: .9; color: var(--card-bg); }
+.sb-rdate { position: relative; font-size: 12px; font-weight: 900; letter-spacing: 1px; color: var(--card-bg); margin-top: 3px; }
+.sb-rstar { position: absolute; width: 26px; height: 26px; }
+.sb-rbar { padding: 12px 16px; border-bottom: 1px solid #eee; }
+.sb-rtix { display: inline-block; background: var(--card-bg); color: var(--lime); font-weight: 900; font-size: 12px; letter-spacing: 1px; padding: 6px 13px; border-radius: 999px; }
+.sb-rlegend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 11px; font-weight: 700; color: #333; align-items: center; }
+.sb-rlegend span { display: inline-flex; align-items: center; gap: 4px; }
+.sb-lsw { width: 13px; height: 13px; border-radius: 3px; display: inline-block; border: 1px solid #999; }
+.sb-rbadge { font-size: 9px; font-weight: 900; color: #fff; border-radius: 3px; padding: 1px 4px; }
+.sb-rbadge.sb-region-s { background: var(--sb-region-s); } .sb-rbadge.sb-region-m { background: var(--sb-region-m); } .sb-rbadge.sb-region-n { background: var(--sb-region-n); }
+.sb-rkey { font-size: 11px; color: #555; line-height: 1.5; margin-top: 9px; }
+.sb-rkey .sb-rbadge { margin: 0 1px; }
+.sb-ticketnote { font-size: 12px; line-height: 1.4; color: #444; background: #f4f6e0; border-left: 4px solid var(--lime); padding: 8px 10px; border-radius: 4px; margin: 12px 16px 0; }
+.sb-summ { font-size: 12px; color: #555; font-weight: 700; margin: 10px 16px 0; }
+.sb-rboard { position: relative; background: var(--cyan); margin: 12px 0 0; padding: 10px 0; border-top: 2px solid var(--card-bg); border-bottom: 2px solid var(--card-bg); }
+.sb-rgut { position: absolute; left: 0; top: 10px; width: 46px; }
+.sb-rgut .sb-rhr { position: absolute; right: 5px; font-size: 10px; font-weight: 700; color: #0a3a42; transform: translateY(-6px); }
+.sb-rlanes { position: relative; margin-left: 46px; margin-right: 8px; }
+.sb-rline { position: absolute; left: 0; right: 0; border-top: 1px dashed rgba(7,40,46,.35); }
+.sb-rset { position: absolute; background: var(--lime); border: 2px solid var(--card-bg); border-radius: 8px; padding: 5px 7px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,.12); }
+.sb-rset.must { border-color: var(--red); box-shadow: 0 0 0 2px rgba(230,54,43,.25),0 2px 4px rgba(0,0,0,.15); }
+.sb-rset .sb-rn { font-weight: 900; font-size: 12px; line-height: 1.05; text-transform: uppercase; padding-right: 54px; }
+.sb-rset .sb-rmeta { font-size: 10px; font-weight: 700; color: #234; margin-top: 2px; }
+.sb-rreg { display: inline-block; font-size: 9px; font-weight: 900; color: #fff; border-radius: 3px; padding: 0 4px; margin-right: 4px; vertical-align: 1px; }
+.sb-rreg.sb-region-s { background: var(--sb-region-s); } .sb-rreg.sb-region-m { background: var(--sb-region-m); } .sb-rreg.sb-region-n { background: var(--sb-region-n); }
+.sb-rtag { position: absolute; top: 5px; right: 6px; font-size: 8.5px; font-weight: 900; color: #fff; border-radius: 4px; padding: 2px 5px; letter-spacing: .4px; text-transform: uppercase; }
+.sb-rtag.must { background: var(--red); } .sb-rtag.partial { background: var(--orange); } .sb-rtag.head { background: var(--card-bg); }
+.sb-rconf { position: absolute; left: 50%; transform: translate(-50%,-50%); background: var(--red); color: #fff; font-weight: 900; font-size: 10px; letter-spacing: .6px; padding: 4px 9px; border-radius: 999px; z-index: 6; box-shadow: 0 2px 6px rgba(0,0,0,.3); text-transform: uppercase; }
+/* route list */
+.sb-route { padding: 14px 16px 18px; }
+.sb-rhead { font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 1px; color: var(--pink-deep); margin-bottom: 8px; }
+.sb-rstep { display: flex; gap: 10px; padding: 8px 0; align-items: flex-start; }
+.sb-rtime { flex: 0 0 88px; font-weight: 900; font-size: 11px; text-align: right; color: var(--card-bg); padding-top: 2px; line-height: 1.25; }
+.sb-rspine { flex: 0 0 4px; align-self: stretch; background: var(--lime); border-radius: 2px; margin-top: 2px; }
+.sb-rspine.must { background: var(--red); } .sb-rspine.partial { background: var(--orange); }
+.sb-rcont { flex: 1; }
+.sb-rcname { font-weight: 900; font-size: 14px; line-height: 1.1; text-transform: uppercase; }
+.sb-rcstage { font-size: 11px; color: #555; margin-top: 1px; }
+.sb-rnote { font-size: 11px; color: #444; margin-top: 3px; line-height: 1.35; }
+.sb-rnote.warn { color: var(--red); font-weight: 700; }
+.sb-xfer { display: flex; align-items: center; gap: 8px; padding: 3px 0 3px 98px; font-size: 11px; color: #666; }
+.sb-xfer .sb-xi { font-size: 13px; }
+.sb-xfer .sb-xpill { margin-left: auto; background: #eef0e0; color: #333; font-weight: 700; border-radius: 999px; padding: 2px 9px; font-size: 10px; white-space: nowrap; }
+.sb-xfer.tight .sb-xpill { background: #fde6e4; color: #7a1610; }
+.sb-ractions { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+.sb-empty { padding: 24px 16px; color: #555; font-size: 13px; }
+@media (max-width: 767px) {
+  .sb-col { flex: 0 0 100px; width: 100px; }
+  .sb-chead .sb-sname { font-size: 10px; }
+  .sb-set .sb-snm { font-size: 10px; }
+  .sb-skey { font-size: 10px; }
+  .sb-howto { font-size: 12px; }
+  .sb-card { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+}
+@media print {
+  .sb-actionbar, .sb-gridwrap, .sb-howto, .sb-scrollhint, .sb-switcher, .sb-signin-prompt { display: none !important; }
+  .sb-frame { padding: 0; } .sb-card { box-shadow: none; padding-bottom: 0; }
+  .sb-ractions { display: none; }
+}
 .account-wrap .nav-signout:hover { border-color: var(--red); color: var(--red); }

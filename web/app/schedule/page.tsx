@@ -58,7 +58,7 @@ export default function SchedulePage() {
         <div className="sched-grid-inner">
           <div className="sched-grid-label">Pick your day</div>
           <div className="sched-day-grid">
-            <a href="/schedule-thursday.html" className="sched-day-card">
+            <Link href="/schedule/thursday" className="sched-day-card">
               <div className="sched-day-accent" style={{ background: '#8B5CF6' }}></div>
               <div className="sched-day-body">
                 <div className="sched-day-label">THURSDAY</div>
@@ -66,8 +66,8 @@ export default function SchedulePage() {
                 <div className="sched-day-headliner">Lorde · John Summit</div>
                 <div className="sched-day-cta">BUILD →</div>
               </div>
-            </a>
-            <a href="/schedule-friday.html" className="sched-day-card">
+            </Link>
+            <Link href="/schedule/friday" className="sched-day-card">
               <div className="sched-day-accent" style={{ background: '#E91E8C' }}></div>
               <div className="sched-day-body">
                 <div className="sched-day-label">FRIDAY</div>
@@ -75,8 +75,8 @@ export default function SchedulePage() {
                 <div className="sched-day-headliner">Charli XCX · The Smashing Pumpkins</div>
                 <div className="sched-day-cta">BUILD →</div>
               </div>
-            </a>
-            <a href="/schedule-saturday.html" className="sched-day-card">
+            </Link>
+            <Link href="/schedule/saturday" className="sched-day-card">
               <div className="sched-day-accent" style={{ background: '#F97316' }}></div>
               <div className="sched-day-body">
                 <div className="sched-day-label">SATURDAY</div>
@@ -84,8 +84,8 @@ export default function SchedulePage() {
                 <div className="sched-day-headliner">Olivia Dean · Jennie</div>
                 <div className="sched-day-cta">BUILD →</div>
               </div>
-            </a>
-            <a href="/schedule-sunday.html" className="sched-day-card">
+            </Link>
+            <Link href="/schedule/sunday" className="sched-day-card">
               <div className="sched-day-accent" style={{ background: '#00BCD4' }}></div>
               <div className="sched-day-body">
                 <div className="sched-day-label">SUNDAY</div>
@@ -93,7 +93,7 @@ export default function SchedulePage() {
                 <div className="sched-day-headliner">Tate McRae · The xx</div>
                 <div className="sched-day-cta">BUILD →</div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
