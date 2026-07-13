@@ -168,6 +168,15 @@ All user-level plugins are active: `ui-ux-pro-max`, `claude-mem`, `superpowers`,
 
 See `~/.claude/CLAUDE.md` for full skill routing table.
 
+## Reusing This Project for Other Festivals
+This repo doubles as the **template** for standing up new festival sites. A user-level agent,
+`~/.claude/agents/festival-site-builder.md`, takes a lineup poster image and recreates the
+product for a new festival (new repo + new Cloudflare project + custom design + a seed into
+the shared multi-festival Supabase DB). It reads `FESTIVAL-TEMPLATE.md` (repo root) for the
+line-level facts: copy allowlist, `artists.js` field spec, `build.js` edit map, schedule spec,
+seed procedure. **Keep `FESTIVAL-TEMPLATE.md` updated in the same commit whenever `build.js`,
+the `artists.js` schema, the page set, or the seed scripts change.**
+
 ## Notes
 - Global skill routing and coding standards are in `~/.claude/CLAUDE.md`
 - Arsenal index (skills, agents, MCPs): `~/.claude/skills/INDEX.md`
