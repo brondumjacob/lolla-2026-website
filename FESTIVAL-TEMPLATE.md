@@ -178,3 +178,42 @@ shape (`--radius-*`, `--shadow-*`, `--border*`), plus the `body` background grad
 with embedded `<style>` blocks (index, schedule builders) define their own local variables
 (e.g. day-badge colors, region colors `--rS/--rM/--rN`) — restyle those in place. Also
 re-derive `build.js` `DAY_COLORS` and the OG-SVG header/footer colors from the new palette.
+
+## 10. Umbrella-domain mode (the planned direction)
+
+Jacob's expansion plan (2026-07): all festivals consolidate onto one festival-neutral
+**umbrella domain**, each festival living at a path (`<hub-domain>/<slug>/`) — one AdSense
+approval inherited by every festival, compounding SEO authority, and alignment with the
+planned all-festivals scheduler app. Own-domain-per-festival remains supported for one-offs.
+`lolla2026lineup.com` stays untouched until after the 2026 festival (Aug 2), then 301s into
+the umbrella.
+
+What changes vs. own-domain mode:
+
+- **Base path — the big one.** This template uses root-relative URLs everywhere
+  (`/styles.css`, `/lineup.png`, `href="/about.html"`, `favorites.js` fetch paths,
+  `heroImgHTML` in build.js). Under `/<slug>/` these all silently resolve to the hub root.
+  Introduce a `BASE_PATH` constant in `build.js` and prefix every generated/static URL
+  (or convert pages to relative links). **Audit before deploy:** `grep -rn 'href="/\|src="/'
+  dist/` must show only intentionally-absolute (prefixed) URLs.
+- **Cloudflare routing:** the festival's Worker attaches to the route
+  `<hub-domain>/<slug>/*` on the hub zone instead of getting its own domain. The Worker's
+  static-assets serving must strip the prefix or the build must emit files under
+  `dist/<slug>/`. `wrangler.jsonc` still gets a unique `name`.
+- **robots.txt / ads.txt live at the DOMAIN root only** — they belong to the hub, not the
+  festival build. Do not ship them from a festival repo in umbrella mode; instead ensure
+  the hub's robots.txt doesn't block the new path and its ads.txt already covers the
+  AdSense property.
+- **Sitemap:** festival build emits `/<slug>/sitemap.xml` with fully-qualified prefixed
+  URLs; the hub root maintains a **sitemap index** referencing each festival's sitemap.
+  Canonical/OG/JSON-LD URLs all include the path prefix.
+- **AdSense:** the hub's existing approval covers new paths — no new application. Ad units
+  can go live at launch (still keep CSP Report-Only until confirmed for the new pages).
+- **localStorage:** same-origin means all festivals share storage — the per-festival key
+  (`<slug>-my-lineup-v1`, §8) is what keeps favorites from colliding. Never drop the slug
+  from the key in umbrella mode.
+- **Hub homepage** (built once, separately): a festival index linking each `/<slug>/`
+  section — also the natural home for the sitemap index and cross-festival editorial.
+- Long-term: the Next.js `web/` app + Supabase (already multi-festival) is the natural
+  endpoint of this consolidation; per-festival static builds under paths are the
+  transitional form.
