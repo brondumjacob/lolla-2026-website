@@ -428,7 +428,14 @@ body {
 .genre-strip-pill.is-active { background: var(--black); color: var(--white); box-shadow: var(--shadow-lift); }
 .genre-strip-pill:hover:not(.is-active) { background: rgba(255,255,255,0.85); }
 
-.artist-search-wrap { grid-area: search; position: relative; margin: 2rem 2.5rem 1rem; }
+/* Sticky at every width now, not just mobile — pinned just below the nav
+   (56px tall) so it stays visible while the lineup scrolls underneath.
+   Padding (not margin) carries the inset so the sticky box's own
+   background/blur paints all the way to its edges — a margin-based inset
+   would leave the gutters transparent and let scrolling cards show through
+   next to the pill. Width still tracks the "search" grid column, i.e. the
+   lineup column only, not the full page. */
+.artist-search-wrap { grid-area: search; position: sticky; top: 56px; z-index: 90; padding: 2rem 2.5rem 1rem; background: rgba(255,240,228,0.92); backdrop-filter: blur(10px); }
 .artist-search { width: 100%; padding: 0.75rem 2.75rem 0.75rem 1.1rem; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; border: none; border-radius: var(--radius-pill); background: rgba(255,255,255,0.6); box-shadow: var(--shadow-sm); color: var(--black); transition: background var(--transition), box-shadow var(--transition); }
 .artist-search::placeholder { color: rgba(28,21,38,0.45); font-weight: 500; }
 .artist-search:focus { outline: none; background: rgba(255,255,255,0.9); box-shadow: var(--shadow-lift); }
@@ -441,13 +448,9 @@ body {
 @media (max-width: 1023px) {
   :root { --sidebar-width: 100%; --main-width: 100%; }
   .two-col { display: flex; flex-direction: column; }
-  /* Search sits above the day strip (order 0) and stays pinned just below
-     the nav (56px tall) while the lineup scrolls underneath. Padding (not
-     margin) carries the horizontal inset so the sticky element's own
-     background/blur covers the full width — a margin-based inset would leave
-     the gutters transparent and let scrolling cards show through next to
-     the pill. */
-  .artist-search-wrap { order: 0; margin: 0; padding: 0.6rem 1.25rem; position: sticky; top: 56px; z-index: 90; background: rgba(255,240,228,0.92); backdrop-filter: blur(10px); }
+  /* Search moves above the day strip (order 0) on mobile; sticky/background
+     are already set in the base rule above, just tighten the padding here. */
+  .artist-search-wrap { order: 0; padding: 0.6rem 1.25rem; }
   .main-col { border-right: none; border-top: none; padding: 1.5rem 1.25rem; order: 2; width: 100%; }
   .sidebar { position: static; max-height: none; overflow-y: visible; order: 1; width: 100%; border-bottom: none; display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; align-items: stretch; scroll-snap-type: x mandatory; gap: 10px; padding: 10px; }
   .sidebar-header { display: none; }
