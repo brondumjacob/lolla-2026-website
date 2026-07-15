@@ -108,27 +108,27 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
       </header>
 
       <div className="two-col">
-        <main className="main-col" id="main-content">
-          <div className="artist-search-wrap">
-            <input
-              type="text"
-              className="artist-search"
-              placeholder="Search artists by name…"
-              aria-label="Search artists by name"
-              autoComplete="off"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              className={`artist-search-clear${searchQuery !== '' ? ' visible' : ''}`}
-              aria-label="Clear search"
-              title="Clear search"
-              onClick={() => setSearchQuery('')}
-            >
-              ✕
-            </button>
-          </div>
+        <div className="artist-search-wrap">
+          <input
+            type="text"
+            className="artist-search"
+            placeholder="Search artists by name…"
+            aria-label="Search artists by name"
+            autoComplete="off"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button
+            className={`artist-search-clear${searchQuery !== '' ? ' visible' : ''}`}
+            aria-label="Clear search"
+            title="Clear search"
+            onClick={() => setSearchQuery('')}
+          >
+            ✕
+          </button>
+        </div>
 
+        <main className="main-col" id="main-content">
           <div className="genre-strip" id="genre-strip" role="list" aria-label="Filter by genre">
             <button
               className={`genre-strip-pill${activeGenre === '' ? ' is-active' : ''}`}
@@ -232,48 +232,53 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
             <div className="sidebar-subtitle">Jul 30 – Aug 2, 2026</div>
           </div>
 
-          <div>
-            {[1, 2, 3, 4].map((d) => {
-              const meta = DAY_META[d];
-              const allOnDay = artists.filter((a) => a.day === d);
-              const headlinersOnDay = headliners.filter((a) => a.day === d);
-              const isActive = activeDay === d;
-              return (
-                <div
-                  key={d}
-                  className={`day-panel day-panel-${d}${isActive ? ' is-active' : ''}`}
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={isActive}
-                  aria-label={`Filter to ${meta.name} ${meta.date}. ${allOnDay.length} artists.`}
-                  onClick={() => toggleDay(d)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleDay(d);
-                    }
-                  }}
-                >
-                  <div className="day-panel-inner">
-                    <div className="dp-top">
-                      <div>
-                        <div className="dp-day">{meta.name}</div>
-                        <div className="dp-date">{meta.date}</div>
-                      </div>
-                      <div className="dp-count">
-                        <span className="dp-count-num">{allOnDay.length}</span>
-                        <span className="dp-count-label">artists</span>
-                      </div>
+          {/* Rendered as direct children of .sidebar (not wrapped in an
+              intermediate div) — the @media(max-width:1023px) rule flips
+              .sidebar to display:flex/overflow-x:auto specifically so these
+              .day-panel elements become the scrollable flex children of a
+              snapping day-picker strip. A wrapping div here would become the
+              sole flex item instead, silently breaking the horizontal scroll
+              (days would stack as ordinary blocks with no snap/scroll). */}
+          {[1, 2, 3, 4].map((d) => {
+            const meta = DAY_META[d];
+            const allOnDay = artists.filter((a) => a.day === d);
+            const headlinersOnDay = headliners.filter((a) => a.day === d);
+            const isActive = activeDay === d;
+            return (
+              <div
+                key={d}
+                className={`day-panel day-panel-${d}${isActive ? ' is-active' : ''}`}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isActive}
+                aria-label={`Filter to ${meta.name} ${meta.date}. ${allOnDay.length} artists.`}
+                onClick={() => toggleDay(d)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleDay(d);
+                  }
+                }}
+              >
+                <div className="day-panel-inner">
+                  <div className="dp-top">
+                    <div>
+                      <div className="dp-day">{meta.name}</div>
+                      <div className="dp-date">{meta.date}</div>
                     </div>
-                    <div className="dp-headliners">{headlinersOnDay.map((h) => h.name).join(' · ') || 'TBA'}</div>
+                    <div className="dp-count">
+                      <span className="dp-count-num">{allOnDay.length}</span>
+                      <span className="dp-count-label">artists</span>
+                    </div>
                   </div>
-                  <div className="dp-active-indicator" aria-hidden="true">
-                    <span className="dp-active-dot"></span> ACTIVE FILTER
-                  </div>
+                  <div className="dp-headliners">{headlinersOnDay.map((h) => h.name).join(' · ') || 'TBA'}</div>
                 </div>
-              );
-            })}
-          </div>
+                <div className="dp-active-indicator" aria-hidden="true">
+                  <span className="dp-active-dot"></span> ACTIVE FILTER
+                </div>
+              </div>
+            );
+          })}
 
           <div className="sidebar-section">
             <div className="sidebar-section-title">BY GENRE</div>

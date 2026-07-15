@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { ScheduleSet } from '@/lib/types';
 import type { ScheduleDayMeta } from '@/lib/schedule-days';
@@ -36,6 +36,24 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
   const [resultsOpen, setResultsOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const resultsRef = useRef<HTMLElement>(null);
+  const gridScrollRef = useRef<HTMLDivElement>(null);
+  // Hides the right-edge scroll-fade once there's nothing left to reveal —
+  // either the grid doesn't overflow at all, or the user has scrolled to the
+  // far right. Re-checked on scroll and on resize (rotating a phone changes
+  // whether the grid overflows).
+  const [scrollAtEnd, setScrollAtEnd] = useState(false);
+
+  const updateScrollFade = useCallback(() => {
+    const el = gridScrollRef.current;
+    if (!el) return;
+    setScrollAtEnd(el.scrollWidth - el.clientWidth <= el.scrollLeft + 4);
+  }, []);
+
+  useEffect(() => {
+    updateScrollFade();
+    window.addEventListener('resize', updateScrollFade);
+    return () => window.removeEventListener('resize', updateScrollFade);
+  }, [updateScrollFade]);
 
   const stageColumns = useMemo(() => groupSetsByStage(sets), [sets]);
   const selectedNames = useMemo(() => new Set(schedules.sets.map((s) => s.name)), [schedules.sets]);
@@ -54,6 +72,13 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
   const hasClash = picks.some((p) => p.clash.length > 0);
   const nLanes = laneCount(picks);
   const boardHeight = (GE - GS) * SC;
+  // Whether at least one transfer in the route has a zoned walk-time estimate
+  // (both stages have a confirmed S/M/N region) — gates the disclaimer so it
+  // doesn't show on a route with no estimates to disclaim.
+  const hasWalkEstimates = useMemo(
+    () => picks.some((p, idx) => idx > 0 && computeTransfer(picks[idx - 1], p, mode).walkMins !== null),
+    [picks, mode]
+  );
 
   const mustCount = mustNames.size;
   const tix = mode === 'cart' ? 'PLATINUM VIP · GOLF CART' : 'GENERAL ADMISSION · WALKING';
@@ -216,57 +241,59 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
         </div>
         <div className="sb-scrollhint">Scroll sideways to see all {stageColumns.length} stages →</div>
 
-        <div className="sb-gridwrap">
-          <div className="sb-grid">
-            <div className="sb-gutter">
-              <div className="sb-ghead" />
-              <div className="sb-gtrack">
-                {HOUR_MARKS.map((m) => (
-                  <span key={m} className="sb-hr" style={{ top: timeTop(m) }}>
-                    {hourLabel(m)}
-                  </span>
-                ))}
-              </div>
-            </div>
-            {stageColumns.map((col) => (
-              <div className="sb-col" key={col.stage}>
-                <div className="sb-chead">
-                  {col.region && <span className={`sb-hreg sb-region-${col.region.toLowerCase()}`}>{col.region}</span>}
-                  <span className="sb-sname">{col.stage}</span>
+        <div className={`sb-gridouter${scrollAtEnd ? ' sb-scroll-end' : ''}`}>
+          <div className="sb-gridwrap" ref={gridScrollRef} onScroll={updateScrollFade}>
+            <div className="sb-grid">
+              <div className="sb-gutter">
+                <div className="sb-ghead" />
+                <div className="sb-gtrack">
+                  {HOUR_MARKS.map((m) => (
+                    <span key={m} className="sb-hr" style={{ top: timeTop(m) }}>
+                      {hourLabel(m)}
+                    </span>
+                  ))}
                 </div>
-                <div className="sb-track">
-                  {col.sets.map((s) => {
-                    const isSel = selectedNames.has(s.name);
-                    const isMust = mustNames.has(s.name);
-                    return (
-                      <button
-                        key={`${s.name}-${s.start}`}
-                        type="button"
-                        className={`sb-set${isSel ? ' sel' : ''}${isMust ? ' must' : ''}`}
-                        style={{ top: timeTop(s.start), height: (s.end - s.start) * SC }}
-                        aria-pressed={isSel}
-                        onClick={() => schedules.toggleSet(s.name)}
-                      >
-                        <span className="sb-snm">{s.name}</span>
-                        <span className="sb-stm">{s.disp}</span>
-                        <span
-                          className="sb-mustbtn"
-                          role="button"
-                          aria-label="Mark as must-see"
-                          title="Mark as must-see"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            schedules.toggleMust(s.name);
-                          }}
+              </div>
+              {stageColumns.map((col) => (
+                <div className="sb-col" key={col.stage}>
+                  <div className="sb-chead">
+                    {col.region && <span className={`sb-hreg sb-region-${col.region.toLowerCase()}`}>{col.region}</span>}
+                    <span className="sb-sname">{col.stage}</span>
+                  </div>
+                  <div className="sb-track">
+                    {col.sets.map((s) => {
+                      const isSel = selectedNames.has(s.name);
+                      const isMust = mustNames.has(s.name);
+                      return (
+                        <button
+                          key={`${s.name}-${s.start}`}
+                          type="button"
+                          className={`sb-set${isSel ? ' sel' : ''}${isMust ? ' must' : ''}`}
+                          style={{ top: timeTop(s.start), height: (s.end - s.start) * SC }}
+                          aria-pressed={isSel}
+                          onClick={() => schedules.toggleSet(s.name)}
                         >
-                          ★
-                        </span>
-                      </button>
-                    );
-                  })}
+                          <span className="sb-snm">{s.name}</span>
+                          <span className="sb-stm">{s.disp}</span>
+                          <span
+                            className="sb-mustbtn"
+                            role="button"
+                            aria-label="Mark as must-see"
+                            title="Mark as must-see"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              schedules.toggleMust(s.name);
+                            }}
+                          >
+                            ★
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
@@ -371,6 +398,11 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
 
             <div className="sb-route">
               <div className="sb-rhead">YOUR ROUTE</div>
+              {hasWalkEstimates && (
+                <div className="sb-rdisclaimer">
+                  Walk/cart times below are rough estimates based on stage zone (S/M/N), not measured distances.
+                </div>
+              )}
               {picks.map((p, idx) => {
                 const transfer = idx > 0 ? computeTransfer(picks[idx - 1], p, mode) : null;
                 const spineCls = p.must ? 'must' : p.clash.length > 0 ? 'partial' : '';
@@ -385,7 +417,10 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
                           {transfer.direction}
                           {transfer.tight && !transfer.overlap ? ' · tight on foot' : ''}
                         </span>
-                        <span className="sb-xpill">{transfer.pillText}</span>
+                        <span className="sb-xmeta">
+                          {transfer.walkMins !== null && <span className="sb-xwalk">~{transfer.walkMins} min</span>}
+                          <span className="sb-xpill">{transfer.pillText}</span>
+                        </span>
                       </div>
                     )}
                     <div className="sb-rstep">

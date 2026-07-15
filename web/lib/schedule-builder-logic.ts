@@ -176,6 +176,33 @@ export function computeConflictPills(picks: Pick[]): ConflictPill[] {
   return pills;
 }
 
+// South-to-north geographic order — NOT alphabetical (M < S < N alphabetically
+// would garble the pair keys below). Keys must be built from this order, not
+// a plain .sort() on the two letters, or "M-S" (alphabetical) would never
+// match the "S-M" (geographic) key stored in ZONE_MINUTES.
+const ZONE_ORDER = ['S', 'M', 'N'];
+
+// Rough walk/cart time between two Grant Park zones, keyed "S", "S-M", etc.
+// Foot estimates: same zone ~3 min, adjacent zone (S<->M or M<->N) ~7 min, far
+// zone (S<->N) ~13 min. Cart estimates are roughly half those on foot.
+const ZONE_MINUTES: Record<'foot' | 'cart', Record<string, number>> = {
+  foot: { S: 3, M: 3, N: 3, 'S-M': 7, 'M-N': 7, 'S-N': 13 },
+  cart: { S: 2, M: 2, N: 2, 'S-M': 4, 'M-N': 4, 'S-N': 7 },
+};
+
+// Estimated walk/cart time between two stages, purely from their Grant Park
+// zone (S/M/N). Only defined when BOTH stages have a confirmed zone — stages
+// with no 2026 location yet (Tito's, Airbnb, Kidzapalooza) get no estimate
+// rather than a misleading guess.
+export function estimateWalkMinutes(regionA: string, regionB: string, mode: 'foot' | 'cart'): number | null {
+  if (!regionA || !regionB) return null;
+  if (regionA === regionB) return ZONE_MINUTES[mode][regionA] ?? null;
+  const [i, j] = [ZONE_ORDER.indexOf(regionA), ZONE_ORDER.indexOf(regionB)].sort((a, b) => a - b);
+  if (i < 0 || j < 0) return null;
+  const key = `${ZONE_ORDER[i]}-${ZONE_ORDER[j]}`;
+  return ZONE_MINUTES[mode][key] ?? null;
+}
+
 export interface Transfer {
   gap: number;
   tight: boolean;
@@ -183,15 +210,18 @@ export interface Transfer {
   icon: string;
   direction: string;
   pillText: string;
+  walkMins: number | null;
 }
 
 // Transfer note between two consecutive picks in the route list — "tight"
 // only applies on foot (GA) between different stages under 15 minutes;
-// cart transfers are never flagged tight except literal overlaps.
+// cart transfers are never flagged tight except literal overlaps. Left
+// entirely as-is; walkMins is additive info alongside it.
 export function computeTransfer(prev: Pick, next: Pick, mode: 'foot' | 'cart'): Transfer {
   const gap = next.start - prev.end;
   const icon = mode === 'cart' ? '🛒' : '🚶';
   const sameStage = prev.stage === next.stage;
+  const walkMins = sameStage ? null : estimateWalkMinutes(prev.region, next.region, mode);
 
   if (gap < 0) {
     return {
@@ -201,6 +231,7 @@ export function computeTransfer(prev: Pick, next: Pick, mode: 'foot' | 'cart'): 
       icon,
       direction: `${prev.stage} / ${next.stage} clash`,
       pillText: 'overlap',
+      walkMins: null,
     };
   }
 
@@ -212,5 +243,6 @@ export function computeTransfer(prev: Pick, next: Pick, mode: 'foot' | 'cart'): 
     icon,
     direction: sameStage ? `Stay at ${prev.stage}` : `${prev.stage} → ${next.stage}`,
     pillText: gap === 0 ? 'back-to-back' : `${gap} min gap`,
+    walkMins,
   };
 }
