@@ -10,6 +10,11 @@ import ArtistCard from './ArtistCard';
 
 interface LineupExplorerProps {
   artists: ArtistWithGenre[];
+  /** Rendered between the info-box and the sticky filter bar — page.tsx passes
+      the .explore-strip here so the hero stays the very first thing on the
+      page (mobile top-clutter fix) without moving the strip's markup into
+      this client component. */
+  exploreSlot?: React.ReactNode;
 }
 
 function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: string, activeSearch: string) {
@@ -19,7 +24,7 @@ function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: s
   return dayOk && genreOk && searchOk;
 }
 
-export default function LineupExplorer({ artists }: LineupExplorerProps) {
+export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerProps) {
   const [activeDay, setActiveDay] = useState(0); // 0 = all
   const [activeGenre, setActiveGenre] = useState(''); // '' = all
   const [searchQuery, setSearchQuery] = useState(''); // raw input value
@@ -103,6 +108,8 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
         </div>
       </div>
 
+      {exploreSlot}
+
       <div className="filter-bar">
         <div className="artist-search-wrap">
           <input
@@ -126,45 +133,53 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
 
         {/* Toggle-button groups, not content lists — aria-pressed carries the
             state semantics, so these deliberately skip role="list"/"listitem"
-            (which don't support aria-pressed on their children). */}
-        <div className="filter-bar-days" aria-label="Filter by day">
-          <button
-            className={`day-pill${activeDay === 0 ? ' is-active' : ''}`}
-            aria-pressed={activeDay === 0}
-            onClick={() => toggleDay(0)}
-          >
-            All Days
-          </button>
-          {[1, 2, 3, 4].map((d) => (
+            (which don't support aria-pressed on their children).
+            .filter-bar-chips is a pure layout shim: display:contents on
+            desktop (days/genres stay two stacked rows) and a single
+            horizontal-scroll chip row on phones, where two stacked 40px rows
+            cost too much of the sticky bar's height. */}
+        <div className="filter-bar-chips">
+          <div className="filter-bar-days" aria-label="Filter by day">
             <button
-              key={d}
-              className={`day-pill day-pill-${d}${activeDay === d ? ' is-active' : ''}`}
-              aria-pressed={activeDay === d}
-              onClick={() => toggleDay(d)}
+              className={`day-pill${activeDay === 0 ? ' is-active' : ''}`}
+              aria-pressed={activeDay === 0}
+              onClick={() => toggleDay(0)}
             >
-              {DAY_META[d].short}
+              All Days
             </button>
-          ))}
-        </div>
+            {[1, 2, 3, 4].map((d) => (
+              <button
+                key={d}
+                className={`day-pill day-pill-${d}${activeDay === d ? ' is-active' : ''}`}
+                aria-pressed={activeDay === d}
+                onClick={() => toggleDay(d)}
+              >
+                {DAY_META[d].short}
+              </button>
+            ))}
+          </div>
 
-        <div className="filter-bar-genres" aria-label="Filter by genre">
-          <button
-            className={`genre-pill${activeGenre === '' ? ' is-active' : ''}`}
-            aria-pressed={activeGenre === ''}
-            onClick={() => toggleGenre('')}
-          >
-            All Genres
-          </button>
-          {genreCounts.map(([genre, count]) => (
+          <span className="chip-divider" aria-hidden="true" />
+
+          <div className="filter-bar-genres" aria-label="Filter by genre">
             <button
-              key={genre}
-              className={`genre-pill${activeGenre === genre ? ' is-active' : ''}`}
-              aria-pressed={activeGenre === genre}
-              onClick={() => toggleGenre(genre)}
+              className={`genre-pill${activeGenre === '' ? ' is-active' : ''}`}
+              aria-pressed={activeGenre === ''}
+              onClick={() => toggleGenre('')}
             >
-              {genre} <span className="genre-pill-count">{count}</span>
+              All Genres
             </button>
-          ))}
+            {genreCounts.map(([genre, count]) => (
+              <button
+                key={genre}
+                className={`genre-pill${activeGenre === genre ? ' is-active' : ''}`}
+                aria-pressed={activeGenre === genre}
+                onClick={() => toggleGenre(genre)}
+              >
+                {genre} <span className="genre-pill-count">{count}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -220,6 +220,50 @@ Golden Hour palette/fonts/tokens throughout. Static repo-root site untouched.
   `full-journey`) still pass unmodified — the redesign didn't touch `.star-toggle`,
   `.nav-mylineup .mylineup-count`, or any schedule-builder markup.
 
+## Mobile UX Pass (2026-07-18) — `web/` homepage/lineup only
+First-hand phone evaluation (Playwright, 320/390/430×844, against production) after Jacob reported
+the mobile site felt clunky/cluttered/scroll-heavy. Same Golden Hour tokens; no re-theme.
+- **Fixed two real mobile bugs**: (1) the ≤767px 2-col `.artist-grid` blew out past the viewport —
+  grid items default `min-width:auto` and each card's 44px star + 3×44px stream buttons couldn't
+  shrink to a ~173px track, so the right column rendered clipped off-screen with unreachable
+  buttons (the old e2e 2-col test compared row positions only and never caught it); (2) the hero
+  wordmark clipped to "LOLLAPALOO" at 390px (`15vw` clamp → now `clamp(2rem, 11.5vw, 4rem)`,
+  verified 320–430). Also found+fixed a footer overflow at ≤340px: `.site-footer-links` anchors
+  render with no whitespace between them (JSX), so the inline row could only break mid-link-text —
+  now a flex-wrap row.
+- **`ArtistCard.tsx` restructured** (both viewports, matches `.hl-feature-card`'s grammar): day
+  marker + star in `.ac-top`, then full-width name (long one-word names — Neighbourhood,
+  Beabadoobee — wrap cleanly now), genre, desc, streams-only `.ac-bottom`. Day inside cards is a
+  colored dot (Four-Day-Rule hue, non-text) + day text in ink (11.6:1+) instead of the
+  white-on-color `.day-badge` pill (which was part of the width blowout; `.day-badge` itself still
+  used in headliner cards/elsewhere, unchanged). On mobile, in-card star is 36px and stream
+  buttons 38px (WCAG 2.1 AA 2.5.8 ≥24px met; 44px kept everywhere outside the dense grid cards —
+  documented deviation from the site's 44px aspiration, which is the AAA bar).
+- **Top-of-page decluttered**: `.explore-strip` moved from above the hero (where it wrapped to 3
+  pill rows/144px before the brand was visible) to below the info-box via a new
+  `exploreSlot?: ReactNode` prop on `LineupExplorer` (page.tsx passes the nav; note the `key` on
+  the slot element — RSC-deserialized elements in a client child list otherwise trigger React's
+  dev key warning). Mobile: single swipeable pill row (50px); its nowrap rules must stay *after*
+  the base `.explore-strip` rule in globals.css (same specificity, cascade order decides). Info-box
+  compressed on mobile (~133→70px, dates+venue one line, stats inline). Hero tightened.
+- **Sticky filter bar 176→120px on mobile**: day + genre pills collapse into ONE combined
+  horizontal chip row (`.filter-bar-chips`: `display:contents` on desktop so the two groups stay
+  stacked rows, flex scroll row + `.chip-divider` on phones). Sticky bg 0.92→0.97 + bottom
+  hairline (content visibly ghosted through while scrolling). Desktop filter layout unchanged.
+- **Headliners on mobile = CSS scroll-snap carousel** (`flex: 0 0 82%`, snap x mandatory, edge
+  peek as affordance, hidden scrollbar): 1,857px of stacked cards → 255px row; all 8 cards stay
+  in the SSR DOM (no display:none — crawl-safe). Desktop wrap row unchanged.
+- **Measured after (390×844)**: zero horizontal overflow at 320/390/430 (was: clipped column),
+  chrome before lineup 854→606px, sticky 176→120px (21%→14% of screen), headliner section
+  −86%, total scrollHeight 22,088→20,251px. `contain-intrinsic-size` retuned 190→210px (desktop
+  median 206, mobile 225). Contrast (computed over the deepest gradient stop): `.ac-day` 11.6:1,
+  `.ac-genre` 4.76:1, `.ac-desc` 5.05:1 — all AA.
+- **E2E**: 4 new regression tests in `homepage.spec.ts` (no-horizontal-overflow incl. right-column
+  containment + hero-fits, carousel scrolls + last card reachable, hero-before-explore-strip);
+  full suite 24 passed / 1 pre-existing skip (`full-journey`, needs service-role env).
+- ≤340px fallback: grid drops to 1 column (compact 2-col genuinely can't fit a 3-button
+  streaming row per column there).
+
 ## Available Tools (Project Level)
 
 ### MCP Servers

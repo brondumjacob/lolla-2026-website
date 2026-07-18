@@ -20,14 +20,21 @@ interface ArtistCardProps {
 export default function ArtistCard({ artist, variant }: ArtistCardProps) {
   return (
     <div className={`artist-card is-${variant}`} role="listitem">
+      {/* Same top-row grammar as .hl-feature-card: day marker left, star
+          right, then the name on its own full-width line — long one-word
+          names ("Neighbourhood", "Beabadoobee") need the whole card width to
+          wrap cleanly in a 2-col phone grid. Day is a small colored dot
+          (Four-Day-Rule hue, non-text) + the day name in ink — not the
+          white-on-color .day-badge pill, whose min-content width was one of
+          the things blowing the grid past the viewport edge. */}
       <div className="ac-top">
-        <span className="ac-name">{artist.name}</span>
-        <span className={`day-badge day-${artist.day}`}>{DAY_META[artist.day].short}</span>
+        <span className={`ac-day ac-day-${artist.day}`}>{DAY_META[artist.day].short}</span>
+        <StarToggle artistName={artist.name} />
       </div>
+      <span className="ac-name">{artist.name}</span>
       <span className="ac-genre">{artist.genre}</span>
       {artist.description && <p className="ac-desc">{artist.description}</p>}
       <div className="ac-bottom">
-        <StarToggle artistName={artist.name} />
         <StreamingLinks
           artistName={artist.name}
           spotifyUrl={artist.spotify_url}

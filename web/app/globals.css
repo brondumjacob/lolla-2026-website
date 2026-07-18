@@ -200,8 +200,11 @@ body {
 
 /* ===== FOOTER ===== */
 .site-footer { background: var(--black); border-top: none; padding: 2.25rem 1.5rem; text-align: center; font-family: var(--font-body); font-size: 0.7rem; color: rgba(255,255,255,0.45); letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.9; }
-.site-footer-links { margin-bottom: 0.75rem; }
-.site-footer-links a { color: rgba(255,255,255,0.65); text-decoration: none; margin: 0 10px; font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; transition: color 0.15s; }
+/* Flex-wrap, not inline flow — JSX renders the anchors with no whitespace
+   between them, so as inline boxes the row could only break mid-link-text and
+   overflowed the viewport on narrow phones. */
+.site-footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 20px; margin-bottom: 0.75rem; }
+.site-footer-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; transition: color 0.15s; }
 .site-footer-links a:hover { color: var(--lime); }
 
 .ad-slot { text-align: center; padding: 16px 0; min-height: 90px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(28,21,38,0.12); border-radius: var(--radius-sm); margin: 20px 0; }
@@ -251,7 +254,6 @@ body {
 
 @media (max-width: 768px) {
   .site-nav { padding: 0 16px; }
-  .explore-strip { padding: 12px 16px 0; }
   .ticket-section { padding: 20px 16px; }
 }
 @media (max-width: 480px) { .countdown-box { min-width: 70px; padding: 12px 14px; } }
@@ -323,6 +325,18 @@ body {
   background: rgba(255,255,255,0.5); box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
 }
 .explore-pill:hover { background: rgba(255,255,255,0.85); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
+/* One swipeable row of pills on phones — wrapped, the strip cost 3 rows
+   (~144px) of vertical space (mobile UX pass; see also its slot placement in
+   page.tsx / LineupExplorer.tsx). This block must stay AFTER the base
+   .explore-strip rule above — same specificity, cascade order decides. */
+@media (max-width: 767px) {
+  .explore-strip {
+    padding: 12px 16px 2px; flex-wrap: nowrap; overflow-x: auto;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .explore-strip::-webkit-scrollbar { display: none; }
+  .explore-pill { flex-shrink: 0; white-space: nowrap; }
+}
 
 .wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
 .wrap h1 { font-family: var(--font-display); font-size: 34px; color: var(--black); margin-bottom: 6px; }
@@ -440,21 +454,36 @@ body {
      contain-intrinsic-size is a rough placeholder so scrollbar length stays
      stable before a card's first paint. */
   content-visibility: auto;
-  contain-intrinsic-size: 0 190px;
+  contain-intrinsic-size: 0 210px;
+  /* Grid items default to min-width:auto, which let card content push the
+     2-col phone grid wider than the viewport (the right column rendered
+     clipped off-screen). Cards must always shrink to their track. */
+  min-width: 0;
 }
 .artist-card:hover { background: rgba(255,255,255,0.8); box-shadow: var(--shadow-lift); transform: translateY(-3px); }
 .artist-card.is-major { padding: 1.1rem 1.2rem; }
-.ac-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
-.ac-name { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.15; }
+/* Day marker left, star right — same grammar as .hl-feature-top. */
+.ac-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.35rem; }
+/* Full-width line of its own; break-word stays as a last-resort guard for
+   names longer than the whole card. */
+.ac-name { display: block; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.15; min-width: 0; overflow-wrap: break-word; }
 .artist-card.is-major .ac-name { font-size: 1.2rem; }
 /* --teal-text (darker step of --teal), not --teal itself — --teal measures
    ~2.5:1 here, well under WCAG AA's 4.5:1 for text this small. */
-.ac-genre { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--teal-text); margin-top: 0.3rem; }
+.ac-genre { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--teal-text); margin-top: 0.3rem; }
+/* Day = Four-Day-Rule colored dot (non-text) + day name in ink — replaces the
+   .day-badge pill inside grid cards (part of the phone-grid width fix). */
+.ac-day { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.04em; color: var(--black); white-space: nowrap; }
+.ac-day::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ac-day-1::before { background: #8B5CF6; }
+.ac-day-2::before { background: #E85BB8; }
+.ac-day-3::before { background: #F97316; }
+.ac-day-4::before { background: #2FA79C; }
 .ac-desc {
   font-family: var(--font-body); font-size: 0.78rem; color: rgba(28,21,38,0.68); line-height: 1.45; margin: 0.5rem 0 0;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.ac-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; }
+.ac-bottom { display: flex; align-items: center; margin-top: 0.65rem; }
 
 .no-results-msg { padding: 2rem 0; font-family: var(--font-display); font-size: 1.3rem; color: rgba(28,21,38,0.3); letter-spacing: 0.02em; display: none; text-align: center; }
 .no-results-msg.visible { display: block; }
@@ -476,6 +505,11 @@ body {
 .artist-search-clear.visible { display: flex; }
 .artist-search-clear:hover { background: rgba(28,21,38,0.08); color: var(--black); }
 
+/* Layout shim around the two pill groups: invisible on desktop (the groups
+   stay two stacked rows of .filter-bar's column), becomes the single
+   horizontal-scroll chip row on phones (see the ≤767px block below). */
+.filter-bar-chips { display: contents; }
+.chip-divider { display: none; }
 .filter-bar-days, .filter-bar-genres { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .filter-bar-days::-webkit-scrollbar, .filter-bar-genres::-webkit-scrollbar { display: none; }
 .day-pill, .genre-pill {
@@ -542,28 +576,82 @@ body {
 }
 
 @media (max-width: 767px) {
-  .hero { padding: 1.5rem 1rem 1.25rem; }
-  .hero-title { font-size: clamp(2.5rem, 15vw, 4rem); }
-  .hero-cta { width: 100%; justify-content: center; }
-  .info-box { padding: 1rem; flex-direction: column; align-items: flex-start; }
-  .info-box-stats { width: 100%; justify-content: space-between; }
+  .hero { padding: 1.25rem 1rem 1.1rem; }
+  /* 11.5vw, not 15vw — at 15vw the 12-glyph Righteous wordmark needed ~435px
+     at a 390px viewport and rendered clipped ("LOLLAPALOO"). Verified to fit
+     one line at 320–430px. */
+  .hero-title { font-size: clamp(2rem, 11.5vw, 4rem); }
+  .hero-subtitle { margin-top: 0.5rem; font-size: 0.95rem; }
+  .hero-cta { width: 100%; justify-content: center; margin-top: 1rem; }
+  /* Compact two-line info box (~80px, was ~133px): dates+venue on one line,
+     stats inline on the next. Desktop keeps the roomier row layout. */
+  .info-box { padding: 0.75rem 1rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .info-box-when { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.15rem 0.6rem; }
+  .info-box-dates { font-size: 1.05rem; }
+  .info-box-venue { margin-top: 0; }
+  .info-box-stats { width: 100%; justify-content: flex-start; gap: 1.1rem; }
+  .info-stat { flex-direction: row; align-items: baseline; gap: 0.3rem; }
+  .info-stat-num { font-size: 1rem; }
+  .info-stat-label { margin-top: 0; }
   .main-col { padding: 0 1rem 1.5rem; }
   /* .site-nav itself drops position:sticky below 768px (for the hamburger
      dropdown, see .site-nav's own @media(max-width:768px) rule) — once nav
      scrolls away there's nothing left to sit under, so pin straight to the
-     viewport top instead of the 56px nav-height offset used at 768-1023px. */
-  .filter-bar { padding: 0.75rem 1rem; top: 0; }
+     viewport top instead of the 56px nav-height offset used at 768-1023px.
+     0.97 bg (was 0.92) + a bottom hairline: at 0.92 the list content visibly
+     ghosted through the sticky bar while scrolling. */
+  .filter-bar { padding: 0.6rem 1rem 0.65rem; top: 0; gap: 0.5rem; background: rgba(255,240,228,0.97); border-bottom: 1px solid rgba(28,21,38,0.08); }
   /* Larger tap area + legibility on the mobile search bar; desktop is untouched. */
   .artist-search { padding: 0.9rem 3rem 0.9rem 1.15rem; font-size: 1rem; min-height: 44px; }
-  /* ≥44px touch targets (WCAG 2.1 AA) for the search-clear and star-toggle
-     buttons on mobile only — desktop keeps its tighter, denser sizing. */
+  /* ≥44px touch targets for the search-clear and star-toggle buttons on
+     mobile only — desktop keeps its tighter, denser sizing. (Inside the dense
+     2-col artist cards the star and stream buttons run 38-40px instead —
+     still comfortably over WCAG 2.1 AA's 2.5.8 24px minimum; 44px is the
+     stricter AAA bar. See the .artist-card overrides below.) */
   .artist-search-clear { min-width: 44px; min-height: 44px; }
   .star-toggle { min-width: 44px; min-height: 44px; }
   .day-pill, .genre-pill { min-height: 40px; display: inline-flex; align-items: center; }
+  /* Days + genres collapse from two stacked 40px rows into ONE combined
+     horizontal chip row (YouTube-style) — the sticky bar drops from ~176px
+     (21% of a 844px phone screen) to ~104px. */
+  .filter-bar-chips { display: flex; align-items: center; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .filter-bar-chips::-webkit-scrollbar { display: none; }
+  .filter-bar-days, .filter-bar-genres { display: contents; }
+  .chip-divider { display: block; flex-shrink: 0; width: 1px; height: 22px; background: rgba(28,21,38,0.25); }
   /* Two columns on phones, per the redesign's mobile layout intent — the
      auto-fill/minmax base rule alone would drop to one column below ~420px. */
   .artist-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Compact in-card targets so a 2-col card's content genuinely fits its
+     ~173px track (the 44px sizes above forced ~220px of min-content and blew
+     the grid past the viewport edge — the clipped-column bug). */
+  .artist-card .star-toggle { min-width: 36px; min-height: 36px; width: 36px; height: 36px; }
+  .artist-card .stream-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
+  .artist-card .stream-btn svg { width: 18px; height: 18px; }
+  .artist-card .streaming-links { gap: 0.5rem; }
+  /* Slightly smaller name + 36px star so real artist names ("Wonderland",
+     "Beabadoobee", "Chainsmokers") fit a 2-col card's width without the ugly
+     mid-word emergency breaks break-word would otherwise produce. */
+  .artist-card .ac-name { font-size: 0.95rem; }
+  .artist-card.is-major .ac-name { font-size: 1.05rem; }
+  /* Headliners: horizontal snap-scroll carousel instead of ~1,860px of
+     stacked full-width cards. All 8 cards stay in the DOM/SSR HTML (SEO-safe);
+     the next card's edge peeking in is the swipe affordance. Negative margin
+     lets cards reach the screen edge while staying aligned with .main-col's
+     1rem padding; the vertical padding keeps card shadows from clipping. */
+  .headliner-feature {
+    flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin: 0 -1rem; padding: 0.25rem 1rem 0.75rem; scroll-padding-left: 1rem;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .headliner-feature::-webkit-scrollbar { display: none; }
+  .hl-feature-card { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; }
   .this-week-days { grid-template-columns: 1fr; }
+}
+
+/* Very narrow phones (≤340px): even the compact 2-col card can't fit a
+   3-button streaming row per column — fall back to one column. */
+@media (max-width: 340px) {
+  .artist-grid { grid-template-columns: 1fr; }
 }
 
 /* =========================================================

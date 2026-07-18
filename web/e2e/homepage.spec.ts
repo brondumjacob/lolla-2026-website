@@ -82,4 +82,65 @@ test.describe('Prompt 2 — homepage layout and lineup grid', () => {
     expect(Math.abs((box0?.y ?? 0) - (box1?.y ?? 1))).toBeLessThan(5);
     expect((box2?.y ?? 0)).toBeGreaterThan((box0?.y ?? 0) + 10);
   });
+
+  // Regression tests for the mobile UX pass. The original 2-col check above
+  // compared row positions only, so it passed while the grid's right column
+  // rendered clipped off the viewport edge (grid items default min-width:auto
+  // and the 44px star + 3×44px stream buttons couldn't shrink to the track).
+  test('mobile viewport: nothing overflows the viewport horizontally — grid columns, cards, and hero wordmark all fit', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    // Page-level: no sideways scroll at all.
+    const widths = await page.evaluate(() => ({
+      scrollW: document.documentElement.scrollWidth,
+      clientW: document.documentElement.clientWidth,
+    }));
+    expect(widths.scrollW).toBe(widths.clientW);
+
+    // Grid-level: a right-column card's right edge sits inside the viewport,
+    // and the wordmark doesn't clip inside its own box.
+    const secondCard = await page.locator('.artist-card').nth(1).boundingBox();
+    expect(secondCard).toBeTruthy();
+    expect((secondCard?.x ?? 0) + (secondCard?.width ?? 9999)).toBeLessThanOrEqual(390);
+
+    const heroClips = await page
+      .locator('.hero-title')
+      .evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+    expect(heroClips).toBe(false);
+  });
+
+  test('mobile viewport: headliners are a horizontal snap carousel and the last card is reachable', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    const feature = page.locator('.headliner-feature');
+    const scrolls = await feature.evaluate((el) => el.scrollWidth > el.clientWidth);
+    expect(scrolls).toBe(true); // overflows sideways instead of stacking
+
+    const total = await page.locator('.hl-feature-card').count();
+    await feature.evaluate((el) => { el.scrollLeft = el.scrollWidth; });
+    const lastVisible = await page
+      .locator('.hl-feature-card')
+      .nth(total - 1)
+      .evaluate((el, vw) => {
+        const b = el.getBoundingClientRect();
+        return b.left >= -1 && b.right <= vw + 1;
+      }, 390);
+    expect(lastVisible).toBe(true);
+  });
+
+  test('mobile viewport: hero renders before the explore strip (top-clutter fix)', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    const heroBox = await page.locator('.hero').boundingBox();
+    const stripBox = await page.locator('.explore-strip').boundingBox();
+    expect(heroBox && stripBox).toBeTruthy();
+    expect(heroBox?.y ?? 9999).toBeLessThan(stripBox?.y ?? 0);
+  });
 });

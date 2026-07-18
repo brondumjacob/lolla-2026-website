@@ -68,16 +68,26 @@ export default async function HomePage() {
           "The Basics", lolla-history's 1991 origin story, genre-guide's
           genre-by-genre breakdown) — see CLAUDE.md for exactly what was
           verified where. The lineup/guide destinations are still one click
-          away via this pill strip, the hamburger menu, and the footer. */}
-      <nav className="explore-strip" aria-label="Explore more">
-        {EXPLORE_LINKS.map((link) => (
-          <Link key={link.href} href={link.href} className="explore-pill">
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+          away via this pill strip, the hamburger menu, and the footer.
 
-      <LineupExplorer artists={artists} />
+          Passed as a slot so it renders below the hero + info-box instead of
+          above the hero — at phone widths the strip wrapped to three rows of
+          pills before the site's own name was visible (mobile UX pass). */}
+      <LineupExplorer
+        artists={artists}
+        exploreSlot={
+          /* key silences React's dev warning for server-created elements
+             rendered into a client component's child list (RSC deserialization
+             drops the static-children flag). */
+          <nav key="explore-strip" className="explore-strip" aria-label="Explore more">
+            {EXPLORE_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className="explore-pill">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        }
+      />
     </>
   );
 }
