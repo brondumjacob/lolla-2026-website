@@ -14,4 +14,5 @@ export const DAY_META: Record<number, DayMeta> = {
 
 export const SITE_URL = 'https://www.lolla2026lineup.com';
 export const ADSENSE_CLIENT = 'ca-pub-1043428205440255';
-export const FESTIVAL_SLUG = 'lollapalooza-2026';
+// Festival identity (name, dates, venue, slug, FAQ copy) lives in
+// lib/festival.ts's FESTIVAL config, not here — this file stays pure infra.

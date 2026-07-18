@@ -153,7 +153,13 @@ content tables; writes only via seed scripts/service role.
    queries (`artists` and `artist_genres` counts must match `artists.js` length).
 
 **No new Supabase project. No migrations.** The Next.js `web/` app picks the festival up
-later by extending `web/lib/constants.ts` + routes — out of scope for a festival-site build.
+later by extending `web/lib/festival.ts` + routes — out of scope for a festival-site build.
+(As of the 2026-07-18 5-Second Rule / AEO-GEO pass, festival identity for `web/` lives entirely
+in `web/lib/festival.ts`'s `FESTIVAL` config — name, wordmark, tagline, venue, dates, stats,
+entity `sameAs` links, and FAQ copy — not scattered across components/metadata/JSON-LD anymore.
+Picking up a new festival in `web/` means editing that one file plus `DAY_META` in
+`web/lib/constants.ts`, which `FESTIVAL.dayDates` must stay in sync with. See CLAUDE.md's
+"5-Second Rule / AEO-GEO Pass" section for the full rundown.)
 
 ## 8. Per-festival identifiers checklist
 

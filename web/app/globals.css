@@ -394,6 +394,10 @@ body {
 .hero-title { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 6.5rem); line-height: 1; color: var(--white); letter-spacing: 0; }
 .hero-title .accent-word { color: var(--lime); }
 .hero-subtitle { margin-top: 0.75rem; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.01em; max-width: 46ch; }
+/* The hero "proof" line — top headliners by popularity. Brighter than the
+   subtitle (0.85 vs 0.7 alpha) since it's the credibility signal, not
+   supporting copy; still well over 4.5:1 against the dark hero background. */
+.hero-headliners { margin-top: 0.6rem; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.85); max-width: 52ch; }
 .hero-cta {
   display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; padding: 0.85rem 1.6rem;
   font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.02em; text-decoration: none;
@@ -582,6 +586,7 @@ body {
      one line at 320–430px. */
   .hero-title { font-size: clamp(2rem, 11.5vw, 4rem); }
   .hero-subtitle { margin-top: 0.5rem; font-size: 0.95rem; }
+  .hero-headliners { margin-top: 0.4rem; font-size: 0.78rem; }
   .hero-cta { width: 100%; justify-content: center; margin-top: 1rem; }
   /* Compact two-line info box (~80px, was ~133px): dates+venue on one line,
      stats inline on the next. Desktop keeps the roomier row layout. */

@@ -20,6 +20,7 @@ const GUIDE_LINKS = [
   { href: '/undercard-picks', label: 'Undercard Picks' },
   { href: '/genre-guide', label: 'Genre Guide' },
   { href: '/lolla-history', label: 'Lolla History' },
+  { href: '/faq', label: 'FAQ' },
 ] as const;
 
 const ABOUT_LINKS = [

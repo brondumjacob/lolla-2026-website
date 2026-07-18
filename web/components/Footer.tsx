@@ -12,6 +12,7 @@ export default function Footer() {
         <Link href="/undercard-picks">Undercard Picks</Link>
         <Link href="/lolla-history">Lolla History</Link>
         <Link href="/genre-guide">Genre Guide</Link>
+        <Link href="/faq">FAQ</Link>
         <Link href="/about">About</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/contact">Contact</Link>

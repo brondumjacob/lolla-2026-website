@@ -143,4 +143,20 @@ test.describe('Prompt 2 — homepage layout and lineup grid', () => {
     expect(heroBox && stripBox).toBeTruthy();
     expect(heroBox?.y ?? 9999).toBeLessThan(stripBox?.y ?? 0);
   });
+
+  // 5-second-rule pass: the hero now proves the lineup with a data-driven
+  // headliner line instead of just a wordmark + stat numbers.
+  test('hero headliner proof line renders real headliner names above the CTA', async ({ page }) => {
+    await page.goto('/');
+
+    const proof = page.locator('.hero-headliners');
+    await expect(proof).toBeVisible();
+    await expect(proof).toContainText('Headlined by');
+
+    // Renders before the CTA in DOM order (visual hierarchy: proof, then action).
+    const proofBox = await proof.boundingBox();
+    const ctaBox = await page.getByRole('link', { name: /Build your schedule/i }).boundingBox();
+    expect(proofBox && ctaBox).toBeTruthy();
+    expect(proofBox?.y ?? 9999).toBeLessThan(ctaBox?.y ?? 0);
+  });
 });

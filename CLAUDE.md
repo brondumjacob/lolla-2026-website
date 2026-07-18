@@ -22,7 +22,9 @@ Live / deployed (the repo-root static site). Multi-page static site with schedul
 
 ## Next.js Migration (`web/`)
 A separate Next.js 16 (App Router, TypeScript) project, deliberately isolated in its own subdirectory so it can be developed and deployed to Vercel independently while the repo-root static site keeps serving production via Cloudflare Pages unchanged. **`web/AGENTS.md` flags that this Next.js version has breaking changes vs. training data — read `web/node_modules/next/dist/docs/` before assuming an API.** One confirmed drift: `middleware.ts` is renamed to `proxy.ts` in Next.js 16 (exports a `proxy` function).
-- `web/app/` — routes: `/`, `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/genre-guide`, `/lolla-history`, `/this-week` (new, see Layout & IA Redesign below), `/schedule`, `/schedule/[day]` (noindex), plus `/login`, `/account` (protected), `/my-lineup` (noindex), `/auth/callback` (Phase 4 auth)
+- `web/app/` — routes: `/`, `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/genre-guide`, `/lolla-history`, `/faq` (new, see 5-Second Rule / AEO-GEO Pass below), `/this-week`, `/schedule`, `/schedule/[day]` (noindex), plus `/login`, `/account` (protected), `/my-lineup` (noindex), `/auth/callback` (Phase 4 auth)
+- `web/lib/festival.ts` — **the single source of truth for festival identity** (name, wordmark, tagline, venue, dates, stats, FAQ copy) — the per-festival swap point for this template. Absorbed what used to be hardcoded across ~20 files (hero copy, metadata, JSON-LD, Countdown target) plus the old `constants.ts` `FESTIVAL_SLUG`. `constants.ts` now stays pure infra (`SITE_URL`, `ADSENSE_CLIENT`, `DAY_META`).
+- `web/lib/structured-data.ts` — centralized schema.org JSON-LD builders (`websiteJsonLd`, `musicFestivalJsonLd`, `faqPageJsonLd`, `articleJsonLd`, `breadcrumbJsonLd`), all reading from `FESTIVAL` — see 5-Second Rule / AEO-GEO Pass below.
 - `web/lib/data.ts` — fetches festivals/artists/artist_genres from Supabase at build time (public-read RLS tables, plain `@supabase/supabase-js` client via `web/lib/supabase.ts`'s `createBuildTimeClient()`, no cookies needed); Zod-validates every row
 - `web/lib/supabase-browser.ts` / `web/lib/supabase-server.ts` — `@supabase/ssr` client factories for auth: browser client for Client Components (`AuthStatus`, `GoogleSignInButton`), server client (cookie-bound via `next/headers`) for the OAuth callback, sign-out action, and `/account`. Three Supabase clients total in this app, each scoped to a different concern — don't cross-use them.
 - `web/proxy.ts` — refreshes the Supabase session cookie on every request and redirects unauthenticated visitors away from protected paths (`/account` today; extend the `PROTECTED_PREFIXES` array when `/my-lineup`/schedule builders are ported in Phase 5/6). Uses `getClaims()` (JWT-verified), not `getSession()`, for the auth decision.
@@ -284,6 +286,79 @@ the mobile site felt clunky/cluttered/scroll-heavy. Same Golden Hour tokens; no 
   full suite 24 passed / 1 pre-existing skip (`full-journey`, needs service-role env).
 - ≤340px fallback: grid drops to 1 column (compact 2-col genuinely can't fit a 3-button
   streaming row per column there).
+
+## 5-Second Rule / AEO-GEO Pass (2026-07-18) — `web/` only
+Driven by a request to sharpen the homepage's "can a visitor grasp the site's draw in 5
+seconds" read, raise AEO/GEO (getting cited by Google AI Overviews, ChatGPT, Perplexity, Claude),
+and make both changes template cleanly across the planned multi-festival future. Same Golden Hour
+tokens; no re-theme; no layout/structure teardown of the Prompt 2 hero.
+- **Central festival config — `web/lib/festival.ts`**: new `FESTIVAL` object is now the single
+  source of truth for festival identity (name, wordmark split, tagline, venue, city, dates, gate
+  times, stage/day counts, entity `sameAs` links, FAQ copy). Absorbed strings that were previously
+  hardcoded/duplicated across ~20 files (`LOLLA`/`PA`/`LOOZA` wordmark split, "172", dates, venue,
+  stage/day counts, the 5 guide pages' identical `Person`/`Organization` JSON-LD literals) plus the
+  old `constants.ts` `FESTIVAL_SLUG` (moved to `FESTIVAL.slug`; `constants.ts` now stays pure infra
+  — `SITE_URL`, `ADSENSE_CLIENT`, `DAY_META`). Next festival on this template = edit this one file
+  (plus `DAY_META`, which `FESTIVAL.dayDates` must stay in sync with).
+- **Hero — sharpen + prove** (`web/components/LineupExplorer.tsx`): subhead rewritten to lead with
+  the website's differentiated draw (direct streaming links + real schedule builder, not just "the
+  lineup") and is now fully config/data-driven (`FESTIVAL.taglineBeforeCount`/`taglineAfterCount`
+  around the live `{artists.length}`, killing the hardcoded "172"). New `.hero-headliners` proof
+  line — top 4 headliners by `popularity`, "Headlined by X · Y · Z · W + N more artists." — is the
+  actual 5-second-rule fix: instant lineup credibility where the poster image used to be, fully
+  server-rendered (confirmed via `curl`'d production HTML, not client-injected) so it's crawlable
+  by both search and AI answer engines. Eyebrow, wordmark (via `wordmarkParts()` splitting
+  `FESTIVAL.wordmark.text` around `.accent`), and the info-box's dates/venue/stage/day counts all
+  now read from `FESTIVAL` too. `Countdown.tsx`'s target date also moved to `FESTIVAL.startDate` +
+  `.gatesTime` (was a hardcoded noon target one hour after the real 11 AM gate-open time — now
+  correct by default for the next festival too).
+- **Full GEO package — `web/lib/structured-data.ts`** (new): centralized JSON-LD builders
+  (`websiteJsonLd`, `musicFestivalJsonLd`, `faqPageJsonLd`, `articleJsonLd`, `breadcrumbJsonLd`),
+  all reading from `FESTIVAL`/`SITE_URL` so a future festival's structured data is correct with no
+  schema code to touch.
+  - **`MusicFestival` schema** (homepage, alongside the existing `WebSite` block): dates, venue
+    (`Place`/`PostalAddress`), all 172 artists as `MusicGroup` performers (with `sameAs: spotify_url`
+    when present), 4 `MusicEvent` sub-events (one per festival day, each with that day's performer
+    subset), and `sameAs` links to Wikipedia/Wikidata for entity disambiguation. This is the
+    highest-leverage AEO addition — none of it existed before. Verified via production HTML: 1
+    `MusicFestival`, 4 `MusicEvent`, 344 `MusicGroup` (172 in the main performer array + 172 across
+    the 4 day sub-events).
+  - **`FAQPage` schema + a new visible `/faq` page** (`web/app/faq/page.tsx`): 8 questions/answers
+    live in `FESTIVAL.faqs`, grounded in facts already on the site (gate/music times, GA/GA+/VIP,
+    "is this official"). The artist-count answer uses a `{{ARTIST_COUNT}}` token resolved at render
+    time from live data (`resolveFaqs()`) so it never drifts from Supabase — verified in the built
+    HTML (0 literal tokens left, resolved to the real count). Wired into `sitemap.ts`, the
+    homepage's `EXPLORE_LINKS` strip, `Nav.tsx`'s `GUIDE_LINKS` (flows into both the desktop
+    dropdown and the mobile panel automatically), and `Footer.tsx`.
+  - **`BreadcrumbList` schema** on `/faq` and all 5 guide pages (`who-to-see`, `genre-guide`,
+    `lolla-history`, `undercard-picks`, `first-timers-guide`) — schema only, no visible breadcrumb
+    UI added (kept out of scope to avoid touching layout).
+  - **AI-crawler robots allowlist** (`web/app/robots.ts`): explicit `allow` rules for GPTBot,
+    OAI-SearchBot, ChatGPT-User, ClaudeBot, anthropic-ai, Claude-Web, PerplexityBot,
+    Perplexity-User, Google-Extended, CCBot, Applebot-Extended, Amazonbot, cohere-ai, and
+    Meta-ExternalAgent, alongside the existing `*` rule — same private-path disallow list for all.
+  - **Sitemap freshness**: `web/app/sitemap.ts` now sets `lastModified` (a bumpable
+    `CONTENT_LAST_MODIFIED` constant) on every route, plus the new `/faq` entry.
+  - **Article/OG polish**: the 5 guide pages' `Article` JSON-LD now routes through
+    `articleJsonLd()` — fixes a pre-existing bug where `publisher.url` was a hardcoded string
+    literal instead of `SITE_URL`, and centralizes the author name (`FESTIVAL.authorName`, was
+    duplicated identically 5 times). Each guide page's `openGraph.images`/`twitter.card` was
+    upgraded to include `/lineup.png` and `summary_large_image` (previously text-only, small card).
+- **E2E**: `web/e2e/homepage.spec.ts` gained a headliner-proof-line regression test; new
+  `web/e2e/faq.spec.ts` covers question count, the resolved artist-count token, FAQPage +
+  BreadcrumbList JSON-LD shape, and reachability from nav/footer/homepage. Full suite: 35 passed /
+  1 pre-existing skip (`full-journey`, needs service-role env) — all pre-existing specs
+  (`auth`, `favorites`, `schedule`, `menu`) pass unmodified, confirming the hero/config refactor
+  didn't touch unrelated markup.
+- **Verified multi-festival-clean**: grepped `LineupExplorer.tsx`, `Countdown.tsx`, and
+  `structured-data.ts` for `Lollapalooza`/`Grant Park`/`Chicago`/`172`/`LOLLA` literals post-change
+  — zero matches. Everything in the hero and the new schema layer now reads from `FESTIVAL`.
+- **Out of scope** (deliberately deferred): the 5 editorial/legal essay pages' prose itself
+  (`lolla-history`, `first-timers-guide`, etc.) stays hardcoded narrative — festival-specific by
+  nature, not worth templating; the umbrella single-domain multi-festival routing (`/<slug>/`
+  paths) per the "don't migrate until after the 2026 festival" plan — `festival.ts` is structured
+  so it can grow into a slug-keyed `Record` lookup later without changing its consumers; the
+  static repo-root site (`index.html`/`build.js`), not served at the production domain.
 
 ## Available Tools (Project Level)
 

@@ -3,41 +3,28 @@ import Link from 'next/link';
 import { getArtistsWithGenres } from '@/lib/data';
 import LineupExplorer from '@/components/LineupExplorer';
 import { SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
+import { websiteJsonLd, musicFestivalJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
-  title: 'Lolla Lineup 2026 — Complete Lineup with Streaming Links',
-  description:
-    'The complete Lollapalooza 2026 lineup with direct streaming links. 172 artists, searchable by genre and day. Grant Park, Chicago — July 30 to August 2.',
-  keywords:
-    'lollapalooza 2026, lolla lineup, lollapalooza artists, chicago music festival, grant park, charli xcx, lorde, tate mcrae',
+  title: `${FESTIVAL.siteName} — Complete Lineup with Streaming Links`,
+  description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links. Searchable by genre and day. ${FESTIVAL.venue}, ${FESTIVAL.city} — ${FESTIVAL.datesDisplay}.`,
+  keywords: `${FESTIVAL.name.toLowerCase()} ${FESTIVAL.year}, lolla lineup, ${FESTIVAL.name.toLowerCase()} artists, ${FESTIVAL.city.toLowerCase()} music festival, ${FESTIVAL.venue.toLowerCase()}, charli xcx, lorde, tate mcrae`,
   alternates: { canonical: '/' },
   openGraph: {
-    title: 'Lolla Lineup 2026',
-    description: 'The complete Lollapalooza 2026 lineup with direct streaming links. 172 artists, searchable by genre. Grant Park, Chicago — July 30 to August 2.',
+    title: FESTIVAL.siteName,
+    description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links, searchable by genre. ${FESTIVAL.venue}, ${FESTIVAL.city} — ${FESTIVAL.datesDisplay}.`,
     url: SITE_URL,
-    siteName: 'Lolla Lineup 2026',
+    siteName: FESTIVAL.siteName,
     images: ['/lineup.png'],
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Lolla Lineup 2026',
-    description: 'The complete Lollapalooza 2026 lineup with direct streaming links. 172 artists, searchable by genre. Grant Park, Chicago — July 30 to August 2.',
+    title: FESTIVAL.siteName,
+    description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links, searchable by genre. ${FESTIVAL.venue}, ${FESTIVAL.city} — ${FESTIVAL.datesDisplay}.`,
     images: ['/lineup.png'],
-  },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Lolla Lineup 2026',
-  url: SITE_URL,
-  description: 'The complete Lollapalooza 2026 lineup with direct streaming links. 172 artists, searchable by genre and day.',
-  publisher: {
-    '@type': 'Organization',
-    name: 'Lolla Lineup 2026',
-    url: SITE_URL,
   },
 };
 
@@ -52,6 +39,7 @@ const EXPLORE_LINKS = [
   { href: '/undercard-picks', label: 'Undercard Picks' },
   { href: '/genre-guide', label: 'Genre Guide' },
   { href: '/lolla-history', label: 'Lolla History' },
+  { href: '/faq', label: 'FAQ' },
 ] as const;
 
 export default async function HomePage() {
@@ -59,7 +47,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }} />
+      {/* MusicFestival schema — dates, venue, every artist as a performer, and
+          one MusicEvent sub-event per festival day. The main AEO/GEO addition:
+          this is the structured data an AI Overview or answer engine would
+          need to cite "who's playing Lollapalooza 2026" or "who plays
+          Saturday" directly, without crawling the whole filtered grid. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(musicFestivalJsonLd(artists)) }}
+      />
 
       {/* Prompt 2 redesign: the homepage editorial essay and the large
           .guide-cards boxes were removed from here — not deleted. The prose

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
+import { FESTIVAL, wordmarkParts } from '@/lib/festival';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
 import ArtistCard from './ArtistCard';
@@ -33,6 +34,20 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
   const headliners = useMemo(() => artists.filter((a) => a.tier === 'headliner'), [artists]);
   const majors = useMemo(() => artists.filter((a) => a.tier === 'major'), [artists]);
   const undercards = useMemo(() => artists.filter((a) => a.tier === 'undercard'), [artists]);
+
+  // Hero "proof" line — the top headliners by popularity, unfiltered by the
+  // day/genre/search state above (this always reflects the full lineup).
+  // This is the 5-second-rule fix: instant lineup credibility for a visitor
+  // who scrolled past the poster image that used to sit here, and it's fully
+  // server-rendered/crawlable — direct AEO value on top of the MusicFestival
+  // schema (see lib/structured-data.ts).
+  const heroHeadliners = useMemo(() => {
+    const sorted = [...headliners].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
+    const shown = sorted.slice(0, 4);
+    return { shown, remaining: sorted.length - shown.length };
+  }, [headliners]);
+
+  const [wordmarkPre, wordmarkAccent, wordmarkPost] = wordmarkParts(FESTIVAL.wordmark);
 
   const visibleHeadliners = useMemo(
     () => headliners.filter((a) => passesFilter(a, activeDay, activeGenre, activeSearch)),
@@ -69,13 +84,26 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
     <div className="page-wrapper">
       <header className="hero" role="banner">
         <div className="hero-inner">
-          <p className="hero-eyebrow">Chicago, Illinois · Grant Park</p>
+          <p className="hero-eyebrow">
+            {FESTIVAL.city}, {FESTIVAL.region} · {FESTIVAL.venue}
+          </p>
           <h1 className="hero-title">
-            LOLLA<span className="accent-word">PA</span>LOOZA
+            {wordmarkPre}
+            <span className="accent-word">{wordmarkAccent}</span>
+            {wordmarkPost}
           </h1>
           <p className="hero-subtitle">
-            Browse all 172 artists, stream every act, and build your day-by-day schedule.
+            {FESTIVAL.taglineBeforeCount} {artists.length} {FESTIVAL.taglineAfterCount}
           </p>
+          {heroHeadliners.shown.length > 0 && (
+            <p className="hero-headliners">
+              Headlined by {heroHeadliners.shown.map((a) => a.name).join(' · ')}
+              {heroHeadliners.remaining > 0
+                ? ` + ${heroHeadliners.remaining} more artist${heroHeadliners.remaining === 1 ? '' : 's'}`
+                : ''}
+              .
+            </p>
+          )}
           <Link href="/schedule" className="hero-cta">
             Build your schedule →
           </Link>
@@ -89,8 +117,10 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
           search behavior fixed in an earlier pass (see CLAUDE.md changelog). */}
       <div className="info-box">
         <div className="info-box-when">
-          <div className="info-box-dates">JUL 30 – AUG 2, 2026</div>
-          <div className="info-box-venue">Grant Park · Chicago</div>
+          <div className="info-box-dates">{FESTIVAL.datesDisplay}</div>
+          <div className="info-box-venue">
+            {FESTIVAL.venue} · {FESTIVAL.city}
+          </div>
         </div>
         <div className="info-box-stats">
           <div className="info-stat">
@@ -98,11 +128,11 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
             <span className="info-stat-label">Artists</span>
           </div>
           <div className="info-stat">
-            <span className="info-stat-num">8</span>
+            <span className="info-stat-num">{FESTIVAL.stages}</span>
             <span className="info-stat-label">Stages</span>
           </div>
           <div className="info-stat">
-            <span className="info-stat-num">4</span>
+            <span className="info-stat-num">{FESTIVAL.days}</span>
             <span className="info-stat-label">Days</span>
           </div>
         </div>

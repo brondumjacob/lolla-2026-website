@@ -3,7 +3,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { createBuildTimeClient } from './supabase';
 import { ArtistRecordSchema, GenreRecordSchema, type ArtistWithGenre } from './types';
-import { FESTIVAL_SLUG } from './constants';
+import { FESTIVAL } from './festival';
 
 interface LegacyArtist {
   n: string;
@@ -66,11 +66,11 @@ export async function getArtistsWithGenres(): Promise<ArtistWithGenre[]> {
   const { data: festival, error: festivalError } = await supabase
     .from('festivals')
     .select('id')
-    .eq('slug', FESTIVAL_SLUG)
+    .eq('slug', FESTIVAL.slug)
     .single();
 
   if (festivalError || !festival) {
-    throw new Error(`Failed to load festival "${FESTIVAL_SLUG}" from Supabase: ${festivalError?.message}`);
+    throw new Error(`Failed to load festival "${FESTIVAL.slug}" from Supabase: ${festivalError?.message}`);
   }
 
   const { data: artistRows, error: artistsError } = await supabase

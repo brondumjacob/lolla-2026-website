@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
+import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'The Complete Genre Guide to Lollapalooza 2026',
@@ -11,31 +13,36 @@ export const metadata: Metadata = {
     title: 'The Complete Genre Guide to Lollapalooza 2026',
     description: 'Fourteen genres, 172 artists, one weekend — a genre-by-genre breakdown of the Lollapalooza 2026 lineup.',
     url: `${SITE_URL}/genre-guide`,
-    siteName: 'Lolla Lineup 2026',
+    siteName: FESTIVAL.siteName,
+    images: ['/lineup.png'],
     type: 'article',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'The Complete Genre Guide to Lollapalooza 2026',
     description: 'A genre-by-genre breakdown of the Lollapalooza 2026 lineup, from Rock to K-Pop to EDM.',
+    images: ['/lineup.png'],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
+const jsonLd = articleJsonLd({
   headline: 'The Complete Genre Guide to Lollapalooza 2026',
   description: 'Fourteen genres, 172 artists, one weekend — a genre-by-genre breakdown of the Lollapalooza 2026 lineup.',
-  author: { '@type': 'Person', name: 'Jacob Brondum' },
   datePublished: '2026-07-11',
   dateModified: '2026-07-11',
-  publisher: { '@type': 'Organization', name: 'Lolla Lineup 2026', url: 'https://www.lolla2026lineup.com' },
-};
+  url: `${SITE_URL}/genre-guide`,
+});
+
+const breadcrumbs = breadcrumbJsonLd([
+  { name: 'Home', url: SITE_URL },
+  { name: 'Genre Guide', url: `${SITE_URL}/genre-guide` },
+]);
 
 export default function GenreGuidePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">

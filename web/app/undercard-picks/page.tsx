@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
+import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: "10 Undercard Acts You Shouldn't Sleep On — Lolla 2026",
@@ -10,26 +12,30 @@ export const metadata: Metadata = {
     title: "10 Undercard Acts You Shouldn't Sleep On — Lolla 2026",
     description: '10 lesser-known artists at Lollapalooza 2026 worth rearranging your schedule for.',
     url: `${SITE_URL}/undercard-picks`,
-    siteName: 'Lolla Lineup 2026',
+    siteName: FESTIVAL.siteName,
+    images: ['/lineup.png'],
     type: 'article',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: "10 Undercard Acts You Shouldn't Sleep On",
     description: 'Hidden gems in the Lolla 2026 lineup.',
+    images: ['/lineup.png'],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
+const jsonLd = articleJsonLd({
   headline: "10 Undercard Acts You Shouldn't Sleep On — Lolla 2026",
   description: 'The Lolla 2026 undercard is loaded. Here are 10 lesser-known artists worth rearranging your schedule for.',
-  author: { '@type': 'Person', name: 'Jacob Brondum' },
   datePublished: '2026-03-22',
   dateModified: '2026-04-11',
-  publisher: { '@type': 'Organization', name: 'Lolla Lineup 2026', url: 'https://www.lolla2026lineup.com' },
-};
+  url: `${SITE_URL}/undercard-picks`,
+});
+
+const breadcrumbs = breadcrumbJsonLd([
+  { name: 'Home', url: SITE_URL },
+  { name: 'Undercard Picks', url: `${SITE_URL}/undercard-picks` },
+]);
 
 interface SpotlightProps {
   number: string;
@@ -65,6 +71,7 @@ export default function UndercardPicksPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { FESTIVAL } from '@/lib/festival';
 
 // Extracted from LineupExplorer.tsx (was previously only rendered inside the
 // homepage sidebar) so it can be reused standalone on /this-week — see
@@ -15,7 +16,12 @@ export default function Countdown() {
 
   useEffect(() => {
     function update() {
-      const target = new Date('2026-07-30T12:00:00-05:00').getTime();
+      // Counts down to the actual gate-open time (was a hardcoded noon
+      // target one hour after gates actually open) — now sourced from
+      // FESTIVAL so the next festival's countdown is correct by default.
+      const target = new Date(
+        `${FESTIVAL.startDate}T${FESTIVAL.gatesTime}:00${FESTIVAL.timezoneOffset}`
+      ).getTime();
       const diff = target - Date.now();
       if (diff <= 0) {
         setRemaining({ days: '00', hours: '00', mins: '00', secs: '00' });
@@ -38,8 +44,8 @@ export default function Countdown() {
   }, []);
 
   return (
-    <div className="countdown-block" aria-label="Countdown to Lollapalooza 2026">
-      <div className="countdown-label">Countdown to Lolla 2026</div>
+    <div className="countdown-block" aria-label={`Countdown to ${FESTIVAL.fullName}`}>
+      <div className="countdown-label">Countdown to {FESTIVAL.shortName}</div>
       <div className="countdown-grid">
         <div className="cd-unit">
           <span className="cd-num">{remaining.days}</span>

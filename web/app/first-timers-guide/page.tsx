@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
+import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: "Lolla 2026 First Timer's Guide — Everything You Need to Know",
@@ -10,31 +12,36 @@ export const metadata: Metadata = {
     title: "Lolla 2026 First Timer's Guide",
     description: 'Everything you need to know about Grant Park, getting around Chicago, what to bring, and how to build your schedule.',
     url: `${SITE_URL}/first-timers-guide`,
-    siteName: 'Lolla Lineup 2026',
+    siteName: FESTIVAL.siteName,
+    images: ['/lineup.png'],
     type: 'article',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: "Lolla 2026 First Timer's Guide",
     description: 'Everything you need to know for your first Lollapalooza.',
+    images: ['/lineup.png'],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
+const jsonLd = articleJsonLd({
   headline: "Lolla 2026 First Timer's Guide — Everything You Need to Know",
   description: "First time at Lollapalooza? Everything you need to know about Grant Park, getting around Chicago, what to bring, and how to build your schedule.",
-  author: { '@type': 'Person', name: 'Jacob Brondum' },
   datePublished: '2026-03-22',
   dateModified: '2026-04-11',
-  publisher: { '@type': 'Organization', name: 'Lolla Lineup 2026', url: 'https://www.lolla2026lineup.com' },
-};
+  url: `${SITE_URL}/first-timers-guide`,
+});
+
+const breadcrumbs = breadcrumbJsonLd([
+  { name: 'Home', url: SITE_URL },
+  { name: "First Timer's Guide", url: `${SITE_URL}/first-timers-guide` },
+]);
 
 export default function FirstTimersGuidePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">

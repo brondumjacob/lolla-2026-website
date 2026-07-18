@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
+import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'Who To See at Lolla 2026 — Your Day-by-Day Guide',
@@ -10,31 +12,36 @@ export const metadata: Metadata = {
     title: 'Who To See at Lolla 2026',
     description: 'Day-by-day recommendations across every genre, from headliners to hidden gems at Lollapalooza 2026.',
     url: `${SITE_URL}/who-to-see`,
-    siteName: 'Lolla Lineup 2026',
+    siteName: FESTIVAL.siteName,
+    images: ['/lineup.png'],
     type: 'article',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Who To See at Lolla 2026',
     description: 'Day-by-day recommendations across every genre at Lollapalooza 2026.',
+    images: ['/lineup.png'],
   },
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
+const jsonLd = articleJsonLd({
   headline: 'Who To See at Lolla 2026 — Your Day-by-Day Guide',
   description: 'Day-by-day recommendations across every genre, from headliners to hidden gems at Lollapalooza 2026.',
-  author: { '@type': 'Person', name: 'Jacob Brondum' },
   datePublished: '2026-03-22',
   dateModified: '2026-04-11',
-  publisher: { '@type': 'Organization', name: 'Lolla Lineup 2026', url: 'https://www.lolla2026lineup.com' },
-};
+  url: `${SITE_URL}/who-to-see`,
+});
+
+const breadcrumbs = breadcrumbJsonLd([
+  { name: 'Home', url: SITE_URL },
+  { name: 'Who To See', url: `${SITE_URL}/who-to-see` },
+]);
 
 export default function WhoToSeePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">

@@ -4,16 +4,16 @@ import Footer from '@/components/Footer';
 import { FavoritesProvider } from '@/components/FavoritesProvider';
 import ScrollToTop from '@/components/ScrollToTop';
 import { ADSENSE_CLIENT, SITE_URL } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
 import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Lolla Lineup 2026 — Complete Lineup with Streaming Links',
-    template: '%s — Lolla Lineup 2026',
+    default: `${FESTIVAL.siteName} — Complete Lineup with Streaming Links`,
+    template: `%s — ${FESTIVAL.siteName}`,
   },
-  description:
-    'The complete Lollapalooza 2026 lineup with direct streaming links. 172 artists, searchable by genre and day. Grant Park, Chicago — July 30 to August 2.',
+  description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links. Searchable by genre and day. ${FESTIVAL.venue}, ${FESTIVAL.city} — ${FESTIVAL.datesDisplay}.`,
   icons: {
     icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>",
   },

@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { createServerSupabaseClient } from '@/lib/supabase-server';
 import { ScheduleSetInputSchema, ScheduleRecordSchema, ScheduleArtistRowSchema, type ScheduleSetInput } from '@/lib/types';
-import { FESTIVAL_SLUG } from '@/lib/constants';
+import { FESTIVAL } from '@/lib/festival';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface ScheduleWithSets {
@@ -19,9 +19,9 @@ export interface SaveScheduleResult {
 }
 
 async function getFestivalId(supabase: SupabaseClient): Promise<string> {
-  const { data, error } = await supabase.from('festivals').select('id').eq('slug', FESTIVAL_SLUG).single();
+  const { data, error } = await supabase.from('festivals').select('id').eq('slug', FESTIVAL.slug).single();
   if (error || !data) {
-    throw new Error(`Failed to resolve festival "${FESTIVAL_SLUG}": ${error?.message}`);
+    throw new Error(`Failed to resolve festival "${FESTIVAL.slug}": ${error?.message}`);
   }
   return data.id;
 }
