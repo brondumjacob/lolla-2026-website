@@ -179,6 +179,17 @@ with embedded `<style>` blocks (index, schedule builders) define their own local
 (e.g. day-badge colors, region colors `--rS/--rM/--rN`) — restyle those in place. Also
 re-derive `build.js` `DAY_COLORS` and the OG-SVG header/footer colors from the new palette.
 
+**Layout caveat (2026-07):** this template's homepage *structure* predates the "Prompt 2"
+IA redesign that went into `web/` after Reddit feedback (busy hero, sidebar, endless mobile
+scroll). The corrected IA — compact hero (wordmark + subhead + one CTA + info box), one
+sticky filter bar (search/day/genre) at every width, headliner feature row above a single
+unified major+undercard card grid, complete mobile nav, `content-visibility: auto` instead
+of list virtualization — lives in `web/components/LineupExplorer.tsx`, `ArtistCard.tsx`,
+`Nav.tsx`, and `web/app/globals.css`. New festival sites restructure the copied
+`index.html`/`build.js` card templates to that IA (agent Phase 4 step 4) before re-theming;
+the zero-structural-change guarantee above applies to *theming only*. If the redesign is
+ever ported back into this template's static files, delete this caveat.
+
 ## 10. Umbrella-domain mode (the planned direction)
 
 Jacob's expansion plan (2026-07): all festivals consolidate onto one festival-neutral
