@@ -80,3 +80,102 @@ test.describe('Phase 6 schedule builder — anonymous localStorage flow', () => 
 // cross-user isolation on schedule_artists, was instead verified manually
 // via claude-in-chrome + Supabase MCP simulated-JWT queries — see the Phase
 // 6 execution notes in 2026-07-09_lolla-accounts-migration-plan.md.
+
+// "Plan my schedule" floating widget (public/schedule-planner.js) on the
+// /schedule hub — distinct from the per-day builder above. Covers the
+// 2026-07 cutoff-bug fix and the search-feedback/typeahead/favorites/a11y
+// additions. KIM THEORY is reused as the deterministic real-artist fixture
+// (same stable Thursday-noon set the conflict test above relies on).
+test.describe('Smart schedule planner (/schedule floating widget)', () => {
+  test('opens without clipping the header or input', async ({ page }) => {
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+
+    await expect(page.getByText('Plan my schedule', { exact: true })).toBeVisible();
+    await expect(page.getByPlaceholder(/Lorde, Charli XCX/i)).toBeVisible();
+
+    // Regression guard: a pill radius (999px) on this rectangular panel is
+    // exactly what clipped the header/input before the 2026-07 fix.
+    const radius = await page.locator('#plannerPanel').evaluate((el) => getComputedStyle(el).borderRadius);
+    expect(radius).not.toContain('999');
+  });
+
+  test('shows a per-query chip and summary for matched and unmatched searches', async ({ page }) => {
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+    await page.getByPlaceholder(/Lorde, Charli XCX/i).fill('Kim Theory, zzznotarealartist');
+    await page.getByRole('button', { name: 'PLAN IT →' }).click();
+
+    await expect(page.locator('.planner-summary')).toContainText('Found 1 of 2');
+    await expect(page.locator('.planner-chip-match')).toContainText('KIM THEORY');
+    await expect(page.locator('.planner-chip-miss')).toContainText('zzznotarealartist');
+    await expect(page.locator('.planner-chip-miss')).toContainText('not found');
+  });
+
+  test('typeahead suggests real artist names and selecting one fills the input', async ({ page }) => {
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+    const input = page.getByPlaceholder(/Lorde, Charli XCX/i);
+    await input.fill('Kim The');
+
+    const suggestion = page.locator('.planner-suggest-item', { hasText: 'KIM THEORY' });
+    await expect(suggestion).toBeVisible();
+    await suggestion.click();
+
+    await expect(input).toHaveValue('KIM THEORY, ');
+  });
+
+  test('the clear button empties the input and hides results', async ({ page }) => {
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+    const input = page.getByPlaceholder(/Lorde, Charli XCX/i);
+    await input.fill('Kim Theory');
+    await page.getByRole('button', { name: 'PLAN IT →' }).click();
+    await expect(page.locator('#plannerResults')).toBeVisible();
+
+    await page.getByRole('button', { name: 'Clear search' }).click();
+    await expect(input).toHaveValue('');
+    await expect(page.locator('#plannerResults')).toBeHidden();
+  });
+
+  test('Escape closes the panel and returns focus to the toggle button', async ({ page }) => {
+    await page.goto('/schedule');
+    const fab = page.getByRole('button', { name: /PLAN MY SCHEDULE/i });
+    await fab.click();
+    await expect(page.locator('#plannerPanel')).toHaveClass(/open/);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#plannerPanel')).not.toHaveClass(/open/);
+    await expect(fab).toBeFocused();
+  });
+
+  test('shows a favorites-prefill button when My Lineup has stars, and searching it works', async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem('lolla-my-lineup-v1', JSON.stringify(['KIM THEORY']));
+    });
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+
+    const favButton = page.getByRole('button', { name: /Add my 1.*favorite/i });
+    await expect(favButton).toBeVisible();
+    await favButton.click();
+
+    await expect(page.locator('.planner-chip-match')).toContainText('KIM THEORY');
+  });
+
+  test('becomes a full-width bottom sheet on mobile so it can never clip the viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule');
+    await page.getByRole('button', { name: /PLAN MY SCHEDULE/i }).click();
+
+    const box = await page.locator('#plannerPanel').boundingBox();
+    expect(box).not.toBeNull();
+    if (box) {
+      expect(box.x).toBeCloseTo(0, 0);
+      expect(box.width).toBeCloseTo(390, 0);
+      // Anchored via bottom:0 — the panel's bottom edge must sit flush with
+      // the viewport bottom regardless of content height.
+      expect(box.y + box.height).toBeGreaterThanOrEqual(844 - 2);
+    }
+  });
+});

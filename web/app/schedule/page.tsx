@@ -141,7 +141,12 @@ export default function SchedulePage() {
         <Link href="/">← Back to full lineup</Link>
       </div>
 
-      <button className="planner-fab" id="plannerFab">
+      <button
+        className="planner-fab"
+        id="plannerFab"
+        aria-expanded="false"
+        aria-controls="plannerPanel"
+      >
         ⚡ PLAN MY SCHEDULE
       </button>
 
@@ -156,13 +161,20 @@ export default function SchedulePage() {
           <label className="planner-label" htmlFor="plannerInput">
             Which artists do you want to see?
           </label>
-          <input className="planner-input" type="text" id="plannerInput" placeholder="Lorde, Charli XCX, Tate McRae…" autoComplete="off" />
+          <div className="planner-input-row" id="plannerInputRow">
+            <input className="planner-input" type="text" id="plannerInput" placeholder="Lorde, Charli XCX, Tate McRae…" autoComplete="off" />
+            <button className="planner-clear" id="plannerClear" type="button" aria-label="Clear search">
+              &times;
+            </button>
+            <div className="planner-suggest" id="plannerSuggest" role="listbox" aria-label="Artist suggestions"></div>
+          </div>
           <p className="planner-hint">Separate names with commas or &quot;and&quot;. Partial names work too.</p>
+          <button className="planner-fav-add" id="plannerFavAdd" type="button" style={{ display: 'none' }}></button>
           <button className="planner-go" id="plannerGo">
             PLAN IT →
           </button>
         </div>
-        <div className="planner-results" id="plannerResults" style={{ display: 'none' }}></div>
+        <div className="planner-results" id="plannerResults" style={{ display: 'none' }} aria-live="polite"></div>
       </div>
 
       <Script src="/schedule-data.js" strategy="afterInteractive" />

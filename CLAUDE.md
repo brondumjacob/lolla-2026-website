@@ -98,7 +98,28 @@ My Lineup feature markup.
   `<style>` blocks, restyled to the new palette but structurally unchanged.
 
 ## Schedule Builder Architecture
-Each builder is a self-contained single-file HTML app with inline CSS + JS.
+
+### `/schedule` "Plan My Schedule" fuzzy planner (`web/` only, 2026-07-18 fix + upgrade)
+The floating ⚡ PLAN MY SCHEDULE widget on `web/app/schedule/page.tsx` (markup) +
+`web/public/schedule-planner.js` (vanilla JS, fuzzy-matches free-text artist names against
+`window.SCHEDULE` from `web/public/schedule-data.js`) had a CSS regression from the Next.js port:
+`.planner-panel` used `border-radius: 999px` (a pill radius) instead of the legacy site's
+`var(--radius-card)` (20px), which on a tall rectangular panel clipped the header/input/results —
+fixed in `web/app/globals.css`. Also fixed a co-located contrast bug (`.planner-input` was
+`rgba(255,255,255,0.5)` bg with white text, nearly invisible; now `#3C2D27`). Along with the fix,
+the planner gained: **per-query search feedback** (a "Found X of Y artists" summary + lime
+matched-chip / outlined not-found-chip row — the typed `queries` array was already threaded into
+`renderResults()` but never rendered before this pass), **typeahead** (custom suggestion dropdown,
+not `<datalist>`, matches the in-progress comma/`"and"`-separated token against a deduped
+`window.SCHEDULE` name list), **★ favorites prefill** (reads the same `lolla-my-lineup-v1`
+localStorage key as `web/lib/favorites-storage.ts`, hidden when empty), a **clear button**, and
+a11y/robustness (`aria-expanded`/`aria-controls` on the FAB, `aria-live` results, Escape-to-close
+with focus return, a Tab focus trap, and a **mobile bottom-sheet** layout at `max-width:600px` so
+the panel can never clip the viewport). Covered by 7 new tests in `web/e2e/schedule.spec.ts`
+(`Smart schedule planner` describe block). Legacy root `schedule.html` was left untouched — it's
+not served at the production domain and didn't have the radius regression.
+
+Each per-day builder is a self-contained single-file HTML app with inline CSS + JS.
 - Timeline grid: `GS=720` (12 PM), `GE=1320` (10 PM), `SC=1.50` px/min
 - Artist block: `top=(start_min-720)*1.5`, `height=(end_min-start_min)*1.5`
 - Features: tap to select, star must-sees, conflict detection, printable route
