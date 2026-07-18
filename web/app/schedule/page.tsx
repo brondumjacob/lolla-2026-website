@@ -43,9 +43,9 @@ export default function SchedulePage() {
         <div className="sched-hero-inner">
           <div className="sched-eyebrow">Lollapalooza 2026 · July 30 – Aug 2 · Grant Park, Chicago</div>
           <div className="sched-title">
-            BUILD YOUR
+            Build your
             <br />
-            SCHEDULE
+            schedule
           </div>
           <p className="sched-sub">
             Tap artists to add them to your plan, star your must-sees, detect time conflicts, and generate a
@@ -64,7 +64,7 @@ export default function SchedulePage() {
                 <div className="sched-day-label">THURSDAY</div>
                 <div className="sched-day-date">July 30, 2026</div>
                 <div className="sched-day-headliner">Lorde · John Summit</div>
-                <div className="sched-day-cta">BUILD →</div>
+                <div className="sched-day-cta">Build →</div>
               </div>
             </Link>
             <Link href="/schedule/friday" className="sched-day-card">
@@ -73,7 +73,7 @@ export default function SchedulePage() {
                 <div className="sched-day-label">FRIDAY</div>
                 <div className="sched-day-date">July 31, 2026</div>
                 <div className="sched-day-headliner">Charli XCX · The Smashing Pumpkins</div>
-                <div className="sched-day-cta">BUILD →</div>
+                <div className="sched-day-cta">Build →</div>
               </div>
             </Link>
             <Link href="/schedule/saturday" className="sched-day-card">
@@ -82,7 +82,7 @@ export default function SchedulePage() {
                 <div className="sched-day-label">SATURDAY</div>
                 <div className="sched-day-date">August 1, 2026</div>
                 <div className="sched-day-headliner">Olivia Dean · Jennie</div>
-                <div className="sched-day-cta">BUILD →</div>
+                <div className="sched-day-cta">Build →</div>
               </div>
             </Link>
             <Link href="/schedule/sunday" className="sched-day-card">
@@ -91,7 +91,7 @@ export default function SchedulePage() {
                 <div className="sched-day-label">SUNDAY</div>
                 <div className="sched-day-date">August 2, 2026</div>
                 <div className="sched-day-headliner">Tate McRae · The xx</div>
-                <div className="sched-day-cta">BUILD →</div>
+                <div className="sched-day-cta">Build →</div>
               </div>
             </Link>
           </div>
@@ -112,21 +112,21 @@ export default function SchedulePage() {
 
       <div className="sched-how">
         <div className="sched-how-inner">
-          <div className="sched-how-title">HOW IT WORKS</div>
+          <div className="sched-how-title">How it works</div>
           <div className="sched-steps">
             <div className="sched-step">
               <div className="sched-step-num">1</div>
-              <div className="sched-step-title">SELECT ARTISTS</div>
+              <div className="sched-step-title">Select artists</div>
               <div className="sched-step-desc">Tap any artist on the timetable to add them to your plan. Tap again to remove.</div>
             </div>
             <div className="sched-step">
               <div className="sched-step-num">2</div>
-              <div className="sched-step-title">STAR MUST-SEES</div>
+              <div className="sched-step-title">Star must-sees</div>
               <div className="sched-step-desc">Once selected, tap the ★ on an artist to mark them as a non-negotiable must-see.</div>
             </div>
             <div className="sched-step">
               <div className="sched-step-num">3</div>
-              <div className="sched-step-title">BUILD YOUR ROUTE</div>
+              <div className="sched-step-title">Build your route</div>
               <div className="sched-step-desc">Hit &quot;Build my route&quot; to see your schedule, detect time conflicts, and get a printable walking plan.</div>
             </div>
           </div>
@@ -143,7 +143,7 @@ export default function SchedulePage() {
 
       <div className="planner-panel" id="plannerPanel" role="dialog" aria-label="Smart schedule planner">
         <div className="planner-head">
-          <span className="planner-head-title">PLAN MY SCHEDULE</span>
+          <span className="planner-head-title">Plan my schedule</span>
           <button className="planner-close" id="plannerClose" aria-label="Close">
             &times;
           </button>

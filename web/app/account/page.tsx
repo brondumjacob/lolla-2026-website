@@ -7,6 +7,7 @@ import SignOutButton from '@/components/SignOutButton';
 export const metadata: Metadata = {
   title: 'Account — Lolla Lineup 2026',
   robots: { index: false, follow: false },
+  alternates: { canonical: '/account' },
 };
 
 export default async function AccountPage() {

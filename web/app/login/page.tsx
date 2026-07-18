@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Sign In — Lolla Lineup 2026',
   description: 'Sign in to save your favorite artists and build your Lollapalooza 2026 schedule.',
   robots: { index: false, follow: false },
+  alternates: { canonical: '/login' },
 };
 
 export default async function LoginPage({

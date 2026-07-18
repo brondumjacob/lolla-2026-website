@@ -12,6 +12,6 @@ export const DAY_META: Record<number, DayMeta> = {
   4: { name: 'SUNDAY', date: 'AUG 2', short: 'SUN 8/2', colorClass: 'day-4' },
 };
 
-export const SITE_URL = 'https://lolla2026lineup.com';
+export const SITE_URL = 'https://www.lolla2026lineup.com';
 export const ADSENSE_CLIENT = 'ca-pub-1043428205440255';
 export const FESTIVAL_SLUG = 'lollapalooza-2026';

@@ -50,7 +50,13 @@ export default async function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="editorial-intro">
-        <h2 className="editorial-title">THE 2026 LINEUP, UNPACKED</h2>
+        {/* Deliberately a <p>, not an <h2>: the homepage's only heading is
+            LineupExplorer's <h1> (LOLLAPALOOZA hero), which renders below this
+            editorial block in the DOM. An <h2> here would precede the page's
+            h1 and break the heading outline. Styled identically via
+            .editorial-title in globals.css. Revisit once Prompt 2 moves the
+            hero to the top of the page. */}
+        <p className="editorial-title">The 2026 Lineup, Unpacked</p>
         <p>
           Lollapalooza returns to Grant Park for its 2026 edition with one of the most genre-diverse lineups in the
           festival&apos;s history. Spread across four days — Thursday, July 30 through Sunday, August 2 — the bill runs
@@ -97,19 +103,19 @@ export default async function HomePage() {
 
       <div className="guide-cards">
         <Link href="/who-to-see" className="guide-card">
-          <div className="guide-card-title">WHO TO SEE</div>
+          <div className="guide-card-title">Who to see</div>
           <div className="guide-card-desc">Day-by-day recommendations across every genre, from headliners to hidden gems.</div>
         </Link>
         <Link href="/first-timers-guide" className="guide-card">
-          <div className="guide-card-title">FIRST TIMER&apos;S GUIDE</div>
+          <div className="guide-card-title">First timer&apos;s guide</div>
           <div className="guide-card-desc">Everything you need to know about Grant Park, transit, what to bring, and pacing yourself.</div>
         </Link>
         <Link href="/undercard-picks" className="guide-card">
-          <div className="guide-card-title">UNDERCARD PICKS</div>
+          <div className="guide-card-title">Undercard picks</div>
           <div className="guide-card-desc">10 lesser-known artists worth rearranging your schedule for.</div>
         </Link>
         <Link href="/schedule" className="guide-card">
-          <div className="guide-card-title">SCHEDULE BUILDER</div>
+          <div className="guide-card-title">Schedule builder</div>
           <div className="guide-card-desc">Build your day-by-day route. Pick artists, flag must-sees, detect conflicts, and print your plan.</div>
         </Link>
       </div>

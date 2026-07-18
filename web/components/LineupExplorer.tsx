@@ -67,7 +67,9 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
             <h1 className="hero-title">
               LOLLA<span className="accent-word">PA</span>LOOZA
             </h1>
-            <p className="hero-subtitle">The Complete 2026 Lineup — 172 Artists Across 4 Days</p>
+            <p className="hero-subtitle">
+              Browse all 172 artists, stream every act, and build your day-by-day schedule.
+            </p>
           </div>
           <div className="hero-right">
             <div className="hero-dates">
@@ -99,9 +101,9 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
           <img
             src="/lineup.png"
             alt="Lollapalooza 2026 lineup poster — 172 artists, Grant Park Chicago, July 30 to August 2"
-            width={600}
-            height={315}
-            loading="eager"
+            width={1200}
+            height={1500}
+            loading="lazy"
             style={{ width: '100%', maxWidth: 600, height: 'auto', display: 'block', margin: '1.5rem auto 0', border: '3px solid #000', boxShadow: '6px 6px 0 #000' }}
           />
         </div>

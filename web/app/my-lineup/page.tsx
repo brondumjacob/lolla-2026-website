@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: 'My Lineup — Lolla Lineup 2026',
   description: "Your personal Lollapalooza 2026 lineup — the artists you've starred.",
   robots: { index: false, follow: false },
+  alternates: { canonical: '/my-lineup' },
 };
 
 // Public route, not auth-protected: anonymous visitors see their

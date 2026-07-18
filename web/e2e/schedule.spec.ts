@@ -66,7 +66,10 @@ test.describe('Phase 6 schedule builder — anonymous localStorage flow', () => 
 
   test('the schedule hub links to the new /schedule/[day] routes, not the retired static pages', async ({ page }) => {
     await page.goto('/schedule');
-    await expect(page.getByRole('link', { name: /THURSDAY.*BUILD/s })).toHaveAttribute('href', '/schedule/thursday');
+    // Case-insensitive: "Build →" is stored normal-case in markup and rendered
+    // uppercase via CSS text-transform (SEO quick-wins pass, see CLAUDE.md),
+    // so the accessible name is no longer literal all-caps.
+    await expect(page.getByRole('link', { name: /THURSDAY.*BUILD/is })).toHaveAttribute('href', '/schedule/thursday');
   });
 });
 

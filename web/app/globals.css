@@ -100,7 +100,18 @@ body {
 .hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
 
 @media (max-width: 768px) {
-  .hamburger-btn { display: flex; }
+  .hamburger-btn {
+    display: flex;
+    /* Right-align: pushes the button to the far right of the flex nav,
+       after .nav-home, so it's the outermost mobile control instead of
+       sitting centered next to the wordmark. */
+    order: 10;
+    margin-left: auto;
+    /* ≥44px touch target (WCAG 2.1 AA) while keeping the 28×20 bar art centered. */
+    width: 44px;
+    height: 44px;
+    padding: 12px 8px;
+  }
   .site-nav { position: relative; }
   .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: #FFF0E4; border-bottom: var(--border-hair); z-index: 99; padding: 6px 8px 10px; }
   .nav-links.open { display: flex; box-shadow: 0 10px 24px rgba(28,21,38,0.2); }
@@ -131,7 +142,10 @@ body {
 .ad-slot { text-align: center; padding: 16px 0; min-height: 90px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(28,21,38,0.12); border-radius: var(--radius-sm); margin: 20px 0; }
 .ad-space { text-align: center; padding: 8px 0; min-height: 90px; display: flex; align-items: center; justify-content: center; border: 1px dashed rgba(28,21,38,0.1); border-radius: var(--radius-sm); margin: 16px 0; font-family: var(--font-body); font-size: 9px; letter-spacing: 2px; color: rgba(28,21,38,0.15); text-transform: uppercase; }
 
-.back-to-top { position: fixed; bottom: 24px; right: 24px; background: var(--black); color: var(--lime); border: none; font-family: var(--font-body); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; padding: 12px 20px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 200; border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); }
+/* left, not right: the /schedule page has a fixed "PLAN MY SCHEDULE" FAB
+   (.planner-fab) anchored bottom-right at the same offsets — putting
+   back-to-top on the opposite corner avoids the two ever overlapping. */
+.back-to-top { position: fixed; bottom: 24px; left: 24px; background: var(--black); color: var(--lime); border: none; font-family: var(--font-body); font-weight: 700; font-size: 13px; letter-spacing: 0.04em; padding: 12px 20px; min-width: 44px; min-height: 44px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 200; border-radius: var(--radius-pill); box-shadow: var(--shadow-sm); }
 .back-to-top.visible { opacity: 1; pointer-events: auto; }
 .back-to-top:hover { background: #382a49; transform: translateY(-3px); box-shadow: var(--shadow-lift); }
 
@@ -235,14 +249,14 @@ body {
 
 .editorial-intro { max-width: 800px; margin: 0 auto; padding: 24px 32px 0; }
 .editorial-intro p { font-family: var(--font-body); font-size: 15px; line-height: 1.8; color: rgba(28,21,38,0.6); margin-bottom: 8px; }
-.editorial-intro .editorial-title { font-family: var(--font-display); font-size: 19px; color: var(--black); margin-bottom: 12px; }
+.editorial-intro .editorial-title { font-family: var(--font-display); font-size: 19px; color: var(--black); margin: 0 0 12px; }
 
 .guide-cards { max-width: 900px; margin: 0 auto; padding: 16px 32px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 @media (max-width: 760px) { .guide-cards { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 480px) { .guide-cards { grid-template-columns: 1fr; } }
 .guide-card { display: block; padding: 18px 18px; border: none; border-radius: var(--radius-card); text-decoration: none; transition: box-shadow 0.18s, transform 0.18s, background 0.18s; background: var(--card-bg); box-shadow: var(--shadow-sm); }
 .guide-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); }
-.guide-card-title { font-family: var(--font-display); font-size: 15px; color: var(--lime); margin-bottom: 6px; }
+.guide-card-title { font-family: var(--font-display); font-size: 15px; color: var(--lime); margin-bottom: 6px; text-transform: uppercase; }
 .guide-card-desc { font-family: var(--font-body); font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
 
 .wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
@@ -471,6 +485,12 @@ body {
      scrolls away there's nothing left to sit under, so pin straight to the
      viewport top instead of the 56px nav-height offset used at 768-1023px. */
   .artist-search-wrap { padding-left: 1rem; padding-right: 1rem; top: 0; }
+  /* Larger tap area + legibility on the mobile search bar; desktop is untouched. */
+  .artist-search { padding: 0.9rem 3rem 0.9rem 1.15rem; font-size: 1rem; min-height: 44px; }
+  /* ≥44px touch targets (WCAG 2.1 AA) for the search-clear and star-toggle
+     buttons on mobile only — desktop keeps its tighter, denser sizing. */
+  .artist-search-clear { min-width: 44px; min-height: 44px; }
+  .star-toggle { min-width: 44px; min-height: 44px; }
   .sidebar { flex-wrap: nowrap; gap: 8px; }
   .day-panel { flex: 0 0 160px; }
   .day-panel-inner { padding: 0.75rem 1rem; }
@@ -514,6 +534,7 @@ body {
   line-height: 0.9;
   color: #fff;
   letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
 .sched-sub {
   margin-top: 1rem;
@@ -604,6 +625,7 @@ body {
   padding: 7px 16px;
   border-radius: 999px;
   font-weight: 900;
+  text-transform: uppercase;
 }
 
 .sched-editorial { padding: 0 2rem 2.5rem; background: #FFD9C2; }
@@ -619,6 +641,7 @@ body {
   color: #fff;
   margin-bottom: 1.5rem;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 .sched-steps {
   display: grid;
@@ -645,6 +668,7 @@ body {
   color: #fff;
   letter-spacing: 1px;
   margin-bottom: 0.4rem;
+  text-transform: uppercase;
 }
 .sched-step-desc {
   font-size: 0.85rem;
@@ -718,6 +742,7 @@ body {
   font-size: 1.3rem;
   letter-spacing: 2px;
   color: #2B1B14;
+  text-transform: uppercase;
 }
 .planner-close {
   background: none;
