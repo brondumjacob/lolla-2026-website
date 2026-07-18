@@ -4,8 +4,8 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="site-footer-links">
-        <Link href="/">Home</Link>
         <Link href="/">Lineup</Link>
+        <Link href="/this-week">This Week</Link>
         <Link href="/who-to-see">Guide</Link>
         <Link href="/schedule">Schedule Builder</Link>
         <Link href="/first-timers-guide">First Timer&apos;s Guide</Link>

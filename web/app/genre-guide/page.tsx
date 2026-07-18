@@ -111,7 +111,9 @@ export default function GenreGuidePage() {
             high-tech minimal and <strong>Snow Strippers&apos;</strong> hyperpop-leaning sets round out
             Thursday&apos;s major slots. In the undercard, names like <strong>Oklou</strong>,{' '}
             <strong>Ninajirachi</strong>, and <strong>Whethan</strong> are the ones worth catching early if you want
-            to say you saw them before the stages got bigger.
+            to say you saw them before the stages got bigger — several of this tier&apos;s producers are playing
+            their first major U.S. festival slot this year, which is exactly the kind of bet that pays off if you
+            catch it early.
           </p>
 
           <div className="ad-space">{/* AD SPACE */}</div>

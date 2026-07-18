@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
+import ArtistCard from './ArtistCard';
 
 interface LineupExplorerProps {
   artists: ArtistWithGenre[];
@@ -62,54 +64,46 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
     <div className="page-wrapper">
       <header className="hero" role="banner">
         <div className="hero-inner">
-          <div className="hero-left">
-            <p className="hero-eyebrow">Chicago, Illinois · Grant Park</p>
-            <h1 className="hero-title">
-              LOLLA<span className="accent-word">PA</span>LOOZA
-            </h1>
-            <p className="hero-subtitle">
-              Browse all 172 artists, stream every act, and build your day-by-day schedule.
-            </p>
-          </div>
-          <div className="hero-right">
-            <div className="hero-dates">
-              JUL 30 — AUG 2
-              <br />
-              2026
-            </div>
-            <div className="hero-venue">Grant Park · Chicago</div>
-          </div>
-        </div>
-        <div className="hero-meta">
-          <div>
-            <div className="hero-artists-count">{artists.length} Artists</div>
-            <div className="hero-artists-label">Confirmed Lineup</div>
-          </div>
-          <div className="hero-sep" aria-hidden="true"></div>
-          <div>
-            <div className="hero-artists-count">8 Stages</div>
-            <div className="hero-artists-label">4 Days</div>
-          </div>
-          <div className="hero-sep" aria-hidden="true"></div>
-          <div>
-            <div className="hero-artists-count">100K+</div>
-            <div className="hero-artists-label">Daily Capacity</div>
-          </div>
-        </div>
-        <div className="hero-og-img">
-          {/* eslint-disable-next-line @next/next/no-img-element -- static poster asset, not worth next/image's runtime optimization overhead here */}
-          <img
-            src="/lineup.png"
-            alt="Lollapalooza 2026 lineup poster — 172 artists, Grant Park Chicago, July 30 to August 2"
-            width={1200}
-            height={1500}
-            loading="lazy"
-            style={{ width: '100%', maxWidth: 600, height: 'auto', display: 'block', margin: '1.5rem auto 0', border: '3px solid #000', boxShadow: '6px 6px 0 #000' }}
-          />
+          <p className="hero-eyebrow">Chicago, Illinois · Grant Park</p>
+          <h1 className="hero-title">
+            LOLLA<span className="accent-word">PA</span>LOOZA
+          </h1>
+          <p className="hero-subtitle">
+            Browse all 172 artists, stream every act, and build your day-by-day schedule.
+          </p>
+          <Link href="/schedule" className="hero-cta">
+            Build your schedule →
+          </Link>
         </div>
       </header>
 
-      <div className="two-col">
+      {/* Compact replacement for the old poster image — dates/venue/stats at a
+          glance, so the site's purpose is obvious in ~5 seconds without a
+          672×840 image to load. Not sticky itself; the search+filter controls
+          directly below it are (see .filter-bar), preserving the sticky
+          search behavior fixed in an earlier pass (see CLAUDE.md changelog). */}
+      <div className="info-box">
+        <div className="info-box-when">
+          <div className="info-box-dates">JUL 30 – AUG 2, 2026</div>
+          <div className="info-box-venue">Grant Park · Chicago</div>
+        </div>
+        <div className="info-box-stats">
+          <div className="info-stat">
+            <span className="info-stat-num">{artists.length}</span>
+            <span className="info-stat-label">Artists</span>
+          </div>
+          <div className="info-stat">
+            <span className="info-stat-num">8</span>
+            <span className="info-stat-label">Stages</span>
+          </div>
+          <div className="info-stat">
+            <span className="info-stat-num">4</span>
+            <span className="info-stat-label">Days</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="filter-bar">
         <div className="artist-search-wrap">
           <input
             type="text"
@@ -130,274 +124,89 @@ export default function LineupExplorer({ artists }: LineupExplorerProps) {
           </button>
         </div>
 
-        <main className="main-col" id="main-content">
-          <div className="genre-strip" id="genre-strip" role="list" aria-label="Filter by genre">
+        {/* Toggle-button groups, not content lists — aria-pressed carries the
+            state semantics, so these deliberately skip role="list"/"listitem"
+            (which don't support aria-pressed on their children). */}
+        <div className="filter-bar-days" aria-label="Filter by day">
+          <button
+            className={`day-pill${activeDay === 0 ? ' is-active' : ''}`}
+            aria-pressed={activeDay === 0}
+            onClick={() => toggleDay(0)}
+          >
+            All Days
+          </button>
+          {[1, 2, 3, 4].map((d) => (
             <button
-              className={`genre-strip-pill${activeGenre === '' ? ' is-active' : ''}`}
-              role="listitem"
-              onClick={() => toggleGenre('')}
+              key={d}
+              className={`day-pill day-pill-${d}${activeDay === d ? ' is-active' : ''}`}
+              aria-pressed={activeDay === d}
+              onClick={() => toggleDay(d)}
             >
-              ALL GENRES
+              {DAY_META[d].short}
             </button>
-            {genreCounts.map(([genre]) => (
-              <button
-                key={genre}
-                className={`genre-strip-pill${activeGenre === genre ? ' is-active' : ''}`}
-                role="listitem"
-                onClick={() => toggleGenre(genre)}
-              >
-                {genre}
-              </button>
-            ))}
-          </div>
+          ))}
+        </div>
 
-          <div className="section-divider" aria-hidden="true">
-            <span className="section-divider-label">HEADLINERS</span>
-          </div>
-          <div role="list" aria-label="Headlining artists">
-            {visibleHeadliners.map((a) => (
-              <div className="headliner-row" role="listitem" key={a.id}>
-                <div className="headliner-accent" aria-hidden="true"></div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div className="headliner-name">{a.name}</div>
-                  {a.description && (
-                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'rgba(0,0,0,0.5)', marginTop: '0.2rem', lineHeight: 1.4 }}>
-                      {a.description}
-                    </div>
-                  )}
-                </div>
-                <div className="headliner-meta">
-                  <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
-                  <StarToggle artistName={a.name} />
-                  <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
-                </div>
+        <div className="filter-bar-genres" aria-label="Filter by genre">
+          <button
+            className={`genre-pill${activeGenre === '' ? ' is-active' : ''}`}
+            aria-pressed={activeGenre === ''}
+            onClick={() => toggleGenre('')}
+          >
+            All Genres
+          </button>
+          {genreCounts.map(([genre, count]) => (
+            <button
+              key={genre}
+              className={`genre-pill${activeGenre === genre ? ' is-active' : ''}`}
+              aria-pressed={activeGenre === genre}
+              onClick={() => toggleGenre(genre)}
+            >
+              {genre} <span className="genre-pill-count">{count}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <main className="main-col" id="main-content">
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider-label">HEADLINERS</span>
+        </div>
+        <div className="headliner-feature" role="list" aria-label="Headlining artists">
+          {visibleHeadliners.map((a) => (
+            <div className="hl-feature-card" role="listitem" key={a.id}>
+              <div className="hl-feature-top">
+                <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
+                <StarToggle artistName={a.name} />
               </div>
-            ))}
-          </div>
-          {visibleHeadliners.length === 0 && <p className="no-results-msg visible">No headliners match this filter.</p>}
-
-          <div className="section-divider" aria-hidden="true">
-            <span className="section-divider-label">MAJOR ACTS</span>
-          </div>
-          <div className="majors-grid" role="list" aria-label="Major acts">
-            {visibleMajors.map((a) => (
-              <div className="major-card" role="listitem" key={a.id}>
-                <div className="major-card-top">
-                  <div>
-                    <div className="major-name">{a.name}</div>
-                    <div className="major-genre">{a.genre}</div>
-                  </div>
-                </div>
-                {a.description && (
-                  <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(0,0,0,0.45)', lineHeight: 1.4, marginBottom: '0.5rem' }}>
-                    {a.description}
-                  </div>
-                )}
-                <div className="major-card-bottom">
-                  <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                    <StarToggle artistName={a.name} />
-                    <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          {visibleMajors.length === 0 && <p className="no-results-msg visible">No major acts match this filter.</p>}
-
-          <div className="section-divider" aria-hidden="true">
-            <span className="section-divider-label">UNDERCARD</span>
-          </div>
-          <ul className="undercards-list" role="list" aria-label="Undercard artists">
-            {visibleUndercards.map((a, i) => (
-              <li className="undercard-item" role="listitem" key={a.id}>
-                <div className="undercard-row">
-                  <span className="undercard-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="undercard-name">{a.name}</span>
-                  <span className="undercard-genre">{a.genre}</span>
-                  <span className={`day-badge day-${a.day}`}>{DAY_META[a.day].short}</span>
-                  <div className="undercard-links" aria-label={`Streaming links for ${a.name}`}>
-                    <StarToggle artistName={a.name} />
-                    <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
-                  </div>
-                </div>
-                {a.description && <div className="undercard-desc">{a.description}</div>}
-              </li>
-            ))}
-          </ul>
-          {visibleUndercards.length === 0 && <p className="no-results-msg visible">No undercards match this filter.</p>}
-        </main>
-
-        <aside className="sidebar" aria-label="Festival schedule and navigation">
-          <div className="sidebar-header">
-            <div className="sidebar-title">THIS WEEK</div>
-            <div className="sidebar-subtitle">Jul 30 – Aug 2, 2026</div>
-          </div>
-
-          {/* Rendered as direct children of .sidebar (not wrapped in an
-              intermediate div) — the @media(max-width:1023px) rule flips
-              .sidebar to display:flex/overflow-x:auto specifically so these
-              .day-panel elements become the scrollable flex children of a
-              snapping day-picker strip. A wrapping div here would become the
-              sole flex item instead, silently breaking the horizontal scroll
-              (days would stack as ordinary blocks with no snap/scroll). */}
-          {[1, 2, 3, 4].map((d) => {
-            const meta = DAY_META[d];
-            const allOnDay = artists.filter((a) => a.day === d);
-            const headlinersOnDay = headliners.filter((a) => a.day === d);
-            const isActive = activeDay === d;
-            return (
-              <div
-                key={d}
-                className={`day-panel day-panel-${d}${isActive ? ' is-active' : ''}`}
-                role="button"
-                tabIndex={0}
-                aria-pressed={isActive}
-                aria-label={`Filter to ${meta.name} ${meta.date}. ${allOnDay.length} artists.`}
-                onClick={() => toggleDay(d)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleDay(d);
-                  }
-                }}
-              >
-                <div className="day-panel-inner">
-                  <div className="dp-top">
-                    <div>
-                      <div className="dp-day">{meta.name}</div>
-                      <div className="dp-date">{meta.date}</div>
-                    </div>
-                    <div className="dp-count">
-                      <span className="dp-count-num">{allOnDay.length}</span>
-                      <span className="dp-count-label">artists</span>
-                    </div>
-                  </div>
-                  <div className="dp-headliners">{headlinersOnDay.map((h) => h.name).join(' · ') || 'TBA'}</div>
-                </div>
-                <div className="dp-active-indicator" aria-hidden="true">
-                  <span className="dp-active-dot"></span> ACTIVE FILTER
-                </div>
-              </div>
-            );
-          })}
-
-          <div className="sidebar-section">
-            <div className="sidebar-section-title">BY GENRE</div>
-            <ul className="genre-list" role="list" aria-label="Filter by genre">
-              {genreCounts.map(([genre, count], i) => (
-                <li
-                  key={genre}
-                  className={`genre-item${activeGenre === genre ? ' is-active' : ''}`}
-                  role="listitem"
-                  tabIndex={0}
-                  aria-label={`Filter by ${genre}, ${count} artists`}
-                  aria-current={activeGenre === genre ? 'true' : undefined}
-                  onClick={() => toggleGenre(genre)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      toggleGenre(genre);
-                    }
-                  }}
-                >
-                  <span className="genre-num">{String(i + 1).padStart(2, '0')}</span>
-                  <span className="genre-name">{genre}</span>
-                  <span className="genre-count">{count}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="sidebar-section">
-            <div className="sidebar-section-title">JUMP TO DAY</div>
-            <div className="quick-filters">
-              <div className="filter-row">
-                <button
-                  className={`quick-filter-btn qf-all${activeDay === 0 ? ' is-active' : ''}`}
-                  aria-pressed={activeDay === 0}
-                  aria-label="Show all days"
-                  onClick={() => toggleDay(0)}
-                >
-                  ALL DAYS
-                </button>
-              </div>
-              <div className="filter-row">
-                {[1, 2, 3, 4].map((d) => (
-                  <button
-                    key={d}
-                    className={`quick-filter-btn qf-${d}${activeDay === d ? ' is-active' : ''}`}
-                    aria-pressed={activeDay === d}
-                    aria-label={`Filter to ${DAY_META[d].name}`}
-                    onClick={() => toggleDay(d)}
-                  >
-                    {DAY_META[d].short}
-                  </button>
-                ))}
-              </div>
+              <div className="hl-feature-name">{a.name}</div>
+              {a.description && <p className="hl-feature-desc">{a.description}</p>}
+              <StreamingLinks
+                artistName={a.name}
+                spotifyUrl={a.spotify_url}
+                appleUrl={a.apple_url}
+                youtubeUrl={a.youtube_url}
+              />
             </div>
-          </div>
-
-          <Countdown />
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function Countdown() {
-  const [remaining, setRemaining] = useState<{ days: string; hours: string; mins: string; secs: string }>({
-    days: '--',
-    hours: '--',
-    mins: '--',
-    secs: '--',
-  });
-
-  useEffect(() => {
-    function update() {
-      const target = new Date('2026-07-30T12:00:00-05:00').getTime();
-      const diff = target - Date.now();
-      if (diff <= 0) {
-        setRemaining({ days: '00', hours: '00', mins: '00', secs: '00' });
-        return;
-      }
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const secs = Math.floor((diff % (1000 * 60)) / 1000);
-      setRemaining({
-        days: String(days).padStart(3, '0'),
-        hours: String(hours).padStart(2, '0'),
-        mins: String(mins).padStart(2, '0'),
-        secs: String(secs).padStart(2, '0'),
-      });
-    }
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="countdown-block" aria-label="Countdown to Lollapalooza 2026">
-      <div className="countdown-label">Countdown to Lolla 2026</div>
-      <div className="countdown-grid">
-        <div className="cd-unit">
-          <span className="cd-num">{remaining.days}</span>
-          <span className="cd-label">Days</span>
+          ))}
         </div>
-        <div className="cd-unit">
-          <span className="cd-num">{remaining.hours}</span>
-          <span className="cd-label">Hours</span>
+        {visibleHeadliners.length === 0 && <p className="no-results-msg visible">No headliners match this filter.</p>}
+
+        <div className="section-divider" aria-hidden="true">
+          <span className="section-divider-label">THE LINEUP</span>
         </div>
-        <div className="cd-unit">
-          <span className="cd-num">{remaining.mins}</span>
-          <span className="cd-label">Mins</span>
+        <div className="artist-grid" role="list" aria-label="Major and undercard artists">
+          {visibleMajors.map((a) => (
+            <ArtistCard artist={a} variant="major" key={a.id} />
+          ))}
+          {visibleUndercards.map((a) => (
+            <ArtistCard artist={a} variant="undercard" key={a.id} />
+          ))}
         </div>
-        <div className="cd-unit">
-          <span className="cd-num">{remaining.secs}</span>
-          <span className="cd-label">Secs</span>
-        </div>
-      </div>
+        {visibleMajors.length === 0 && visibleUndercards.length === 0 && (
+          <p className="no-results-msg visible">No artists match this filter.</p>
+        )}
+      </main>
     </div>
   );
 }

@@ -15,6 +15,7 @@ const PUBLIC_ROUTES = [
   '/undercard-picks',
   '/lolla-history',
   '/first-timers-guide',
+  '/this-week',
   '/schedule',
 ];
 

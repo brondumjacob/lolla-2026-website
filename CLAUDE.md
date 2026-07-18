@@ -22,11 +22,11 @@ Live / deployed (the repo-root static site). Multi-page static site with schedul
 
 ## Next.js Migration (`web/`)
 A separate Next.js 16 (App Router, TypeScript) project, deliberately isolated in its own subdirectory so it can be developed and deployed to Vercel independently while the repo-root static site keeps serving production via Cloudflare Pages unchanged. **`web/AGENTS.md` flags that this Next.js version has breaking changes vs. training data — read `web/node_modules/next/dist/docs/` before assuming an API.** One confirmed drift: `middleware.ts` is renamed to `proxy.ts` in Next.js 16 (exports a `proxy` function).
-- `web/app/` — routes: `/`, `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/schedule` (Phase 3 content pages), plus `/login`, `/account` (protected), `/auth/callback` (Phase 4 auth)
+- `web/app/` — routes: `/`, `/about`, `/privacy`, `/terms`, `/contact`, `/who-to-see`, `/first-timers-guide`, `/undercard-picks`, `/genre-guide`, `/lolla-history`, `/this-week` (new, see Layout & IA Redesign below), `/schedule`, `/schedule/[day]` (noindex), plus `/login`, `/account` (protected), `/my-lineup` (noindex), `/auth/callback` (Phase 4 auth)
 - `web/lib/data.ts` — fetches festivals/artists/artist_genres from Supabase at build time (public-read RLS tables, plain `@supabase/supabase-js` client via `web/lib/supabase.ts`'s `createBuildTimeClient()`, no cookies needed); Zod-validates every row
 - `web/lib/supabase-browser.ts` / `web/lib/supabase-server.ts` — `@supabase/ssr` client factories for auth: browser client for Client Components (`AuthStatus`, `GoogleSignInButton`), server client (cookie-bound via `next/headers`) for the OAuth callback, sign-out action, and `/account`. Three Supabase clients total in this app, each scoped to a different concern — don't cross-use them.
 - `web/proxy.ts` — refreshes the Supabase session cookie on every request and redirects unauthenticated visitors away from protected paths (`/account` today; extend the `PROTECTED_PREFIXES` array when `/my-lineup`/schedule builders are ported in Phase 5/6). Uses `getClaims()` (JWT-verified), not `getSession()`, for the auth decision.
-- `web/components/LineupExplorer.tsx` — the index page's day/genre filtering, reimplemented as React state (was imperative DOM class-toggling in the static site)
+- `web/components/LineupExplorer.tsx` — the homepage's hero + info-box + sticky filter-bar (search/day/genre, all React state, unchanged filter logic since Prompt 1) + headliner feature row + unified major/undercard `.artist-grid`. Rebuilt in the Prompt 2 layout redesign — see below; the old two-column sidebar layout is gone.
 - `web/components/AuthStatus.tsx` — client-side auth state in the nav (`onAuthStateChange`), deliberately kept out of the shared layout so content pages stay statically generated
 - `web/public/favorites.js`, `web/public/schedule-data.js`, `web/public/schedule-planner.js` — vanilla JS kept close to its original form (favorites/star system, schedule fuzzy-planner), per the migration plan's explicit allowance not to force a premature React rewrite of code Phase 5 will replace anyway
 - `web/next.config.ts` — CSP/security headers ported verbatim from `dist/_headers`
@@ -148,6 +148,77 @@ Driven by a repeat Google AdSense "low value content" rejection. All 5 phases of
 - **Phase 5 — content depth**: two new long-form original articles, `lolla-history.html` ("The History of Lollapalooza", ~900 words, Perry Farrell's 1991 farewell-tour origin through the 2026 Grant Park lineup) and `genre-guide.html` ("The Complete Genre Guide to Lollapalooza 2026", ~880 words, a genre-by-genre breakdown grounded in real per-artist tier/day data pulled from `artists.js`, not fabricated). Both follow the existing `.article-wrap`/`.article-body`/`.tip-box` template from `who-to-see.html`, added to `build.js`'s static-page copy allowlist, and mirrored 1:1 as `web/app/lolla-history/page.tsx` and `web/app/genre-guide/page.tsx`. Wired into: the footer of all 14 static pages + the shared Next.js `Footer.tsx` component, `sitemap.xml`, and one cross-link each from the homepage editorial, `who-to-see.html`/`page.tsx`, and `first-timers-guide.html`/`page.tsx`.
 - Homepage editorial intro (`index.html` + `web/app/page.tsx`) gained a second always-visible paragraph (venue/stage/ticket-tier facts, no longer hidden behind READ MORE) plus a new paragraph inside the expandable body linking out to the two new articles.
 - Schedule hub (`schedule.html` + `web/app/schedule/page.tsx`) gained a short `.sched-editorial` paragraph between the day-picker grid and "How It Works" explaining why the builder exists. The 4 static day builders (`schedule-thursday/friday/saturday/sunday.html`) each got a unique ~40-word `.day-editorial` blurb naming that day's actual headliners/majors (sourced from real schedule data, not templated filler) — this also de-duplicates what were previously four near-identical pages, one of the specific patterns AdSense reviewers flag. The Next.js dynamic route `web/app/schedule/[day]/page.tsx` (rendered by the shared `ScheduleBuilder.tsx` client component) was deliberately left as-is: it's already `robots: {index: false}` from earlier work, so per-day editorial text there would have zero SEO/AdSense value.
+
+## Layout & IA Redesign — "Prompt 2" (2026-07) — `web/` only
+Driven by Reddit feedback on the live Next.js site: visually busy, endless mobile scroll, fails
+the 5-second test. Structural redesign of the homepage/lineup/nav, **not** a re-theme — same
+Golden Hour palette/fonts/tokens throughout. Static repo-root site untouched.
+- **Homepage simplified**: `web/app/page.tsx` dropped the old `.editorial-intro` essay and the
+  4 large `.guide-cards` boxes in favor of a compact `.explore-strip` pill row. That prose wasn't
+  deleted — it already had a fuller, more specific treatment on the destination guide pages
+  (who-to-see's day-by-day sections, first-timers-guide's "The Basics", lolla-history's 1991
+  origin story, genre-guide's genre breakdown); rather than duplicate near-identical paragraphs
+  across pages (a duplicate-content SEO risk), `who-to-see`, `genre-guide`, and `undercard-picks`
+  got small additive expansions for the handful of framing sentences that were homepage-exclusive,
+  and `about/page.tsx`'s stale "static site, no framework, no build process" claim was corrected.
+- **`LineupExplorer.tsx` rebuilt**: hero is now just wordmark + one-line subhead + one CTA
+  (`Build your schedule →`); the old poster image (`.hero-og-img`) is gone, replaced by a compact
+  `.info-box` (dates/venue/stats). Day+genre filters + search moved into one sticky `.filter-bar`
+  shown at every width (replaces the old sidebar's day-panels/genre-list/quick-filters and the
+  old mobile-only `.genre-strip`). The `<aside className="sidebar">` is gone entirely — its
+  content (live countdown + day-by-day headliner cards) moved to a new page, `/this-week`.
+- **Lineup is a unified grid**: `web/components/ArtistCard.tsx` (new) replaces the old separate
+  major-card/undercard-row templates with one reusable card (`variant: 'major' | 'undercard'`),
+  used for both tiers in one `.artist-grid` (`repeat(auto-fill, minmax(210px,1fr))` — 2 cols on
+  phones, ≥4 from ~1000px up). Headliners stay a distinct `.headliner-feature` row above it.
+  `content-visibility: auto` on `.artist-card` skips layout/paint for off-screen cards — chosen
+  over list virtualization specifically to keep every artist's name/genre/description in the
+  server-rendered HTML (this site's whole SEO value is the crawlable long-tail undercard
+  content the Content Depth Initiative built; a virtua-style windowed list would un-mount most
+  of it post-hydration, which Googlebot's rendered-DOM snapshot would likely miss). Measured
+  DOM node count on `/`: ~3298 vs. the Reddit audit's cited baseline of 3557 (~7% raw-count
+  cut) — modest, because unifying the grid intentionally gave undercards the same card richness
+  as majors (consistent design > raw count); the larger, real win is `content-visibility`'s
+  rendering-cost skip, which a node count doesn't capture, plus removing the sidebar/editorial
+  entirely.
+- **`/this-week`** (new, indexable): `web/app/this-week/page.tsx` + `web/components/Countdown.tsx`
+  (extracted from the old sidebar). Live countdown + 4 day cards (headliners, artist count,
+  link into `/schedule/[day]`) — adds another substantial indexable page rather than just moving
+  chrome into the already-busy `/schedule` hub.
+- **Nav rebuilt** (`Nav.tsx` + new `NavDropdown.tsx`): desktop shows `LINEUP · THIS WEEK ·
+  SCHEDULE` inline plus `GUIDES ▾`/`ABOUT ▾` click-toggle dropdowns; `.nav-mylineup`/`AuthStatus`
+  keep their own always-visible pills (pre-existing pattern, unchanged). The hamburger's mobile
+  panel (`.nav-links-mobile`) lists **every** route grouped under Lineup/Guides/Plan/About —
+  including `/my-lineup` and `/account`, which aren't in the desktop dropdowns — with a real
+  focus trap (Tab/Shift+Tab cycle, focus-to-first on open, focus-restore-to-button on close) on
+  top of the pre-existing Escape/outside-click/aria-expanded behavior. Covered by
+  `web/e2e/menu.spec.ts`. On mobile the "My Lineup" pill drops its text label (icon+count only,
+  `.nav-mylineup-label { display:none }`) so the nav row doesn't wrap the hamburger onto a
+  second line at narrow widths.
+- **Accessibility pass found and fixed 5 real WCAG AA contrast failures** introduced by the new
+  components (measured via computed-style contrast math against the actual rendered backgrounds,
+  not assumed): `.info-box-venue`/`.info-stat-label`/`.hl-feature-desc`/`.ac-desc` were all
+  ~3.2–3.8:1 at their original text-opacity (bumped rgba alpha 0.5–0.55 → 0.68, now 5.6–5.7:1);
+  `.ac-genre` used `--teal` directly at ~2.5:1 (new `--teal-text: #19615B` CSS var, 6.2:1) —
+  `--teal` itself is unchanged and still used elsewhere for large text/icons/dividers, which
+  don't carry the same 4.5:1 requirement. Also found the pre-existing Four-Day Rule colors
+  (`--pink`/`--orange`/`--teal`/purple) fail 4.5:1 with white text on the new `.day-pill.is-active`
+  states (2.8–4.2:1) — scoped a fix to just these new pills (black text; purple lightened
+  `#8B5CF6→#9469F7` to clear 4.5:1 with black text too), left `.day-badge` itself untouched
+  (pre-existing, out of scope for a layout redesign). Also added a skip-to-content link
+  (`layout.tsx`) and gave `/schedule` its first real `<h1>` (was a styled `<div>` — a pre-existing
+  gap, not introduced by this pass, but fixed while confirming heading order site-wide).
+- **CSS**: `web/app/globals.css`'s old two-col/sidebar/card system (`.two-col`, `.sidebar` +
+  `.day-panel*`/`.genre-list`/`.quick-filter*`, `.majors-grid`/`.major-card*`,
+  `.undercards-list`/`.undercard-*`, `.headliner-row*`, `.genre-strip*`, `.editorial-intro`,
+  `.guide-cards`) was retired; `.countdown-block`/`.cd-*` were kept (now used by `/this-week`
+  instead of the old sidebar) and `.day-badge`/`.stream-btn`/`.star-toggle`/`.article-*`/
+  `.sched-*`/`.sb-*` are unchanged.
+- **E2E**: `web/e2e/homepage.spec.ts` (new) and `web/e2e/menu.spec.ts` (new) cover the rebuilt
+  homepage (hero/info-box/grid, search/day/genre filters, mobile 2-col grid geometry) and nav
+  completeness/focus-trap/Escape. All pre-existing specs (`auth`, `favorites`, `schedule`,
+  `full-journey`) still pass unmodified — the redesign didn't touch `.star-toggle`,
+  `.nav-mylineup .mylineup-count`, or any schedule-builder markup.
 
 ## Available Tools (Project Level)
 

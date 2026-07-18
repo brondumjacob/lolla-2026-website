@@ -57,6 +57,12 @@ export default function RootLayout({
         />
       </head>
       <body>
+        {/* WCAG 2.1 2.4.1 Bypass Blocks — visually hidden until focused, lets
+            keyboard users skip the nav (now a grouped desktop bar + hamburger,
+            see Nav.tsx) straight to the page's main content. */}
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <FavoritesProvider>
           <Nav />
           {children}

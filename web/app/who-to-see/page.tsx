@@ -43,10 +43,12 @@ export default function WhoToSeePage() {
         </div>
 
         <p className="article-intro">
-          Lollapalooza 2026 drops 172 artists across four days at Grant Park. That&apos;s a lot of music to sort
-          through. We broke the lineup down day by day, picked our favorites across genres, and flagged the schedule
-          conflicts you&apos;ll actually lose sleep over. Whether you&apos;re chasing headliners or hunting for your
-          next obsession in the undercard, here&apos;s where to start.
+          Lollapalooza 2026 drops 172 artists across four days at Grant Park, and it&apos;s one of the most
+          genre-diverse bills the festival has ever put together — arena-headlining pop acts sharing a weekend with
+          underground electronic producers playing their first major U.S. festival slot. That&apos;s a lot of music
+          to sort through. We broke the lineup down day by day, picked our favorites across genres, and flagged the
+          schedule conflicts you&apos;ll actually lose sleep over. Whether you&apos;re chasing headliners or hunting
+          for your next obsession in the undercard, here&apos;s where to start.
         </p>
 
         <div className="ad-space">{/* AD SPACE */}</div>

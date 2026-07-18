@@ -42,11 +42,15 @@ export default function SchedulePage() {
         </div>
         <div className="sched-hero-inner">
           <div className="sched-eyebrow">Lollapalooza 2026 · July 30 – Aug 2 · Grant Park, Chicago</div>
-          <div className="sched-title">
+          {/* Was a <div> — this page had no <h1> at all (a pre-existing gap,
+              not introduced by this pass), which fails WCAG's heading-order
+              expectations. Purely semantic change; .sched-title's styling
+              (and its already-verified 6.31:1+ contrast) is unaffected. */}
+          <h1 className="sched-title">
             Build your
             <br />
             schedule
-          </div>
+          </h1>
           <p className="sched-sub">
             Tap artists to add them to your plan, star your must-sees, detect time conflicts, and generate a
             printable walking route — one day at a time.

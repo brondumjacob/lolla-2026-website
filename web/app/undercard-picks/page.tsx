@@ -75,8 +75,10 @@ export default function UndercardPicksPage() {
         <p className="article-intro">
           Headliners sell tickets, but the undercard is where festivals earn their reputation. Lollapalooza 2026 has
           100+ artists below the major tier, and buried in that list are future headliners, critical darlings, and
-          genre-bending acts that deserve far bigger stages. Here are the ten undercard artists we think you&apos;ll
-          regret missing.
+          genre-bending acts that deserve far bigger stages. It&apos;s the same principle that makes the major tier
+          worth digging into too — Freddie Gibbs and Clipse for hip-hop purists, Turnstile for the hardcore-crossover
+          crowd, Ethel Cain&apos;s gothic Americana for anyone who wants to feel something. Here are the ten
+          undercard artists we think you&apos;ll regret missing.
         </p>
 
         <div className="ad-space">{/* AD SPACE */}</div>

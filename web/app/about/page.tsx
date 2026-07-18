@@ -60,10 +60,11 @@ export default function AboutPage() {
 
         <h2>How It&apos;s Built</h2>
         <p>
-          This site is intentionally simple. It&apos;s a static site — plain HTML, CSS, and JavaScript with no
-          server-side code, no frameworks, and no build process. Artist data lives in a single JavaScript file that
-          drives the interactive lineup. The site loads fast, works on any device, and doesn&apos;t require an
-          account or personal information. We believe a festival guide should be fast, accessible, and free.
+          This site is intentionally simple. It&apos;s built on Next.js with artist data stored in a database, not
+          hand-typed into a static file — every genre tag and streaming link is verified against the artist&apos;s
+          real Spotify and Apple Music pages before it ships. Signing in with Google is optional and only unlocks
+          saved schedules and My Lineup; the core lineup, search, and schedule builder work fully without an account
+          or any personal information. We believe a festival guide should be fast, accessible, and free.
         </p>
 
         <h2>Accuracy and Updates</h2>

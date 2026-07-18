@@ -14,6 +14,11 @@
   --red: #E6432E;
   --card-bg: #2B1B14;
   --teal: #2FA79C;
+  /* Darker tonal step of --teal for small text on light card backgrounds —
+     --teal itself measures ~2.5:1 there (fine for icons/dividers/large text,
+     fails WCAG AA's 4.5:1 for small text). Measured against the redesign's
+     new .artist-card background; see .ac-genre below. */
+  --teal-text: #19615B;
   --black: #211611;
   --white: #FFFFFF;
   --page-bg: #FFD9C2;
@@ -41,6 +46,13 @@
 
 html { scroll-behavior: smooth; }
 
+.skip-link {
+  position: absolute; top: -60px; left: 8px; z-index: 1000; background: var(--black); color: #fff;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; padding: 12px 18px;
+  border-radius: var(--radius-sm); text-decoration: none; transition: top 0.15s ease;
+}
+.skip-link:focus { top: 8px; }
+
 body {
   background:
     radial-gradient(60% 45% at 12% 0%, rgba(207,226,62,0.28), transparent 60%),
@@ -67,14 +79,37 @@ body {
   padding: 0 24px; height: 56px; border-bottom: var(--border-hair);
 }
 .nav-home { font-family: var(--font-display); font-size: 1.2rem; color: var(--black); text-decoration: none; letter-spacing: 0.02em; }
-.nav-links { display: flex; gap: 2px; }
-.site-nav a:not(.nav-home) {
+
+/* Desktop inline links + dropdowns — hidden below 769px in favor of the
+   hamburger's .nav-links-mobile panel (see @media max-width:768px below). */
+.nav-links-desktop { display: flex; align-items: center; gap: 2px; }
+.site-nav a:not(.nav-home):not(.nav-mylineup):not(.nav-account):not(.nav-signin),
+.nav-dropdown-trigger {
   font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.04em;
   color: rgba(28,21,38,0.6); text-decoration: none; padding: 0 14px; height: 56px;
   display: flex; align-items: center; border-radius: 0; transition: background var(--transition), color var(--transition);
+  background: transparent; border: none; cursor: pointer;
 }
-.site-nav a:not(.nav-home):hover, .site-nav a.active { background: rgba(255,255,255,0.5); color: var(--black); }
-.nav-spacer { height: 0; }
+.site-nav a:not(.nav-home):not(.nav-mylineup):not(.nav-account):not(.nav-signin):hover,
+.site-nav a.active,
+.nav-dropdown-trigger:hover, .nav-dropdown-trigger.active { background: rgba(255,255,255,0.5); color: var(--black); }
+.nav-dropdown { position: relative; }
+.nav-dropdown-caret { font-size: 0.65em; margin-left: 2px; }
+.nav-dropdown-panel {
+  display: none; position: absolute; top: 100%; left: 0; min-width: 200px; margin-top: 6px;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(10px); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lift); padding: 6px; flex-direction: column; z-index: 110;
+}
+.nav-dropdown-panel.open { display: flex; }
+.nav-dropdown-panel a {
+  font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; color: var(--black);
+  text-decoration: none; padding: 10px 14px; border-radius: var(--radius-sm); transition: background var(--transition);
+}
+.nav-dropdown-panel a:hover, .nav-dropdown-panel a.active { background: rgba(28,21,38,0.06); color: var(--teal); }
+
+/* Mobile grouped panel — built once in the DOM, shown only via the @media
+   rule below so there's no hydration mismatch between server and client. */
+.nav-links-mobile { display: none; }
 
 .nav-mylineup {
   display: flex; align-items: center; gap: 6px; background: var(--black); color: #fff !important;
@@ -98,8 +133,17 @@ body {
 .hamburger-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
 .hamburger-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .hamburger-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+.hamburger-btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+@media (min-width: 769px) {
+  /* Desktop never shows the mobile panel or hamburger, even if React state
+     briefly toggles `open` (e.g. a stray click) — belt and suspenders on
+     top of .nav-links-mobile's own display:none default. */
+  .nav-links-mobile { display: none !important; }
+}
 
 @media (max-width: 768px) {
+  .nav-links-desktop { display: none; }
   .hamburger-btn {
     display: flex;
     /* Right-align: pushes the button to the far right of the flex nav,
@@ -112,12 +156,33 @@ body {
     height: 44px;
     padding: 12px 8px;
   }
-  .site-nav { position: relative; }
-  .nav-links { display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0; background: #FFF0E4; border-bottom: var(--border-hair); z-index: 99; padding: 6px 8px 10px; }
-  .nav-links.open { display: flex; box-shadow: 0 10px 24px rgba(28,21,38,0.2); }
-  .site-nav a:not(.nav-home) { border-left: none; border-top: none; height: 48px; padding: 0 16px; font-size: 0.95rem; border-radius: var(--radius-sm); }
+  .site-nav { position: relative; flex-wrap: wrap; }
+  .nav-links-mobile {
+    display: none; flex-direction: column; position: absolute; top: 56px; left: 0; right: 0;
+    background: #FFF0E4; border-bottom: var(--border-hair); z-index: 99; padding: 6px 8px 14px;
+    max-height: calc(100vh - 56px); overflow-y: auto;
+  }
+  .nav-links-mobile.open { display: flex; box-shadow: 0 10px 24px rgba(28,21,38,0.2); }
+  .nav-mobile-group { padding: 10px 8px 4px; }
+  .nav-mobile-group-title {
+    font-family: var(--font-display); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--teal); padding: 0 8px 6px;
+  }
+  .nav-mobile-group a {
+    font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; color: rgba(28,21,38,0.75);
+    text-decoration: none; display: flex; align-items: center; min-height: 44px; padding: 0 16px;
+    border-radius: var(--radius-sm); transition: background var(--transition), color var(--transition);
+  }
+  .nav-mobile-group a:hover, .nav-mobile-group a.active { background: rgba(255,255,255,0.6); color: var(--black); }
   .nav-account { max-width: 70px; }
   .nav-signin { padding: 8px 10px; font-size: 0.75rem; }
+  /* Icon + count only, no "My Lineup" text — with the desktop link row gone
+     below 769px, .nav-home + this pill + Sign in + the hamburger were
+     wrapping onto two lines at narrow widths. Dropping the label keeps
+     everything on one row without losing the control (full label is back
+     the moment the viewport is wide enough for .nav-links-desktop). */
+  .nav-mylineup-label { display: none; }
+  .nav-mylineup { padding: 8px 12px !important; gap: 4px; }
 }
 
 /* ===== EDITORIAL COLLAPSE ===== */
@@ -186,9 +251,7 @@ body {
 
 @media (max-width: 768px) {
   .site-nav { padding: 0 16px; }
-  .site-nav a:not(.nav-home) { padding: 0 10px; font-size: 12px; }
-  .editorial-intro { padding: 16px 16px 0; }
-  .guide-cards { padding: 12px 16px 0; }
+  .explore-strip { padding: 12px 16px 0; }
   .ticket-section { padding: 20px 16px; }
 }
 @media (max-width: 480px) { .countdown-box { min-width: 70px; padding: 12px 14px; } }
@@ -247,17 +310,19 @@ body {
 .ticket-card-desc { font-family: var(--font-body); font-weight: 700; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(28,21,38,0.4); }
 .ticket-disclosure { font-family: var(--font-body); font-size: 9px; color: rgba(28,21,38,0.25); margin-top: 12px; }
 
-.editorial-intro { max-width: 800px; margin: 0 auto; padding: 24px 32px 0; }
-.editorial-intro p { font-family: var(--font-body); font-size: 15px; line-height: 1.8; color: rgba(28,21,38,0.6); margin-bottom: 8px; }
-.editorial-intro .editorial-title { font-family: var(--font-display); font-size: 19px; color: var(--black); margin: 0 0 12px; }
+/* .editorial-intro and .guide-cards (Prompt 1's homepage essay + big anchor
+   boxes) were retired in the Prompt 2 layout redesign — the homepage no
+   longer renders that markup (content redistributed to the guide pages; see
+   CLAUDE.md and page.tsx's comment). Replaced by .explore-strip below and
+   the lineup's own .info-box / .filter-bar (see the INDEX PAGE section). */
 
-.guide-cards { max-width: 900px; margin: 0 auto; padding: 16px 32px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-@media (max-width: 760px) { .guide-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .guide-cards { grid-template-columns: 1fr; } }
-.guide-card { display: block; padding: 18px 18px; border: none; border-radius: var(--radius-card); text-decoration: none; transition: box-shadow 0.18s, transform 0.18s, background 0.18s; background: var(--card-bg); box-shadow: var(--shadow-sm); }
-.guide-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); }
-.guide-card-title { font-family: var(--font-display); font-size: 15px; color: var(--lime); margin-bottom: 6px; text-transform: uppercase; }
-.guide-card-desc { font-family: var(--font-body); font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+.explore-strip { max-width: 1000px; margin: 0 auto; padding: 20px 32px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.explore-pill {
+  font-family: var(--font-body); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.02em;
+  color: var(--black); text-decoration: none; padding: 8px 16px; border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.5); box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+}
+.explore-pill:hover { background: rgba(255,255,255,0.85); box-shadow: var(--shadow-lift); transform: translateY(-2px); }
 
 .wrap { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
 .wrap h1 { font-family: var(--font-display); font-size: 34px; color: var(--black); margin-bottom: 6px; }
@@ -303,45 +368,46 @@ body {
 
 .hero {
   background: linear-gradient(160deg, #2A1E38 0%, #201830 100%);
-  color: var(--white); border-bottom: none; padding: 2.25rem 2.5rem 2rem; position: relative; overflow: hidden;
+  color: var(--white); border-bottom: none; padding: 2.5rem 2.5rem 2.25rem; position: relative; overflow: hidden;
 }
 .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 60% at 100% 0%, rgba(207,226,62,0.12), transparent 60%); pointer-events: none; }
-.hero-inner { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-.hero-left { flex: 1; min-width: 280px; }
+/* Simple vertical stack, not a flex row — the old hero-right (dates/venue)
+   moved down into .info-box below so the hero itself stays a ~5-second read:
+   eyebrow, wordmark, one-line subhead, one CTA. Nothing else competes for
+   attention up here. */
+.hero-inner { position: relative; z-index: 1; max-width: 720px; }
 .hero-eyebrow { font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.35rem; }
 .hero-title { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 6.5rem); line-height: 1; color: var(--white); letter-spacing: 0; }
 .hero-title .accent-word { color: var(--lime); }
-.hero-subtitle { margin-top: 0.75rem; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.01em; }
-.hero-right { text-align: right; flex-shrink: 0; }
-.hero-dates { font-family: var(--font-display); font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.2; color: var(--lime); }
-.hero-venue { font-size: 0.85rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.25rem; }
-.hero-meta { margin-top: 1.5rem; display: flex; align-items: center; gap: 1.25rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,0.15); flex-wrap: wrap; }
-.hero-artists-count { font-family: var(--font-display); font-size: 1.15rem; color: var(--white); }
-.hero-artists-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
-.hero-sep { width: 1px; height: 28px; background: rgba(255,255,255,0.2); }
-.hero-og-img img { border-radius: 20px !important; box-shadow: 0 20px 40px rgba(0,0,0,0.35) !important; border: none !important; }
+.hero-subtitle { margin-top: 0.75rem; font-size: 1rem; font-weight: 500; color: rgba(255,255,255,0.7); letter-spacing: 0.01em; max-width: 46ch; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.5rem; padding: 0.85rem 1.6rem;
+  font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.02em; text-decoration: none;
+  background: var(--lime); color: var(--black); border-radius: var(--radius-pill); box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), background var(--transition); min-height: 44px;
+}
+.hero-cta:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); background: #c3d62e; }
 
-/* Grid (not flex) so the search bar can be a sibling of .main-col/.sidebar
-   yet still sit visually above .main-col only, aligned to its column width —
-   .artist-search-wrap occupies "search", spanning just the main column, while
-   .sidebar spans both rows starting at the top (unchanged from the old flex
-   layout's look). This also lets mobile reorder the three areas independently
-   via `order`, which plain flex couldn't do once the search bar became a
-   sibling instead of a child of .main-col (see .artist-search-wrap below). */
-.two-col { display: grid; grid-template-columns: var(--main-width) var(--sidebar-width); grid-template-areas: "search side" "main side"; align-items: start; gap: 0; }
-.main-col { grid-area: main; width: var(--main-width); border-right: none; padding: 0 2.5rem 2rem; }
+/* Compact replacement for the old poster image — festival facts at a glance,
+   directly under the hero. See LineupExplorer.tsx for what moved here. */
+.info-box {
+  max-width: 1440px; margin: 0 auto; padding: 1.25rem 2.5rem; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 1rem 2rem; background: rgba(255,255,255,0.35);
+}
+.info-box-dates { font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--black); line-height: 1.15; }
+/* 0.68 alpha, not the 0.5-0.55 used for large-text labels elsewhere — measured
+   at 4.5:1+ against .info-box's translucent background (WCAG AA for small text). */
+.info-box-venue { font-size: 0.8rem; color: rgba(28,21,38,0.68); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 0.2rem; }
+.info-box-stats { display: flex; align-items: center; gap: 1.5rem; }
+.info-stat { display: flex; flex-direction: column; align-items: center; }
+.info-stat-num { font-family: var(--font-display); font-size: 1.3rem; color: var(--black); line-height: 1; }
+.info-stat-label { font-size: 0.68rem; color: rgba(28,21,38,0.68); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
 
-.section-divider { display: flex; align-items: center; gap: 0.75rem; margin: 2.5rem 0 1.5rem; }
+.main-col { padding: 0 2.5rem 2rem; }
+
+.section-divider { display: flex; align-items: center; gap: 0.75rem; margin: 2rem 0 1.25rem; }
 .section-divider::before, .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(28,21,38,0.15); }
 .section-divider-label { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.04em; white-space: nowrap; padding: 0 0.5rem; color: var(--teal); }
-
-.headliner-row { display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1rem; border-bottom: none; margin-bottom: 10px; border-radius: 20px; background: rgba(255,255,255,0.4); transition: background var(--transition), transform var(--transition), box-shadow var(--transition); }
-.headliner-row:hover { background: rgba(255,255,255,0.7); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-.headliner-row:last-child { margin-bottom: 0; }
-.headliner-row.filtered-out { display: none; }
-.headliner-accent { flex-shrink: 0; width: 5px; height: 56px; background: var(--teal); border-radius: 4px; }
-.headliner-name { font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.1; letter-spacing: 0; flex: 1; }
-.headliner-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; flex-shrink: 0; }
 
 .day-badge { font-family: var(--font-body); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.04em; padding: 4px 12px; border: none; border-radius: 999px; box-shadow: none; white-space: nowrap; }
 .day-badge.day-1 { background: #8B5CF6; color: #fff; }
@@ -349,80 +415,96 @@ body {
 .day-badge.day-3 { background: #F97316; color: #fff; }
 .day-badge.day-4 { background: #2FA79C; color: #fff; }
 
-.majors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.major-card { border: none; box-shadow: var(--shadow-sm); background: rgba(255,255,255,0.55); border-radius: 20px; padding: 1.1rem 1.3rem; transition: box-shadow var(--transition), transform var(--transition), background var(--transition); cursor: default; }
-.major-card.filtered-out { display: none; }
-.major-card:hover { box-shadow: var(--shadow-lift); transform: translateY(-4px); background: rgba(255,255,255,0.85); }
-.major-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; }
-.major-name { font-family: var(--font-display); font-size: 1.2rem; line-height: 1.15; letter-spacing: 0; }
-.major-genre { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); margin-top: 0.25rem; }
-.major-card-bottom { display: flex; align-items: center; justify-content: space-between; }
+/* ===== HEADLINERS — distinct feature row above the unified grid ===== */
+.headliner-feature { display: flex; flex-wrap: wrap; gap: 12px; }
+.hl-feature-card {
+  flex: 1 1 240px; min-width: 240px; background: rgba(255,255,255,0.45); border-radius: var(--radius-card);
+  padding: 1.25rem 1.4rem; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+}
+.hl-feature-card:hover { background: rgba(255,255,255,0.75); box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+.hl-feature-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.hl-feature-name { font-family: var(--font-display); font-size: clamp(1.35rem, 2.5vw, 1.7rem); line-height: 1.1; }
+.hl-feature-desc { font-family: var(--font-body); font-size: 0.85rem; color: rgba(28,21,38,0.68); line-height: 1.45; margin: 0.4rem 0 0.75rem; }
 
-.undercards-list { list-style: none; }
-.undercard-item { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.6rem 0.75rem; border-radius: 14px; transition: background var(--transition); }
-.undercard-item:nth-child(even) { background: rgba(255,255,255,0.3); }
-.undercard-item.filtered-out { display: none; }
-.undercard-item:hover { background: rgba(255,255,255,0.55); }
-.undercard-row { display: flex; align-items: center; gap: 0.75rem; }
-.undercard-num { font-family: var(--font-display); font-size: 0.9rem; color: rgba(28,21,38,0.3); min-width: 2rem; text-align: right; }
-.undercard-name { font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; flex: 1; }
-.undercard-genre { font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(28,21,38,0.4); }
-.undercard-links { display: flex; gap: 0.3rem; align-items: center; }
-.undercard-desc { font-family: var(--font-body); font-size: 0.78rem; color: rgba(28,21,38,0.5); line-height: 1.4; padding-left: 2.75rem; }
+/* ===== MAJORS + UNDERCARD — one unified grid (Prompt 2 redesign) =====
+   auto-fill/minmax gives ≥4 columns from ~1000px up without hand-tuned
+   breakpoints; the @media rules below only need to handle the phone case. */
+.artist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.artist-card {
+  display: flex; flex-direction: column; background: rgba(255,255,255,0.45); border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+  /* Off-screen cards skip layout/paint — the main lever for cutting
+     main-thread cost on a 172-artist page. Every card's name/genre/
+     description still lands in the server-rendered HTML either way, so this
+     is invisible to crawlers; it only affects the browser's rendering work.
+     contain-intrinsic-size is a rough placeholder so scrollbar length stays
+     stable before a card's first paint. */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 190px;
+}
+.artist-card:hover { background: rgba(255,255,255,0.8); box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+.artist-card.is-major { padding: 1.1rem 1.2rem; }
+.ac-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.ac-name { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.15; }
+.artist-card.is-major .ac-name { font-size: 1.2rem; }
+/* --teal-text (darker step of --teal), not --teal itself — --teal measures
+   ~2.5:1 here, well under WCAG AA's 4.5:1 for text this small. */
+.ac-genre { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--teal-text); margin-top: 0.3rem; }
+.ac-desc {
+  font-family: var(--font-body); font-size: 0.78rem; color: rgba(28,21,38,0.68); line-height: 1.45; margin: 0.5rem 0 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ac-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 0.65rem; }
 
-.sidebar { grid-area: side; width: var(--sidebar-width); position: sticky; top: 0; max-height: 100vh; overflow-y: auto; scrollbar-width: thin; }
-.sidebar::-webkit-scrollbar { width: 4px; }
-.sidebar::-webkit-scrollbar-thumb { background: rgba(28,21,38,0.3); border-radius: 999px; }
-.sidebar-header { padding: 1.25rem 1.5rem 1rem; border-bottom: none; background: transparent; position: sticky; top: 0; z-index: 10; }
-.sidebar-title { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0; }
-.sidebar-subtitle { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(28,21,38,0.45); margin-top: 0.15rem; }
+.no-results-msg { padding: 2rem 0; font-family: var(--font-display); font-size: 1.3rem; color: rgba(28,21,38,0.3); letter-spacing: 0.02em; display: none; text-align: center; }
+.no-results-msg.visible { display: block; }
 
-.day-panel { border-bottom: none; margin: 0 1rem 8px; border-radius: 18px; cursor: pointer; transition: opacity var(--transition), transform var(--transition); overflow: hidden; }
-.day-panel:hover:not(.is-active) { opacity: 0.9; transform: translateY(-1px); }
-.day-panel:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
-.day-panel.day-panel-1 { background: #8B5CF6; color: #fff; }
-.day-panel.day-panel-2 { background: #E85BB8; color: #fff; }
-.day-panel.day-panel-3 { background: #F97316; color: #fff; }
-.day-panel.day-panel-4 { background: #2FA79C; color: #fff; }
-.day-panel .dp-day, .day-panel .dp-date, .day-panel .dp-headliners { color: #fff; }
-.day-panel .dp-count-label { color: rgba(255,255,255,0.75); }
-.day-panel-inner { padding: 1rem 1.25rem; border-bottom: none; }
-.dp-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
-.dp-day { font-family: var(--font-display); font-size: 1.5rem; line-height: 1; letter-spacing: 0; }
-.dp-date { font-family: var(--font-body); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; opacity: 0.85; }
-.dp-count { text-align: right; }
-.dp-count-num { font-family: var(--font-display); font-size: 1.7rem; line-height: 1; }
-.dp-count-label { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; }
-.dp-headliners { font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; line-height: 1.5; margin-top: 0.25rem; }
-.dp-active-indicator { display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 1.25rem; background: rgba(0,0,0,0.15); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border-top: 1px solid rgba(255,255,255,0.2); }
-.dp-active-dot { width: 6px; height: 6px; border-radius: 50%; background: #fff; display: inline-block; }
-.day-panel.is-active .dp-active-indicator { display: flex; }
-.day-panel:not(.is-active) .dp-active-indicator { display: none; }
+/* ===== FILTER BAR — search + day/genre pills, sticky at every width =====
+   Replaces the old per-tier sidebar (day-panel/genre-list/quick-filter) and
+   the old mobile-only .genre-strip with one control cluster that works the
+   same at every viewport. Sticky directly below the 56px nav, preserving the
+   "search stays reachable while scrolling" fix from the previous pass. */
+.filter-bar {
+  position: sticky; top: 56px; z-index: 90; display: flex; flex-direction: column; gap: 0.65rem;
+  padding: 1rem 2.5rem; background: rgba(255,240,228,0.92); backdrop-filter: blur(10px);
+}
+.artist-search-wrap { position: relative; }
+.artist-search { width: 100%; padding: 0.75rem 2.75rem 0.75rem 1.1rem; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; border: none; border-radius: var(--radius-pill); background: rgba(255,255,255,0.6); box-shadow: var(--shadow-sm); color: var(--black); transition: background var(--transition), box-shadow var(--transition); }
+.artist-search::placeholder { color: rgba(28,21,38,0.45); font-weight: 500; }
+.artist-search:focus { outline: none; background: rgba(255,255,255,0.9); box-shadow: var(--shadow-lift); }
+.artist-search-clear { position: absolute; right: 0.4rem; top: 50%; transform: translateY(-50%); width: 2.1rem; height: 2.1rem; border: none; border-radius: 999px; background: transparent; color: rgba(28,21,38,0.5); font-size: 1.2rem; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; }
+.artist-search-clear.visible { display: flex; }
+.artist-search-clear:hover { background: rgba(28,21,38,0.08); color: var(--black); }
 
-.sidebar-section { padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(28,21,38,0.08); }
-.sidebar-section-title { font-family: var(--font-display); font-size: 1rem; letter-spacing: 0; margin-bottom: 0.75rem; border-bottom: none; padding-bottom: 0; color: var(--teal); }
-.genre-list { list-style: none; }
-.genre-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.5rem; font-size: 0.85rem; border-bottom: none; border-radius: 10px; cursor: pointer; transition: background var(--transition); }
-.genre-item:hover { background: rgba(255,255,255,0.4); }
-.genre-item:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
-.genre-item.is-active { font-weight: 700; background: rgba(255,255,255,0.55); }
-.genre-num { font-family: var(--font-display); font-size: 0.75rem; color: rgba(28,21,38,0.35); min-width: 1.5rem; }
-.genre-name { flex: 1; }
-.genre-count { font-family: var(--font-body); font-weight: 700; font-size: 0.75rem; background: var(--black); color: var(--white); padding: 2px 7px; min-width: 22px; text-align: center; border-radius: 999px; }
+.filter-bar-days, .filter-bar-genres { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.filter-bar-days::-webkit-scrollbar, .filter-bar-genres::-webkit-scrollbar { display: none; }
+.day-pill, .genre-pill {
+  flex-shrink: 0; padding: 8px 14px; font-family: var(--font-body); font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.02em; border: none; border-radius: 999px; background: rgba(255,255,255,0.6);
+  box-shadow: var(--shadow-sm); cursor: pointer; white-space: nowrap; transition: background var(--transition), color var(--transition);
+}
+.day-pill:hover:not(.is-active), .genre-pill:hover:not(.is-active) { background: rgba(255,255,255,0.9); }
+.day-pill:focus-visible, .genre-pill:focus-visible, .explore-pill:focus-visible,
+.hero-cta:focus-visible, .nav-dropdown-trigger:focus-visible, .tw-day-cta:focus-visible {
+  outline: 3px solid var(--teal); outline-offset: 2px;
+}
+.genre-pill.is-active { background: var(--black); color: var(--white); box-shadow: var(--shadow-lift); }
+.genre-pill-count { opacity: 0.6; font-size: 0.9em; }
+.day-pill.is-active { background: var(--black); color: #fff; box-shadow: var(--shadow-lift); }
+/* Black text, not white — the Four-Day Rule colors (also used on .day-badge
+   site-wide) measure under 3:1 with white text at this font size, which
+   fails WCAG AA's 4.5:1 for small text. Black text clears it on all four
+   (#8B5CF6 lightened slightly to #9469F7 — with black text the un-lightened
+   purple only reached 4.18:1, just under the bar). Scoped to these pill
+   buttons only; .day-badge itself is unchanged (pre-existing, out of scope
+   for this layout redesign). */
+.day-pill-1.is-active { background: #9469F7; color: var(--black); }
+.day-pill-2.is-active { background: #E85BB8; color: var(--black); }
+.day-pill-3.is-active { background: #F97316; color: var(--black); }
+.day-pill-4.is-active { background: #2FA79C; color: var(--black); }
 
-.quick-filters { display: flex; flex-direction: column; gap: 0.5rem; }
-.filter-row { display: flex; gap: 0.4rem; }
-.quick-filter-btn { flex: 1; padding: 0.5rem 0.5rem; font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.02em; border: none; border-radius: 999px; box-shadow: var(--shadow-sm); cursor: pointer; background: rgba(255,255,255,0.6); transition: box-shadow var(--transition), transform var(--transition), background var(--transition); text-align: center; min-height: 44px; }
-.quick-filter-btn:hover { box-shadow: var(--shadow-lift); transform: translateY(-2px); background: rgba(255,255,255,0.9); }
-.quick-filter-btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
-.quick-filter-btn.is-active { box-shadow: var(--shadow-lift); background: var(--black); color: #fff; transform: translateY(-1px); }
-.quick-filter-btn.qf-1.is-active { background: #8B5CF6; color: #fff; }
-.quick-filter-btn.qf-2.is-active { background: #E85BB8; color: #fff; }
-.quick-filter-btn.qf-3.is-active { background: #F97316; color: #fff; }
-.quick-filter-btn.qf-4.is-active { background: #2FA79C; color: #fff; }
-.quick-filter-btn.qf-all.is-active { background: var(--black); color: var(--white); }
-
-.countdown-block { background: var(--black); color: var(--white); padding: 1.35rem 1.5rem; border-top: none; border-radius: 20px; margin: 0 1rem 1rem; }
+/* ===== COUNTDOWN — used on /this-week (extracted from the old sidebar) ===== */
+.countdown-block { background: var(--black); color: var(--white); padding: 1.35rem 1.5rem; border-radius: 20px; margin: 1.5rem 0; }
 .countdown-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem; }
 .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
 /* container-type so .cd-num can scale to its own cell width rather than the
@@ -433,79 +515,56 @@ body {
 .cd-num { font-family: var(--font-display); font-size: clamp(0.85rem, 40cqi, 1.5rem); line-height: 1; display: block; color: var(--lime); white-space: nowrap; }
 .cd-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); display: block; margin-top: 0.15rem; }
 
-.no-results-msg { padding: 2rem 0; font-family: var(--font-display); font-size: 1.3rem; color: rgba(28,21,38,0.3); letter-spacing: 0.02em; display: none; text-align: center; }
-.no-results-msg.visible { display: block; }
-
-.genre-strip { display: none; overflow-x: auto; gap: 8px; padding: 0.75rem 0 0.5rem; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.genre-strip::-webkit-scrollbar { display: none; }
-.genre-strip-pill { flex-shrink: 0; padding: 8px 14px; font-family: var(--font-body); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.02em; border: none; border-radius: 999px; background: rgba(255,255,255,0.6); box-shadow: var(--shadow-sm); cursor: pointer; white-space: nowrap; transition: background var(--transition), color var(--transition); }
-.genre-strip-pill.is-active { background: var(--black); color: var(--white); box-shadow: var(--shadow-lift); }
-.genre-strip-pill:hover:not(.is-active) { background: rgba(255,255,255,0.85); }
-
-/* Sticky at every width now, not just mobile — pinned just below the nav
-   (56px tall) so it stays visible while the lineup scrolls underneath.
-   Padding (not margin) carries the inset so the sticky box's own
-   background/blur paints all the way to its edges — a margin-based inset
-   would leave the gutters transparent and let scrolling cards show through
-   next to the pill. Width still tracks the "search" grid column, i.e. the
-   lineup column only, not the full page. */
-.artist-search-wrap { grid-area: search; position: sticky; top: 56px; z-index: 90; padding: 2rem 2.5rem 1rem; background: rgba(255,240,228,0.92); backdrop-filter: blur(10px); }
-.artist-search { width: 100%; padding: 0.75rem 2.75rem 0.75rem 1.1rem; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; border: none; border-radius: var(--radius-pill); background: rgba(255,255,255,0.6); box-shadow: var(--shadow-sm); color: var(--black); transition: background var(--transition), box-shadow var(--transition); }
-.artist-search::placeholder { color: rgba(28,21,38,0.45); font-weight: 500; }
-.artist-search:focus { outline: none; background: rgba(255,255,255,0.9); box-shadow: var(--shadow-lift); }
-.artist-search-clear { position: absolute; right: 0.4rem; top: 50%; transform: translateY(-50%); width: 2.1rem; height: 2.1rem; border: none; border-radius: 999px; background: transparent; color: rgba(28,21,38,0.5); font-size: 1.2rem; line-height: 1; cursor: pointer; display: none; align-items: center; justify-content: center; }
-.artist-search-clear.visible { display: flex; }
-.artist-search-clear:hover { background: rgba(28,21,38,0.08); color: var(--black); }
-
-@media (max-width: 700px) { .editorial-intro { padding: 1.5rem 1rem 1.25rem; } }
+/* ===== /this-week ===== */
+.this-week-wrap .tag { margin-bottom: 12px; }
+.this-week-wrap > p { max-width: 62ch; }
+.this-week-days { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 1.5rem 0; }
+@media (min-width: 860px) { .this-week-days { grid-template-columns: repeat(4, 1fr); } }
+.tw-day-card { background: var(--card-bg); border-radius: var(--radius-card); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+.tw-day-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem; }
+.tw-day-name { font-family: var(--font-display); font-size: 1.3rem; color: #fff; line-height: 1; }
+.tw-day-date { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.25rem; }
+.tw-day-count { text-align: right; }
+.tw-day-count-num { font-family: var(--font-display); font-size: 1.4rem; color: var(--lime); display: block; line-height: 1; }
+.tw-day-count-label { font-size: 0.6rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+.tw-day-headliners { font-family: var(--font-body); font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.5; margin-top: 0.75rem; min-height: 2.3em; }
+.tw-day-cta { display: inline-block; margin-top: 0.75rem; font-family: var(--font-display); font-size: 0.85rem; letter-spacing: 0.02em; color: var(--lime); text-decoration: none; }
+.tw-day-cta:hover { text-decoration: underline; }
+.tw-day-1 { border-top: 4px solid #8B5CF6; }
+.tw-day-2 { border-top: 4px solid #E85BB8; }
+.tw-day-3 { border-top: 4px solid #F97316; }
+.tw-day-4 { border-top: 4px solid #2FA79C; }
 
 @media (max-width: 1023px) {
-  :root { --sidebar-width: 100%; --main-width: 100%; }
-  .two-col { display: flex; flex-direction: column; }
-  /* Search moves above the day strip (order 0) on mobile; sticky/background
-     are already set in the base rule above, just tighten the padding here. */
-  .artist-search-wrap { order: 0; padding: 0.6rem 1.25rem; }
-  .main-col { border-right: none; border-top: none; padding: 1.5rem 1.25rem; order: 2; width: 100%; }
-  .sidebar { position: static; max-height: none; overflow-y: visible; order: 1; width: 100%; border-bottom: none; display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; align-items: stretch; scroll-snap-type: x mandatory; gap: 10px; padding: 10px; }
-  .sidebar-header { display: none; }
-  .day-panel { flex: 0 0 200px; border-bottom: none; border-right: none; scroll-snap-align: start; margin: 0; }
-  .sidebar-section, .countdown-block { display: none; }
-  .majors-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 2rem 1.5rem 1.75rem; }
+  .info-box, .filter-bar { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .main-col { padding: 0 1.5rem 2rem; }
 }
 
 @media (max-width: 767px) {
   .hero { padding: 1.5rem 1rem 1.25rem; }
-  .hero-right { display: block; text-align: left; margin-top: 0.5rem; }
-  .hero-dates { font-size: 1rem; }
-  .hero-venue { display: none; }
   .hero-title { font-size: clamp(2.5rem, 15vw, 4rem); }
-  .main-col { padding: 1rem; }
+  .hero-cta { width: 100%; justify-content: center; }
+  .info-box { padding: 1rem; flex-direction: column; align-items: flex-start; }
+  .info-box-stats { width: 100%; justify-content: space-between; }
+  .main-col { padding: 0 1rem 1.5rem; }
   /* .site-nav itself drops position:sticky below 768px (for the hamburger
      dropdown, see .site-nav's own @media(max-width:768px) rule) — once nav
      scrolls away there's nothing left to sit under, so pin straight to the
      viewport top instead of the 56px nav-height offset used at 768-1023px. */
-  .artist-search-wrap { padding-left: 1rem; padding-right: 1rem; top: 0; }
+  .filter-bar { padding: 0.75rem 1rem; top: 0; }
   /* Larger tap area + legibility on the mobile search bar; desktop is untouched. */
   .artist-search { padding: 0.9rem 3rem 0.9rem 1.15rem; font-size: 1rem; min-height: 44px; }
   /* ≥44px touch targets (WCAG 2.1 AA) for the search-clear and star-toggle
      buttons on mobile only — desktop keeps its tighter, denser sizing. */
   .artist-search-clear { min-width: 44px; min-height: 44px; }
   .star-toggle { min-width: 44px; min-height: 44px; }
-  .sidebar { flex-wrap: nowrap; gap: 8px; }
-  .day-panel { flex: 0 0 160px; }
-  .day-panel-inner { padding: 0.75rem 1rem; }
-  .majors-grid { grid-template-columns: 1fr; }
-  .headliner-name { font-size: clamp(1.5rem, 8vw, 2rem); }
-  .headliner-row { gap: 0.75rem; flex-direction: column; align-items: flex-start; }
-  .headliner-meta { width: 100%; flex-direction: row; align-items: center; gap: 0.5rem; }
-  .undercard-genre { display: none; }
-  .undercard-num { display: none; }
-  .undercard-row { gap: 0.5rem; }
-  .undercard-desc { padding-left: 0; }
-  .genre-strip { display: flex; }
+  .day-pill, .genre-pill { min-height: 40px; display: inline-flex; align-items: center; }
+  /* Two columns on phones, per the redesign's mobile layout intent — the
+     auto-fill/minmax base rule alone would drop to one column below ~420px. */
+  .artist-grid { grid-template-columns: repeat(2, 1fr); }
+  .this-week-days { grid-template-columns: 1fr; }
 }
-
-@media (max-width: 400px) { .day-panel { flex: 0 0 140px; } }
 
 /* =========================================================
    SCHEDULE HUB PAGE — page-specific rules (from schedule.html <style> x2)
