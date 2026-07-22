@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getArtistsWithGenres } from '@/lib/data';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { faqPageJsonLd, breadcrumbJsonLd, resolveFaqs } from '@/lib/structured-data';
+import { faqPageJsonLd, breadcrumbJsonLd, resolveFaqs, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: `${FESTIVAL.fullName} FAQ — Dates, Venue, Lineup & Schedule`,
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description: `Dates, venue, headliners, gate times, and how to plan your ${FESTIVAL.shortName} schedule.`,
     url: `${SITE_URL}/faq`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: `${FESTIVAL.fullName} FAQ`,
     description: `Dates, venue, headliners, gate times, and how to plan your ${FESTIVAL.shortName} schedule.`,
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -37,11 +37,11 @@ export default async function FaqPage() {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageJsonLd(faqs)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(faqPageJsonLd(faqs)) }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: jsonLdScript(
             breadcrumbJsonLd([
               { name: 'Home', url: SITE_URL },
               { name: 'FAQ', url: `${SITE_URL}/faq` },
@@ -70,7 +70,7 @@ export default async function FaqPage() {
           ))}
 
           <p>
-            Check the <Link href="/">full lineup</Link>, read our{' '}
+            Check the <Link href="/lineup">full lineup</Link>, read our{' '}
             <Link href="/first-timers-guide">first timer&apos;s guide</Link>, or start building your{' '}
             <Link href="/schedule">schedule</Link>.
           </p>

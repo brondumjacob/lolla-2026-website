@@ -9,7 +9,7 @@ import NavDropdown from './NavDropdown';
 
 // Top-level desktop pills, shown inline in the nav bar.
 const TOP_LINKS = [
-  { href: '/', label: 'LINEUP' },
+  { href: '/lineup', label: 'LINEUP' },
   { href: '/this-week', label: 'THIS WEEK' },
   { href: '/schedule', label: 'SCHEDULE' },
 ] as const;
@@ -35,7 +35,7 @@ const ABOUT_LINKS = [
 // Prompt 2 redesign notes / web/e2e/menu.spec.ts). Flat list with section
 // labels rather than nested dropdowns: simpler and more reliable on touch.
 const MOBILE_GROUPS = [
-  { title: 'Lineup', links: [{ href: '/', label: 'Lineup' }, { href: '/my-lineup', label: 'My Lineup' }] },
+  { title: 'Lineup', links: [{ href: '/lineup', label: 'Lineup' }, { href: '/my-lineup', label: 'My Lineup' }] },
   { title: 'Guides', links: GUIDE_LINKS },
   { title: 'Plan', links: [{ href: '/this-week', label: 'This Week' }, { href: '/schedule', label: 'Schedule Builder' }] },
   { title: 'About', links: [...ABOUT_LINKS, { href: '/account', label: 'Account' }] },

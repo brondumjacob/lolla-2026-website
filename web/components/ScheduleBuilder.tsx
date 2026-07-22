@@ -62,6 +62,22 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
     [schedules.sets]
   );
 
+  // Mobile stage-by-stage list state — see the .sb-mobile-only block below
+  // for why this exists. Defaults to the first stage in the day's column
+  // order (same order the desktop grid uses).
+  const [mobileStage, setMobileStage] = useState<string>(stageColumns[0]?.stage ?? '');
+  const mobileStageColumn = useMemo(
+    () => stageColumns.find((col) => col.stage === mobileStage) ?? stageColumns[0],
+    [stageColumns, mobileStage]
+  );
+  // groupSetsByStage preserves schedule-data.js's original row order, which is
+  // stage-contiguous but not guaranteed time-sorted within a stage — sort
+  // defensively so the mobile list always reads top-to-bottom chronologically.
+  const mobileSets = useMemo(
+    () => (mobileStageColumn ? [...mobileStageColumn.sets].sort((a, b) => a.start - b.start) : []),
+    [mobileStageColumn]
+  );
+
   // Live-recomputed from current selection rather than snapshotted at
   // "Build my route" click time (the original static builder's behavior) —
   // an intentional improvement, since React state makes this cheap and it
@@ -70,6 +86,14 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
   const picks = useMemo(() => computePicks(schedules.sets, sets), [schedules.sets, sets]);
   const conflictPills = useMemo(() => computeConflictPills(picks), [picks]);
   const hasClash = picks.some((p) => p.clash.length > 0);
+  // Names with a cross-stage time clash in the current selection. The desktop
+  // grid surfaces this for free via spatial overlap in the timeline; the
+  // mobile list (one stage at a time) has no equivalent, so this drives a
+  // per-item indicator there — and the count is shown in .sb-actionbar for
+  // both viewports, so picking on mobile doesn't have to wait until "Build
+  // my route" to learn about a conflict.
+  const clashingNames = useMemo(() => new Set(picks.filter((p) => p.clash.length > 0).map((p) => p.name)), [picks]);
+  const clashCount = clashingNames.size;
   const nLanes = laneCount(picks);
   const boardHeight = (GE - GS) * SC;
   // Whether at least one transfer in the route has a zoned walk-time estimate
@@ -240,6 +264,74 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
           location yet.
         </div>
         <div className="sb-scrollhint">Scroll sideways to see all {stageColumns.length} stages →</div>
+
+        {/* Mobile-native reflow: the desktop grid below is an
+            ~stageColumns.length*116px-wide horizontal-scroll timetable that
+            only shows ~3 of 8 stages at once on a phone, competing with the
+            page's own scroll. Below 768px this replaces it — pick a stage,
+            then scroll its sets vertically like a normal list. Both views
+            render in the DOM (this route is noindex, so there's no SEO cost)
+            and are toggled purely by CSS (@media max-width:767px in
+            globals.css) rather than JS, so there's no hydration mismatch
+            from branching on viewport width. */}
+        <div className="sb-mobile-only">
+          <div className="sb-stage-select-wrap">
+            <label className="sb-stage-select-label" htmlFor="sb-stage-select">
+              Stage
+            </label>
+            <select
+              id="sb-stage-select"
+              className="sb-stage-select"
+              value={mobileStageColumn?.stage ?? ''}
+              onChange={(e) => setMobileStage(e.target.value)}
+            >
+              {stageColumns.map((col) => (
+                <option key={col.stage} value={col.stage}>
+                  {col.stage}
+                  {col.region ? ` (${col.region})` : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="sb-mobile-list" role="list" aria-label={`${mobileStageColumn?.stage ?? ''} sets`}>
+            {mobileSets.map((s) => {
+              const isSel = selectedNames.has(s.name);
+              const isMust = mustNames.has(s.name);
+              const isClash = isSel && clashingNames.has(s.name);
+              return (
+                <button
+                  key={`${s.name}-${s.start}`}
+                  type="button"
+                  role="listitem"
+                  className={`sb-ml-item${isSel ? ' sel' : ''}${isMust ? ' must' : ''}`}
+                  aria-pressed={isSel}
+                  onClick={() => schedules.toggleSet(s.name)}
+                >
+                  <span className="sb-ml-time">{s.disp}</span>
+                  <span className="sb-ml-name">{s.name}</span>
+                  {isClash && (
+                    <span className="sb-ml-clash" title="Time conflict with another selected set">
+                      ⚠ Conflict
+                    </span>
+                  )}
+                  <span
+                    className="sb-ml-mustbtn"
+                    role="button"
+                    aria-label="Mark as must-see"
+                    title="Mark as must-see"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      schedules.toggleMust(s.name);
+                    }}
+                  >
+                    ★
+                  </span>
+                </button>
+              );
+            })}
+            {mobileSets.length === 0 && <p className="sb-ml-empty">No sets for this stage.</p>}
+          </div>
+        </div>
 
         <div className={`sb-gridouter${scrollAtEnd ? ' sb-scroll-end' : ''}`}>
           <div className="sb-gridwrap" ref={gridScrollRef} onScroll={updateScrollFade}>
@@ -480,6 +572,14 @@ export default function ScheduleBuilder({ dayMeta, sets }: ScheduleBuilderProps)
           ) : (
             <>
               <b>{schedules.sets.length}</b> selected{mustCount > 0 ? <> · <i>{mustCount} must-see</i></> : null}
+              {clashCount > 0 ? (
+                <>
+                  {' '}
+                  · <i>
+                    ⚠ {clashCount} conflict{clashCount === 1 ? '' : 's'}
+                  </i>
+                </>
+              ) : null}
             </>
           )}
         </span>

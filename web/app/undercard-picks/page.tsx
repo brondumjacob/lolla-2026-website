@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: "10 Undercard Acts You Shouldn't Sleep On — Lolla 2026",
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     description: '10 lesser-known artists at Lollapalooza 2026 worth rearranging your schedule for.',
     url: `${SITE_URL}/undercard-picks`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
     title: "10 Undercard Acts You Shouldn't Sleep On",
     description: 'Hidden gems in the Lolla 2026 lineup.',
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -70,8 +70,8 @@ function ArtistSpotlight({ number, name, detail, spotifyUrl, appleUrl, children 
 export default function UndercardPicksPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">
@@ -250,7 +250,7 @@ export default function UndercardPicksPage() {
           </p>
 
           <p>
-            Ready to plan your full schedule? Browse the <Link href="/">complete searchable lineup</Link> or read our{' '}
+            Ready to plan your full schedule? Browse the <Link href="/lineup">complete searchable lineup</Link> or read our{' '}
             <Link href="/who-to-see">day-by-day guide</Link> for recommendations across every tier.
           </p>
         </div>

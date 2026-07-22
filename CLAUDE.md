@@ -149,10 +149,11 @@ All changes go in `artists.js`. Each artist entry must have all 8 fields (`n`, `
 
 ## Known Issues / Deferred Work
 - AdSense approval pending
-- No analytics yet
+- `web/` now has analytics (Vercel Analytics + Speed Insights, added 2026-07-22) — the repo-root static site still has none
 - `spotify.html` and `apple-music.html` deleted (replaced by unified `index.html`)
 - Lineup may update as festival approaches
 - CSP is report-only (`Content-Security-Policy-Report-Only` in `dist/_headers`) — observe AdSense domains before enforcing
+- `web/`'s `npm audit` reports 3 pre-existing vulnerabilities (1 moderate/2 high) entirely inside `next`'s own transitive deps (`postcss`, `sharp`) — `npm audit fix --force`'s suggested fix downgrades to `next@9.3.3`, which is not viable on this Next.js 16 app; unrelated to the 2026-07-22 pass, left as-is pending an upstream Next.js patch
 
 ## Security Hardening (2026-07)
 - HTML escaping (`esc()` helper) added to `favorites.js`, `schedule.html` planner, and all four `schedule-*.html` builders — artist/stage/region data is escaped before flowing into `innerHTML`
@@ -359,6 +360,117 @@ tokens; no re-theme; no layout/structure teardown of the Prompt 2 hero.
   paths) per the "don't migrate until after the 2026 festival" plan — `festival.ts` is structured
   so it can grow into a slug-keyed `Record` lookup later without changing its consumers; the
   static repo-root site (`index.html`/`build.js`), not served at the production domain.
+
+## Landing/Lineup Split, Mobile Schedule Reflow, AEO/GEO Deepening (2026-07-22) — `web/` only
+
+Driven by five explicit asks (sharper "5-second rule" home page, deeper AEO/GEO, a mobile
+schedule-builder bug, a mobile horizontal-pan bug, "How It Works" reordered) plus a security/
+design review pass. Same Golden Hour tokens throughout; no re-theme.
+
+- **`/` is a landing page now, not the lineup grid.** `web/app/page.tsx` + new
+  `web/components/Landing.tsx` (server component): hero (unchanged eyebrow/wordmark/subtitle/
+  headliner-proof-line, reused from the old homepage hero) + info-box + exactly **3 action
+  cards** — View the Lineup, Build Your Schedule, Sign In (the third via new
+  `web/components/LandingAuthCard.tsx`, a client component mirroring `AuthStatus.tsx`'s
+  getUser()/onAuthStateChange pattern so the rest of Landing.tsx can stay server-rendered).
+  The full 172-artist grid + sticky filter bar (`LineupExplorer.tsx`, unchanged internally)
+  moved to a **new `/lineup` route** (`web/app/lineup/page.tsx`). `web/lib/hero-headliners.ts`
+  (new) extracted the top-4-by-popularity ranking so Landing and LineupExplorer compute the
+  identical hero proof line instead of duplicating the logic.
+  - **Nav/links repointed:** `Nav.tsx`'s "LINEUP" pill and mobile group, `Footer.tsx`, and every
+    "browse the full lineup" cross-link across the guide pages + `MyLineupList.tsx` now point at
+    `/lineup`. The nav wordmark logo (`.nav-home`) still points at `/` (the landing page).
+  - **SEO/AEO split deliberately, not accidentally:** `MusicFestival` + `WebSite` JSON-LD (all
+    172 performers, per-day sub-events) stayed on `/` as the canonical festival-entity page;
+    `/lineup` got its own `CollectionPage`/`ItemList` schema (`collectionPageJsonLd` in
+    `structured-data.ts`) instead of re-declaring the festival entity.
+  - New CSS: `.landing-actions`/`.landing-action-card`/`.landing-action-primary`/etc. in
+    `web/app/globals.css`, right after `.info-stat-label`.
+- **Mobile page-pan bug fixed:** `html` had no `overflow-x` guard (only `body` did) —
+  `html { overflow-x: clip }` added in `globals.css`. This was the site-wide "I can slide the
+  page left and right" bug, not schedule-specific.
+- **Schedule builder mobile reflow:** below 768px, `ScheduleBuilder.tsx`'s horizontal-scroll
+  timetable (`.sb-gridouter`, only ~3 of 8 stage columns fit a phone) is replaced by a
+  **stage-picker + vertical set list** (`.sb-mobile-only`: a `<select>` + `.sb-ml-item` rows,
+  sorted chronologically, reusing the same `picks`/`must`/`toggleSet`/`toggleMust` state as the
+  desktop grid). Both views render in the DOM (the route is `noindex`) and are toggled purely by
+  CSS media query — no JS viewport branching, so no hydration mismatch. Desktop grid/logic
+  (`lib/schedule-builder-logic.ts`) is completely unchanged.
+- **"How It Works" moved to the top of `/schedule`:** `web/app/schedule/page.tsx`'s `.sched-how`
+  3-step section is now directly under the hero, above the Thu–Sun day-picker (was 4th, below
+  the day-picker and an editorial paragraph). Also fixed `.sched-back`'s "← Back to full lineup"
+  link, which still pointed at `/`.
+- **AEO/GEO deepening** (`web/lib/structured-data.ts`): `websiteJsonLd()` now returns a
+  `@graph` combining a full `Organization` node (with `@id`) and the `WebSite` node (referencing
+  it by `@id`, not duplicating it) plus a **`SearchAction`** targeting `/lineup?search={term}` —
+  made genuinely functional, not just a schema claim, via a `?search=` URL-param reader added to
+  `LineupExplorer.tsx` (read via `window.location.search` in a `useEffect`, not
+  `next/navigation`'s `useSearchParams`, specifically to avoid forcing a Suspense boundary).
+  `articleJsonLd()`'s author/publisher now carry the same `@id`s (as full inline nodes, since
+  guide pages render standalone with no accompanying `websiteJsonLd` script) so the entity
+  resolves to one thing site-wide. New `web/app/llms.txt/route.ts` — a plain-text route handler
+  (not a hand-written `public/` file) generating an AI-answer-engine summary from `FESTIVAL`/
+  `SITE_URL`, matching `robots.ts`/`sitemap.ts`'s existing config-driven convention. `sitemap.ts`
+  gained a `/lineup` entry and per-route `lastModified` dates for the 5 guide pages (previously
+  one coarse site-wide date). All `openGraph.images` across every page now carry real
+  `width`/`height`/`alt` (the poster is 1200×1500, not the 1200×630 initially assumed — verified
+  via `sips` before writing it everywhere). Landing page also renders `faqPageJsonLd()`
+  (duplicated from `/faq`) since the homepage is the page most likely surfaced by an AI engine.
+- **Analytics:** `@vercel/analytics` + `@vercel/speed-insights` added to `web/app/layout.tsx`.
+  Chosen specifically because both load same-origin (`/_vercel/*`) — confirmed no CSP change
+  needed (`next.config.ts`'s `connect-src`/`script-src` both already include `'self'`); a
+  third-party analytics script (Plausible/GA) would have required editing the CSP.
+- **Security hardening found during review:** all 8 `dangerouslySetInnerHTML={{ __html:
+  JSON.stringify(...) }}` JSON-LD call sites (pre-existing pattern, not introduced by this pass)
+  were vulnerable to a `</script>` breakout if any embedded string ever contained that sequence.
+  Added `jsonLdScript()` in `structured-data.ts` (escapes `<` → `<`) and switched every call
+  site to use it instead of raw `JSON.stringify`.
+- **`/impeccable critique` pass** on the two new surfaces (dual-agent: design review + detector/
+  live-browser evidence) found: a real live bug (`{artists.length}` immediately followed by
+  "artists" with no space in the rendered HTML — a JSX/SWC whitespace-collapse interaction, not
+  visible from reading the source; fixed with a template literal) and a side-stripe-accent-border
+  anti-pattern in `.sb-ml-item.sel`/`.must` (implemented via `box-shadow: inset` rather than
+  `border-left`, which is explicitly banned by this project's own design rules — replaced with a
+  background-tint-only treatment). Snapshot at `.impeccable/critique/`.
+- **All critique recommendations subsequently completed** (2026-07-22, same-session follow-up):
+  - **Landing cards restructured, not just re-weighted:** the original 3-equal-card row (View
+    Lineup / Build Schedule / Sign In) was itself an AI-slop tell, and Sign In competed with the
+    two real features for attention it didn't deserve as a tertiary action. `Landing.tsx` now
+    renders **two** primary `.landing-action-card`s; `LandingAuthCard.tsx` was rewritten from a
+    third card into a slim text row (`.landing-signin-row`/`.landing-signin-link`) below them —
+    "Want to save your schedule and favorites? Sign in →" / "My account →" once signed in.
+  - **Live conflict feedback added to the mobile schedule list:** `ScheduleBuilder.tsx` gained a
+    `clashingNames`/`clashCount` derived from the existing `picks` computation; a selected,
+    clashing set on the mobile list now shows an inline "⚠ Conflict" label (`.sb-ml-clash`,
+    `--orange`, 6.7:1 against `--card-bg`), and `.sb-actionbar`'s count line gained a
+    "· N conflicts" segment visible on both viewports — so mobile picking no longer has to wait
+    until "Build my route" to learn about a clash, matching what the desktop grid already gives
+    for free via spatial overlap.
+  - **Must-see badge contrast fixed via a new token, not a global `--red` change:** `--red` itself
+    is used in several backgrounds (dark card, light card, badge) that a single darker value can't
+    simultaneously satisfy — verified darkening `--red` globally would have fixed the white-on-red
+    badges but regressed `.sb-count i` against `--card-bg` (4.10:1 → 3.41:1). Added
+    `--red-badge-bg: #CF3C29` (same pattern as the existing `--teal-text`), computed to ~4.85:1
+    with white text, and applied it only to the actual white-text badge backgrounds:
+    `.sb-mustbtn`/`.sb-ml-mustbtn`'s must-see fill, `.sb-rtag.must`, `.sb-rconf`.
+  - **`lineup.png` → `lineup.jpg`, 741 KB → 471 KB (36% smaller):** `sips` had failed to shrink it
+    (both a PNG resave and a JPEG export came back *larger*), but `sharp` — already present as a
+    transitive dependency of `next`, bundling `mozjpeg`/`imagequant` — was available and worked
+    properly (`sharp(...).jpeg({quality:85, mozjpeg:true})`). Only referenced as an OG/JSON-LD
+    image (confirmed never rendered inline on any page, so no alpha/transparency to lose — verified
+    `hasAlpha: false`), so a lossy format swap was safe. All 10 references (`app/page.tsx`,
+    `app/lineup/page.tsx`, the 5 guide pages, `app/faq/page.tsx`, `app/schedule/page.tsx`,
+    `lib/structured-data.ts`'s `organizationNode()`/`musicFestivalJsonLd()`) updated; the orphaned
+    `public/lineup.png` deleted.
+- **E2E:** `homepage.spec.ts` rewritten for the landing page (now expects 2 cards + the sign-in
+  row, not 3 cards); new `lineup.spec.ts` (grid tests moved from the old homepage.spec.ts, plus a
+  `?search=` deep-link test); new "Schedule builder — mobile reflow" describe block in
+  `schedule.spec.ts`, including a conflict-indicator test (KIM THEORY/AIRBNB +
+  PEARLY DROPS/ALLIANZ, the same known-clashing fixture pair the desktop conflict test already
+  uses). `menu.spec.ts`/`favorites.spec.ts`/`auth.spec.ts`/`full-journey.spec.ts` updated for the
+  `/lineup` split (star toggles moved, `ALL_ROUTES` updated, ambiguous "Sign in" role-query
+  collisions scoped/fixed). Full suite: 43 passed / 1 pre-existing skip (`full-journey`, needs
+  service-role env).
 
 ## Available Tools (Project Level)
 

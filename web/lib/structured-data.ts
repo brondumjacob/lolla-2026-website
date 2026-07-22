@@ -8,8 +8,45 @@ import { SITE_URL, DAY_META } from './constants';
 import { FESTIVAL } from './festival';
 import type { ArtistWithGenre } from './types';
 
-function organization() {
-  return { '@type': 'Organization' as const, name: FESTIVAL.siteName, url: SITE_URL };
+/** Serializes a JSON-LD object for a `<script type="application/ld+json">
+    dangerouslySetInnerHTML`. Escaping `<` prevents a `</script>` sequence
+    inside any string value (an artist name/bio, a festival config string)
+    from prematurely closing the script tag and injecting markup — standard
+    hardening for this pattern (see OWASP's guidance on JSON-in-HTML
+    contexts). Every page that renders one of this file's builders should use
+    this instead of a bare `JSON.stringify`. */
+export function jsonLdScript(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, '\\u003c');
+}
+
+// Stable @id anchors so the same Organization/WebSite entity resolves across
+// every page that references it, instead of each page declaring an unlinked
+// copy. websiteJsonLd() (rendered on the landing page) emits the full nodes;
+// musicFestivalJsonLd() references the Organization by @id since it always
+// renders alongside websiteJsonLd() on the same page. articleJsonLd() (used
+// on standalone guide pages with no websiteJsonLd script present) inlines the
+// full nodes with the same @id, so each of those pages is independently
+// valid while still resolving to one entity site-wide.
+const ORG_ID = `${SITE_URL}/#organization`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+const AUTHOR_ID = `${SITE_URL}/#author`;
+
+function organizationNode() {
+  return {
+    '@type': 'Organization' as const,
+    '@id': ORG_ID,
+    name: FESTIVAL.siteName,
+    url: SITE_URL,
+    logo: { '@type': 'ImageObject' as const, url: `${SITE_URL}/lineup.jpg` },
+  };
+}
+
+function organizationRef() {
+  return { '@id': ORG_ID };
+}
+
+function authorNode() {
+  return { '@type': 'Person' as const, '@id': AUTHOR_ID, name: FESTIVAL.authorName };
 }
 
 function festivalPlace() {
@@ -51,23 +88,45 @@ function dayMusicEvent(day: number, dayArtists: ArtistWithGenre[]) {
   };
 }
 
-/** The WebSite schema — this site's own identity, distinct from the
-    festival itself (see festivalJsonLd). */
+/** The WebSite + Organization entity graph — this site's own identity,
+    distinct from the festival itself (see musicFestivalJsonLd). Rendered on
+    the landing page only; a `@graph` (not two separate scripts) so the
+    WebSite's `publisher` can reference the Organization by @id without
+    duplicating it. Includes a SearchAction targeting /lineup's live search
+    (see LineupExplorer.tsx's `?search=` param handling — this is a real,
+    working deep link, not just a schema claim). */
 export function websiteJsonLd() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: FESTIVAL.siteName,
-    url: SITE_URL,
-    description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links, searchable by genre and day.`,
-    publisher: organization(),
+    '@graph': [
+      organizationNode(),
+      {
+        '@type': 'WebSite',
+        '@id': WEBSITE_ID,
+        name: FESTIVAL.siteName,
+        url: SITE_URL,
+        description: `The complete ${FESTIVAL.fullName} lineup with direct streaming links, searchable by genre and day.`,
+        publisher: organizationRef(),
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${SITE_URL}/lineup?search={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
   };
 }
 
 /** The MusicFestival schema — dates, venue, and every artist as a
     performer, plus one MusicEvent sub-event per festival day so "who plays
     Saturday"-style queries have a direct, structured answer. This is the
-    single highest-leverage AEO addition: none of this existed before. */
+    single highest-leverage AEO addition: none of this existed before.
+    `organizer` references the Organization by @id — always paired with
+    websiteJsonLd() on the same page (the landing page), which declares the
+    full node. */
 export function musicFestivalJsonLd(artists: ArtistWithGenre[]) {
   const days = Object.keys(FESTIVAL.dayDates).map(Number);
   return {
@@ -79,13 +138,37 @@ export function musicFestivalJsonLd(artists: ArtistWithGenre[]) {
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: festivalPlace(),
-    image: [`${SITE_URL}/lineup.png`],
+    image: [`${SITE_URL}/lineup.jpg`],
     url: SITE_URL,
     description: `${FESTIVAL.fullName} at ${FESTIVAL.venue}, ${FESTIVAL.city} — ${artists.length} artists across ${FESTIVAL.days} days and ${FESTIVAL.stages} stages.`,
-    organizer: organization(),
+    organizer: organizationRef(),
     performer: artists.map(artistToPerformer),
     subEvent: days.map((day) => dayMusicEvent(day, artists.filter((a) => a.day === day))),
     sameAs: FESTIVAL.sameAs,
+  };
+}
+
+/** CollectionPage + ItemList for /lineup — the page itself (not the festival
+    entity, which lives in musicFestivalJsonLd on the landing page). `isPartOf`
+    carries enough of the WebSite node (name/url/@id) to stand alone on this
+    page too, without re-declaring the full Organization graph here. */
+export function collectionPageJsonLd(artists: ArtistWithGenre[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${FESTIVAL.fullName} — Full Lineup`,
+    url: `${SITE_URL}/lineup`,
+    description: `Complete ${FESTIVAL.fullName} lineup — ${artists.length} artists across ${FESTIVAL.days} days and ${FESTIVAL.stages} stages, searchable by name, day, and genre.`,
+    isPartOf: { '@type': 'WebSite', '@id': WEBSITE_ID, name: FESTIVAL.siteName, url: SITE_URL },
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: artists.length,
+      itemListElement: artists.map((a, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: artistToPerformer(a),
+      })),
+    },
   };
 }
 
@@ -114,22 +197,33 @@ export interface ArticleJsonLdOptions {
   datePublished: string;
   dateModified: string;
   url: string;
+  /** Defaults to the shared lineup poster if omitted. */
+  image?: string;
+  keywords?: string;
+  articleSection?: string;
 }
 
 /** Replaces each guide page's inline `jsonLd` literal — same shape, but the
     publisher now correctly reads from SITE_URL instead of a hardcoded
-    literal, and the author is centralized in FESTIVAL.authorName. */
+    literal, and the author is centralized in FESTIVAL.authorName. Author and
+    publisher are full nodes (not bare @id refs) since guide pages render this
+    standalone, with no accompanying websiteJsonLd script on the same page —
+    but they carry the same @id as the landing page's nodes so the entity
+    still resolves to one thing site-wide. */
 export function articleJsonLd(opts: ArticleJsonLdOptions) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: opts.headline,
     description: opts.description,
-    author: { '@type': 'Person', name: FESTIVAL.authorName },
+    image: [opts.image ?? `${SITE_URL}/lineup.jpg`],
+    author: authorNode(),
     datePublished: opts.datePublished,
     dateModified: opts.dateModified,
-    publisher: organization(),
+    publisher: organizationNode(),
     mainEntityOfPage: opts.url,
+    ...(opts.keywords ? { keywords: opts.keywords } : {}),
+    ...(opts.articleSection ? { articleSection: opts.articleSection } : {}),
   };
 }
 

@@ -73,6 +73,86 @@ test.describe('Phase 6 schedule builder — anonymous localStorage flow', () => 
   });
 });
 
+// Mobile reflow: below 768px the horizontal-scroll timetable (.sb-gridouter)
+// is replaced by a stage-picker + vertical list (.sb-mobile-only) — see
+// ScheduleBuilder.tsx and CLAUDE.md's mobile schedule-builder pass. The
+// desktop grid tests above run at Playwright's default (desktop) viewport and
+// are unaffected — .sb-mobile-only is display:none there.
+test.describe('Schedule builder — mobile reflow', () => {
+  test('mobile viewport: the stage list replaces the horizontal grid', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule/thursday');
+
+    await expect(page.locator('.sb-mobile-only')).toBeVisible();
+    await expect(page.locator('.sb-gridouter')).toBeHidden();
+  });
+
+  test('mobile viewport: switching the stage select changes the listed sets', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule/thursday');
+
+    const select = page.locator('#sb-stage-select');
+    const options = await select.locator('option').allTextContents();
+    expect(options.length).toBeGreaterThan(1);
+
+    const firstStageNames = await page.locator('.sb-ml-item .sb-ml-name').allTextContents();
+    await select.selectOption({ index: 1 });
+    const secondStageNames = await page.locator('.sb-ml-item .sb-ml-name').allTextContents();
+    expect(secondStageNames).not.toEqual(firstStageNames);
+  });
+
+  test('mobile viewport: tapping a set in the list selects it, same as the desktop grid', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule/thursday');
+
+    // AIRBNB is KIM THEORY's stage (see the fixture comment at the top of
+    // this file) — select it via the stage dropdown's value (the raw stage
+    // name, independent of the region-suffixed visible label/column order).
+    await page.locator('#sb-stage-select').selectOption('AIRBNB');
+    const item = page.locator('.sb-ml-item', { hasText: 'KIM THEORY' });
+    await expect(item).toBeVisible();
+    await item.click();
+
+    await expect(item).toHaveClass(/sel/);
+    await expect(page.locator('.sb-count')).toContainText('1 selected');
+  });
+
+  // Live conflict feedback on the mobile list — the desktop grid shows a
+  // clash for free via spatial overlap in the timeline; the mobile list
+  // (one stage at a time) has no equivalent, so a selected, clashing set
+  // gets an explicit "⚠ Conflict" label plus a count in .sb-count.
+  test('mobile viewport: selecting two clashing sets on different stages shows a live conflict indicator', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule/thursday');
+
+    await page.locator('#sb-stage-select').selectOption('AIRBNB');
+    await page.locator('.sb-ml-item', { hasText: 'KIM THEORY' }).click();
+
+    await page.locator('#sb-stage-select').selectOption('ALLIANZ');
+    const pearlyDrops = page.locator('.sb-ml-item', { hasText: 'PEARLY DROPS' });
+    await pearlyDrops.click();
+
+    await expect(pearlyDrops.locator('.sb-ml-clash')).toBeVisible();
+    await expect(pearlyDrops.locator('.sb-ml-clash')).toContainText('Conflict');
+    // The count is "sets currently in a clash", not "clash pairs" — one
+    // pairwise clash between two sets counts both of them.
+    await expect(page.locator('.sb-count')).toContainText('2 conflicts');
+  });
+
+  test('mobile viewport: nothing overflows the viewport horizontally', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/schedule/thursday');
+
+    const widths = await page.evaluate(() => ({
+      scrollW: document.documentElement.scrollWidth,
+      clientW: document.documentElement.clientWidth,
+    }));
+    expect(widths.scrollW).toBe(widths.clientW);
+  });
+});
+
 // Authenticated multi-schedule create/name/delete is not covered here: Google
 // OAuth has no automatable test path in this repo (no email/password
 // provider, no service-role test session) — same limitation Phase 5's

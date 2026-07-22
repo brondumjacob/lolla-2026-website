@@ -35,7 +35,7 @@ export default async function ThisWeekPage() {
       <p>
         Four days, 172 artists, eight stages. Here&apos;s the countdown and a day-by-day look at who&apos;s
         headlining, so you can see the whole weekend at a glance before you dive into the{' '}
-        <Link href="/">full lineup</Link> or start on your <Link href="/schedule">schedule</Link>.
+        <Link href="/lineup">full lineup</Link> or start on your <Link href="/schedule">schedule</Link>.
       </p>
 
       <Countdown />
@@ -68,7 +68,7 @@ export default async function ThisWeekPage() {
 
       <p>
         Want recommendations beyond the headliners? Read <Link href="/who-to-see">Who To See at Lolla 2026</Link>{' '}
-        for day-by-day picks, or browse the <Link href="/">full searchable lineup</Link>.
+        for day-by-day picks, or browse the <Link href="/lineup">full searchable lineup</Link>.
       </p>
     </div>
   );

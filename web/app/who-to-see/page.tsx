@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'Who To See at Lolla 2026 — Your Day-by-Day Guide',
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     description: 'Day-by-day recommendations across every genre, from headliners to hidden gems at Lollapalooza 2026.',
     url: `${SITE_URL}/who-to-see`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Who To See at Lolla 2026',
     description: 'Day-by-day recommendations across every genre at Lollapalooza 2026.',
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -40,8 +40,8 @@ const breadcrumbs = breadcrumbJsonLd([
 export default function WhoToSeePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">
@@ -253,7 +253,7 @@ export default function WhoToSeePage() {
           </p>
 
           <p>
-            Check the <Link href="/">full lineup</Link> to start building your schedule, read our{' '}
+            Check the <Link href="/lineup">full lineup</Link> to start building your schedule, read our{' '}
             <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for deeper discovery
             picks, or dig into our <Link href="/genre-guide">genre-by-genre breakdown</Link> of the entire 2026 bill.
           </p>

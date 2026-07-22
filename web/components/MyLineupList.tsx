@@ -71,7 +71,7 @@ export default function MyLineupList({ artists }: MyLineupListProps) {
         <div className="mylineup-empty">
           <div className="me-title">You haven&#39;t starred anything yet</div>
           <div className="me-desc">
-            Browse the <Link href="/">full lineup</Link> and tap a ★ on any artist to build your personal set list.
+            Browse the <Link href="/lineup">full lineup</Link> and tap a ★ on any artist to build your personal set list.
           </div>
         </div>
       ) : (
@@ -87,7 +87,7 @@ export default function MyLineupList({ artists }: MyLineupListProps) {
       )}
 
       <p style={{ marginTop: '2rem', fontSize: '0.85rem', color: 'rgba(28,21,38,0.5)' }}>
-        Tap the ★ on any artist from the <Link href="/">full lineup</Link> to add them here. Saved to this browser —
+        Tap the ★ on any artist from the <Link href="/lineup">full lineup</Link> to add them here. Saved to this browser —
         and to your account too, once you sign in.
       </p>
 

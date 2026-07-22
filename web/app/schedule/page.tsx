@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description: 'Build your Lollapalooza 2026 schedule. Interactive timetable for all 4 days — pick artists, star must-sees, detect conflicts, and print your route.',
     url: `${SITE_URL}/schedule`,
     siteName: 'Lolla Lineup 2026',
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: 'Lollapalooza 2026 lineup poster' }],
     type: 'website',
   },
   twitter: {
@@ -55,6 +55,33 @@ export default function SchedulePage() {
             Tap artists to add them to your plan, star your must-sees, detect time conflicts, and generate a
             printable walking route — one day at a time.
           </p>
+        </div>
+      </div>
+
+      {/* How It Works moved directly under the hero, above the day-picker —
+          users should understand what the builder does before they're asked
+          to pick a day. Was previously 4th (below the day-picker and the
+          editorial paragraph); see CLAUDE.md's schedule mobile/IA pass. */}
+      <div className="sched-how">
+        <div className="sched-how-inner">
+          <div className="sched-how-title">How it works</div>
+          <div className="sched-steps">
+            <div className="sched-step">
+              <div className="sched-step-num">1</div>
+              <div className="sched-step-title">Select artists</div>
+              <div className="sched-step-desc">Tap any artist on the timetable to add them to your plan. Tap again to remove.</div>
+            </div>
+            <div className="sched-step">
+              <div className="sched-step-num">2</div>
+              <div className="sched-step-title">Star must-sees</div>
+              <div className="sched-step-desc">Once selected, tap the ★ on an artist to mark them as a non-negotiable must-see.</div>
+            </div>
+            <div className="sched-step">
+              <div className="sched-step-num">3</div>
+              <div className="sched-step-title">Build your route</div>
+              <div className="sched-step-desc">Hit &quot;Build my route&quot; to see your schedule, detect time conflicts, and get a printable walking plan.</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -114,31 +141,8 @@ export default function SchedulePage() {
         </div>
       </div>
 
-      <div className="sched-how">
-        <div className="sched-how-inner">
-          <div className="sched-how-title">How it works</div>
-          <div className="sched-steps">
-            <div className="sched-step">
-              <div className="sched-step-num">1</div>
-              <div className="sched-step-title">Select artists</div>
-              <div className="sched-step-desc">Tap any artist on the timetable to add them to your plan. Tap again to remove.</div>
-            </div>
-            <div className="sched-step">
-              <div className="sched-step-num">2</div>
-              <div className="sched-step-title">Star must-sees</div>
-              <div className="sched-step-desc">Once selected, tap the ★ on an artist to mark them as a non-negotiable must-see.</div>
-            </div>
-            <div className="sched-step">
-              <div className="sched-step-num">3</div>
-              <div className="sched-step-title">Build your route</div>
-              <div className="sched-step-desc">Hit &quot;Build my route&quot; to see your schedule, detect time conflicts, and get a printable walking plan.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="sched-back">
-        <Link href="/">← Back to full lineup</Link>
+        <Link href="/lineup">← Back to full lineup</Link>
       </div>
 
       <button

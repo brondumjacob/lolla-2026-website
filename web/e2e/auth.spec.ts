@@ -12,8 +12,11 @@ test.describe('Phase 4 auth — anonymous access', () => {
     await expect(page.getByRole('button', { name: /Continue with Google/i })).toBeVisible();
   });
 
+  // Scoped to .site-nav — the landing page (see components/Landing.tsx) also
+  // renders its own "Sign In" action card, so an unscoped role query would
+  // match both and violate Playwright's strict mode.
   test('nav shows a sign-in link when logged out', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('link', { name: 'Sign in' })).toBeVisible();
+    await expect(page.locator('.site-nav').getByRole('link', { name: 'Sign in' })).toBeVisible();
   });
 });

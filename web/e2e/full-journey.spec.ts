@@ -66,6 +66,9 @@ test.describe('Final Phase — full account journey', () => {
     await expect(page.getByText(email)).toBeVisible();
 
     // ---- Star two artists ----
+    // Star toggles live on the artist grid, which moved to /lineup when the
+    // "5-second rule" landing-page pass split it off '/' — see homepage.spec.ts.
+    await page.goto('/lineup');
     const stars = page.locator('.star-toggle');
     await stars.nth(0).click();
     await stars.nth(1).click();

@@ -4,8 +4,15 @@ import { test, expect } from '@playwright/test';
 // must be reachable from the nav — desktop pills/dropdowns above 768px, the
 // hamburger's grouped panel below it. See Nav.tsx / NavDropdown.tsx and
 // CLAUDE.md's redesign notes.
+//
+// '/' (the landing page) is intentionally excluded from both grouped-route
+// lists below — the "5-second rule" landing-page pass moved the full lineup
+// grid to /lineup, and '/' is reachable only via the always-visible
+// .nav-home wordmark logo (not a dropdown/panel link), same pattern as
+// /my-lineup and /account. See the dedicated .nav-home assertion in each
+// test below.
 const ALL_ROUTES = [
-  '/',
+  '/lineup',
   '/my-lineup',
   '/who-to-see',
   '/first-timers-guide',
@@ -57,6 +64,8 @@ test.describe('Prompt 2 — navigation completeness and accessibility', () => {
 
     // /my-lineup still has its own dedicated, always-visible pill on desktop.
     await expect(page.locator('.nav-mylineup')).toHaveAttribute('href', '/my-lineup');
+    // '/' (the landing page) is reachable via the wordmark logo, not a dropdown link.
+    await expect(page.locator('.nav-home')).toHaveAttribute('href', '/');
   });
 
   test('mobile hamburger panel links to every route, grouped', async ({ page }) => {
@@ -78,6 +87,8 @@ test.describe('Prompt 2 — navigation completeness and accessibility', () => {
     for (const route of ALL_ROUTES) {
       expect(hrefs, `mobile hamburger panel is missing a link to ${route}`).toContain(route);
     }
+    // '/' (the landing page) is reachable via the wordmark logo, not the panel.
+    await expect(page.locator('.nav-home')).toHaveAttribute('href', '/');
   });
 
   test('mobile panel: Escape closes it and returns focus to the hamburger button', async ({ page }) => {

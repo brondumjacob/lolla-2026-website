@@ -3,16 +3,18 @@ import { test, expect } from '@playwright/test';
 const STORAGE_KEY = 'lolla-my-lineup-v1';
 
 test.describe('Phase 5 favorites — anonymous localStorage flow', () => {
-  test('starring an artist on / updates the nav counter and localStorage without redirecting to /login', async ({
+  // The star toggles live on the artist grid, which moved to /lineup when the
+  // "5-second rule" landing-page pass split it off '/' (see e2e/lineup.spec.ts).
+  test('starring an artist on /lineup updates the nav counter and localStorage without redirecting to /login', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/lineup');
 
     const firstStar = page.locator('.star-toggle').first();
     await expect(firstStar).toBeVisible();
     await firstStar.click();
 
-    await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/lineup');
     await expect(page.locator('.nav-mylineup .mylineup-count')).toHaveText('1');
 
     const stored = await page.evaluate((key) => localStorage.getItem(key), STORAGE_KEY);

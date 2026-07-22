@@ -12,6 +12,16 @@
   --orange: #E8912B;
   --cyan: #2FA79C;
   --red: #E6432E;
+  /* Darker tonal step of --red, for white-text badge/button backgrounds only
+     (must-see star buttons, "MUST-SEE"/"CONFLICT" tags) — same pattern as
+     --teal-text below. --red itself measures ~4.03:1 with white text, just
+     under WCAG AA's 4.5:1 for small text; this measures ~4.85:1. Computed via
+     the WCAG relative-luminance formula, not estimated. Do NOT use this for
+     --red's other roles (borders, spines, red-text-on-light/dark contexts) —
+     those pairings weren't part of this audit and a global --red change was
+     verified to regress at least one of them (.sb-count i against
+     --card-bg, 4.10:1 → 3.41:1 if --red itself were darkened). */
+  --red-badge-bg: #CF3C29;
   --card-bg: #2B1B14;
   --teal: #2FA79C;
   /* Darker tonal step of --teal for small text on light card backgrounds —
@@ -44,7 +54,14 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+/* overflow-x: clip (not hidden) — stops the whole page from panning left/
+   right if any child is ever momentarily wider than the viewport (the mobile
+   "I can slide the page sideways" bug). `body` already had its own
+   overflow-x: hidden guard below, but that alone doesn't catch every case —
+   `html` (the actual scrolling element) had no guard at all. `clip` is used
+   over `hidden` so this doesn't create a second scroll container, which
+   would break `position: sticky` on .filter-bar/.sb-actionbar/etc. */
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 .skip-link {
   position: absolute; top: -60px; left: 8px; z-index: 1000; background: var(--black); color: #fff;
@@ -420,6 +437,54 @@ body {
 .info-stat { display: flex; flex-direction: column; align-items: center; }
 .info-stat-num { font-family: var(--font-display); font-size: 1.3rem; color: var(--black); line-height: 1; }
 .info-stat-label { font-size: 0.68rem; color: rgba(28,21,38,0.68); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+/* ===== LANDING PAGE — the "5-second rule" home (components/Landing.tsx) =====
+   Reuses .hero/.info-box from the lineup explorer above (same markup, same
+   tokens) and adds: two primary action cards (View the Lineup, Build Your
+   Schedule) plus a lighter-weight sign-in prompt below them. Nothing else on
+   this page — no filter bar, no grid — by design. Originally shipped with a
+   third equal-weight "Sign In" card; an /impeccable critique flagged that as
+   both an AI-slop tell (3 identical cards) and a hierarchy problem (a
+   tertiary, optional action competing with the two real features) — see
+   LandingAuthCard.tsx's comment. */
+.landing-actions {
+  max-width: 1100px; margin: 1.75rem auto 0; padding: 0 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap;
+}
+.landing-action-card {
+  flex: 1 1 260px; display: flex; flex-direction: column; gap: 0.4rem; text-decoration: none; color: var(--black);
+  background: rgba(255,255,255,0.45); border-radius: var(--radius-card); padding: 1.5rem 1.6rem; box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+}
+.landing-action-card:hover { background: rgba(255,255,255,0.8); box-shadow: var(--shadow-lift); transform: translateY(-3px); }
+/* The primary action (View the Lineup) — lime fill, matching .hero-cta's
+   treatment elsewhere on the site. */
+.landing-action-card.landing-action-primary { background: var(--lime); }
+.landing-action-card.landing-action-primary:hover { background: #c3d62e; }
+.landing-action-title { font-family: var(--font-display); font-size: 1.3rem; line-height: 1.1; }
+.landing-action-desc { font-family: var(--font-body); font-size: 0.85rem; line-height: 1.5; color: rgba(28,21,38,0.68); flex: 1; }
+.landing-action-primary .landing-action-desc { color: rgba(28,21,38,0.75); }
+.landing-action-cta { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 0.02em; color: var(--teal-text); margin-top: 0.3rem; }
+.landing-action-primary .landing-action-cta { color: var(--black); }
+/* Tertiary sign-in prompt — deliberately just a text line, not a card, so it
+   reads as optional rather than a third feature. */
+.landing-signin-row {
+  max-width: 1100px; margin: 1rem auto 0; padding: 0 2.5rem; font-family: var(--font-body); font-size: 0.85rem;
+  color: rgba(28,21,38,0.6); text-align: center;
+}
+.landing-signin-link, .landing-signin-row .landing-signin-link {
+  color: var(--teal-text); font-weight: 700; text-decoration: none;
+}
+.landing-signin-link:hover { text-decoration: underline; }
+.landing-footnote {
+  max-width: 1100px; margin: 1.5rem auto 2.5rem; padding: 0 2.5rem; font-size: 0.8rem; color: rgba(28,21,38,0.55); line-height: 1.6;
+}
+.landing-footnote a { color: var(--teal-text); }
+@media (max-width: 767px) {
+  .landing-actions { padding: 0 1rem; margin-top: 1.25rem; gap: 0.75rem; }
+  .landing-action-card { padding: 1.1rem 1.2rem; flex: 1 1 100%; }
+  .landing-signin-row { padding: 0 1rem; margin-top: 0.85rem; }
+  .landing-footnote { padding: 0 1rem; margin: 1rem auto 1.75rem; }
+}
 
 .main-col { padding: 0 2.5rem 2rem; }
 
@@ -1196,6 +1261,42 @@ body {
 .sb-howto { background: var(--lime); color: var(--card-bg); font-weight: 700; font-size: 13px; padding: 9px 16px; line-height: 1.4; }
 .sb-howto b { font-weight: 900; }
 .sb-scrollhint { font-size: 11px; font-weight: 700; color: var(--pink-deep); background: var(--card-bg); padding: 6px 16px; letter-spacing: .5px; }
+/* Mobile stage-by-stage list — hidden on desktop, shown instead of the
+   horizontal-scroll grid below 768px (see the ≤767px block near the bottom
+   of this file, and ScheduleBuilder.tsx's .sb-mobile-only JSX). */
+.sb-mobile-only { display: none; }
+.sb-stage-select-wrap { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #241934; }
+.sb-stage-select-label { font-family: var(--font-display); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+.sb-stage-select {
+  flex: 1; font-family: var(--font-body); font-weight: 700; font-size: 13px; color: #fff; background: var(--card-bg);
+  border: 2px solid rgba(255,255,255,0.15); border-radius: 999px; padding: 8px 14px; min-height: 40px;
+}
+.sb-mobile-list { background: var(--card-bg); }
+.sb-ml-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; padding: 10px 16px;
+  background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fff;
+  font-family: var(--font-body); text-align: left; cursor: pointer;
+}
+/* Background tint only, not a side-stripe accent border — this project's own
+   design system explicitly bans colored border-left/box-shadow-stripe
+   accents (see DESIGN.md/impeccable rules). The ★ must-see button (always
+   visible once selected) already carries the red must-see signal, so the
+   tint alone is enough to scan quickly. */
+.sb-ml-item.sel { background: rgba(207,226,62,0.22); }
+.sb-ml-item.must { background: rgba(230,67,43,0.2); }
+.sb-ml-time { flex: 0 0 68px; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.65); }
+.sb-ml-name { flex: 1; font-weight: 900; font-size: 13px; text-transform: uppercase; line-height: 1.25; }
+/* Cross-stage time-conflict indicator — the desktop grid shows this for free
+   via spatial overlap in the timeline; the mobile list (one stage at a time)
+   has no equivalent, so a selected, clashing set gets an explicit label. */
+.sb-ml-clash { flex: 0 0 auto; font-size: 10px; font-weight: 900; color: var(--orange); letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; }
+.sb-ml-mustbtn {
+  flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #fff; border: 1.5px solid var(--card-bg);
+  color: #c9ccd1; font-size: 15px; text-align: center; line-height: 29px; font-weight: 900; display: none;
+}
+.sb-ml-item.sel .sb-ml-mustbtn { display: block; }
+.sb-ml-item.must .sb-ml-mustbtn { background: var(--red-badge-bg); color: #fff; border-color: var(--red-badge-bg); }
+.sb-ml-empty { padding: 24px 16px; color: rgba(255,255,255,0.55); font-size: 13px; }
 .sb-skey { background: #3a2b4a; color: #dfe6ea; font-size: 11px; line-height: 1.5; padding: 10px 16px; border-top: 1px solid #333; }
 .sb-skey b { color: #fff; }
 .sb-kb { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 3px; color: #fff; font-weight: 900; font-size: 9px; vertical-align: 1px; margin: 0 1px; }
@@ -1233,7 +1334,7 @@ body {
 .sb-set.sel { border: 3px solid var(--card-bg); z-index: 3; }
 .sb-set.sel .sb-mustbtn { display: block; }
 .sb-set.must { border: 3px solid var(--red); z-index: 4; }
-.sb-set.must .sb-mustbtn { background: var(--red); color: #fff; border-color: var(--red); }
+.sb-set.must .sb-mustbtn { background: var(--red-badge-bg); color: #fff; border-color: var(--red-badge-bg); }
 .sb-set.sel .sb-snm { padding-right: 18px; }
 /* action bar */
 .sb-actionbar { position: sticky; bottom: 0; z-index: 20; background: var(--card-bg); border-top: 2px solid var(--pink); display: flex; align-items: center; gap: 10px; padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
@@ -1281,8 +1382,8 @@ body {
 .sb-rreg { display: inline-block; font-size: 9px; font-weight: 900; color: #fff; border-radius: 3px; padding: 0 4px; margin-right: 4px; vertical-align: 1px; }
 .sb-rreg.sb-region-s { background: var(--sb-region-s); } .sb-rreg.sb-region-m { background: var(--sb-region-m); } .sb-rreg.sb-region-n { background: var(--sb-region-n); }
 .sb-rtag { position: absolute; top: 5px; right: 6px; font-size: 8.5px; font-weight: 900; color: #fff; border-radius: 4px; padding: 2px 5px; letter-spacing: .4px; text-transform: uppercase; }
-.sb-rtag.must { background: var(--red); } .sb-rtag.partial { background: var(--orange); } .sb-rtag.head { background: var(--card-bg); }
-.sb-rconf { position: absolute; left: 50%; transform: translate(-50%,-50%); background: var(--red); color: #fff; font-weight: 900; font-size: 10px; letter-spacing: .6px; padding: 4px 9px; border-radius: 999px; z-index: 6; box-shadow: 0 2px 6px rgba(0,0,0,.3); text-transform: uppercase; }
+.sb-rtag.must { background: var(--red-badge-bg); } .sb-rtag.partial { background: var(--orange); } .sb-rtag.head { background: var(--card-bg); }
+.sb-rconf { position: absolute; left: 50%; transform: translate(-50%,-50%); background: var(--red-badge-bg); color: #fff; font-weight: 900; font-size: 10px; letter-spacing: .6px; padding: 4px 9px; border-radius: 999px; z-index: 6; box-shadow: 0 2px 6px rgba(0,0,0,.3); text-transform: uppercase; }
 /* route list */
 .sb-route { padding: 14px 16px 18px; }
 .sb-rhead { font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 1px; color: var(--pink-deep); margin-bottom: 8px; }
@@ -1311,9 +1412,15 @@ body {
   .sb-skey { font-size: 10px; }
   .sb-howto { font-size: 12px; }
   .sb-card { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  /* Swap the horizontal-scroll timetable for the stage-by-stage vertical
+     list below 768px — see ScheduleBuilder.tsx's .sb-mobile-only block. The
+     scroll hint no longer applies once there's nothing left to scroll
+     sideways. */
+  .sb-scrollhint, .sb-gridouter { display: none; }
+  .sb-mobile-only { display: block; }
 }
 @media print {
-  .sb-actionbar, .sb-gridouter, .sb-howto, .sb-scrollhint, .sb-switcher, .sb-signin-prompt { display: none !important; }
+  .sb-actionbar, .sb-gridouter, .sb-howto, .sb-scrollhint, .sb-switcher, .sb-signin-prompt, .sb-mobile-only { display: none !important; }
   .sb-frame { padding: 0; } .sb-card { box-shadow: none; padding-bottom: 0; }
   .sb-ractions { display: none; }
 }

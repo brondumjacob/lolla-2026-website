@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'The History of Lollapalooza — From Farewell Tour to Grant Park',
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description: "From Perry Farrell's 1991 farewell tour to the 2026 Grant Park lineup — the full history of Lollapalooza.",
     url: `${SITE_URL}/lolla-history`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The History of Lollapalooza',
     description: 'From a 1991 farewell tour to a global festival brand — how Lollapalooza became what it is today.',
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -41,8 +41,8 @@ const breadcrumbs = breadcrumbJsonLd([
 export default function LollaHistoryPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">
@@ -160,7 +160,7 @@ export default function LollaHistoryPage() {
           </p>
 
           <p>
-            Explore the <Link href="/">full 2026 lineup</Link> to see who&apos;s playing this year, or read our{' '}
+            Explore the <Link href="/lineup">full 2026 lineup</Link> to see who&apos;s playing this year, or read our{' '}
             <Link href="/genre-guide">Genre Guide</Link> for a closer look at what each corner of this year&apos;s
             bill actually sounds like.
           </p>

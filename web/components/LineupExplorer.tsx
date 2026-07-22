@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
 import { FESTIVAL, wordmarkParts } from '@/lib/festival';
+import { getHeroHeadliners } from '@/lib/hero-headliners';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
 import ArtistCard from './ArtistCard';
@@ -31,6 +32,17 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
   const [searchQuery, setSearchQuery] = useState(''); // raw input value
   const activeSearch = searchQuery.trim().toLowerCase();
 
+  // Seeds the search box from a `?search=` URL param on first mount — makes
+  // the WebSite SearchAction in lib/structured-data.ts (which links to
+  // `/lineup?search={term}`) an actually-functional deep link instead of a
+  // schema claim nothing honors. Read via window.location rather than
+  // next/navigation's useSearchParams so this client component doesn't force
+  // a Suspense boundary / dynamic-render bailout on the page around it.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get('search');
+    if (q) setSearchQuery(q);
+  }, []);
+
   const headliners = useMemo(() => artists.filter((a) => a.tier === 'headliner'), [artists]);
   const majors = useMemo(() => artists.filter((a) => a.tier === 'major'), [artists]);
   const undercards = useMemo(() => artists.filter((a) => a.tier === 'undercard'), [artists]);
@@ -40,12 +52,9 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
   // This is the 5-second-rule fix: instant lineup credibility for a visitor
   // who scrolled past the poster image that used to sit here, and it's fully
   // server-rendered/crawlable — direct AEO value on top of the MusicFestival
-  // schema (see lib/structured-data.ts).
-  const heroHeadliners = useMemo(() => {
-    const sorted = [...headliners].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0));
-    const shown = sorted.slice(0, 4);
-    return { shown, remaining: sorted.length - shown.length };
-  }, [headliners]);
+  // schema (see lib/structured-data.ts). Shared with the landing page's hero
+  // via lib/hero-headliners.ts so both compute the same ranking.
+  const heroHeadliners = useMemo(() => getHeroHeadliners(artists), [artists]);
 
   const [wordmarkPre, wordmarkAccent, wordmarkPost] = wordmarkParts(FESTIVAL.wordmark);
 

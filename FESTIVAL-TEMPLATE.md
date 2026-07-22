@@ -196,6 +196,21 @@ of list virtualization — lives in `web/components/LineupExplorer.tsx`, `Artist
 the zero-structural-change guarantee above applies to *theming only*. If the redesign is
 ever ported back into this template's static files, delete this caveat.
 
+**Landing/lineup split (2026-07-22):** `web/`'s `/` route is no longer the lineup grid — a
+"5-second rule" pass split it into a compact landing page (`web/components/Landing.tsx`:
+hero + info-box + exactly 3 action cards — View Lineup / Build Schedule / Sign In — no grid)
+and a new `/lineup` route (`web/app/lineup/page.tsx`, thin wrapper around the unchanged
+`LineupExplorer.tsx`). New festival sites on this template should reproduce that split, not
+put the grid back on `/`: `Nav.tsx`'s "LINEUP" pill and every internal "browse the full
+lineup" link point at `/lineup`, and the `MusicFestival` JSON-LD (all performers) stays on
+`/` as the canonical festival-entity page while `/lineup` carries its own `CollectionPage`
+schema — see `web/lib/structured-data.ts`. The static `index.html`/`build.js` site is
+unaffected (still one page, grid included) — this split is `web/`-only, same as the Prompt 2
+caveat above. Also new since this pass: `web/app/llms.txt/route.ts` (AEO/GEO summary for AI
+answer engines, generated from `FESTIVAL` — no manual edits needed per festival) and a
+mobile-native stage-list reflow for the schedule builder (`ScheduleBuilder.tsx`'s
+`.sb-mobile-only` block, replacing the horizontal-scroll timetable below 768px).
+
 ## 10. Umbrella-domain mode (the planned direction)
 
 Jacob's expansion plan (2026-07): all festivals consolidate onto one festival-neutral

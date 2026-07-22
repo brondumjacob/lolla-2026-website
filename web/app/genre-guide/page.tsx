@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: 'The Complete Genre Guide to Lollapalooza 2026',
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description: 'Fourteen genres, 172 artists, one weekend — a genre-by-genre breakdown of the Lollapalooza 2026 lineup.',
     url: `${SITE_URL}/genre-guide`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Complete Genre Guide to Lollapalooza 2026',
     description: 'A genre-by-genre breakdown of the Lollapalooza 2026 lineup, from Rock to K-Pop to EDM.',
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -41,8 +41,8 @@ const breadcrumbs = breadcrumbJsonLd([
 export default function GenreGuidePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">
@@ -178,7 +178,7 @@ export default function GenreGuidePage() {
           </p>
 
           <p>
-            Check the <Link href="/">full lineup</Link> to filter by genre yourself, or read{' '}
+            Check the <Link href="/lineup">full lineup</Link> to filter by genre yourself, or read{' '}
             <Link href="/who-to-see">Who To See at Lolla 2026</Link> for our day-by-day picks.
           </p>
         </div>

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
-import { articleJsonLd, breadcrumbJsonLd } from '@/lib/structured-data';
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScript } from '@/lib/structured-data';
 
 export const metadata: Metadata = {
   title: "Lolla 2026 First Timer's Guide — Everything You Need to Know",
@@ -13,14 +13,14 @@ export const metadata: Metadata = {
     description: 'Everything you need to know about Grant Park, getting around Chicago, what to bring, and how to build your schedule.',
     url: `${SITE_URL}/first-timers-guide`,
     siteName: FESTIVAL.siteName,
-    images: ['/lineup.png'],
+    images: [{ url: '/lineup.jpg', width: 1200, height: 1500, alt: `${FESTIVAL.fullName} lineup poster` }],
     type: 'article',
   },
   twitter: {
     card: 'summary_large_image',
     title: "Lolla 2026 First Timer's Guide",
     description: 'Everything you need to know for your first Lollapalooza.',
-    images: ['/lineup.png'],
+    images: ['/lineup.jpg'],
   },
 };
 
@@ -40,8 +40,8 @@ const breadcrumbs = breadcrumbJsonLd([
 export default function FirstTimersGuidePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <div className="article-wrap">
         <div className="article-header">
@@ -183,7 +183,7 @@ export default function FirstTimersGuidePage() {
 
           <p>
             Check out our <Link href="/who-to-see">Who To See at Lolla 2026</Link> guide for specific recommendations
-            across every day and genre, or browse the <Link href="/">full searchable lineup</Link> to start planning.
+            across every day and genre, or browse the <Link href="/lineup">full searchable lineup</Link> to start planning.
           </p>
 
           <div className="conflict-box">
@@ -263,7 +263,7 @@ export default function FirstTimersGuidePage() {
           </p>
 
           <p>
-            Ready to plan your schedule? Browse the <Link href="/">full lineup</Link>, read our{' '}
+            Ready to plan your schedule? Browse the <Link href="/lineup">full lineup</Link>, read our{' '}
             <Link href="/undercard-picks">10 Undercard Acts You Shouldn&apos;t Sleep On</Link> for discovery picks,
             or check out <Link href="/lolla-history">the history of Lollapalooza</Link> for how the festival ended
             up in Grant Park in the first place.

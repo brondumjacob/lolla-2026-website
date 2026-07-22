@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { FavoritesProvider } from '@/components/FavoritesProvider';
@@ -69,6 +71,11 @@ export default function RootLayout({
           <Footer />
         </FavoritesProvider>
         <ScrollToTop />
+        {/* Same-origin (/_vercel/insights, /_vercel/speed-insights) — no CSP
+            change needed, unlike a third-party analytics script. Vercel-only:
+            these are no-ops locally and on any non-Vercel deployment. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

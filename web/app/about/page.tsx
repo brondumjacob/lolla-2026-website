@@ -45,7 +45,7 @@ export default function AboutPage() {
 
         <h2>What You&apos;ll Find Here</h2>
         <p>
-          The <Link href="/">lineup page</Link> is the core of the site — a complete, searchable directory of all 172
+          The <Link href="/lineup">lineup page</Link> is the core of the site — a complete, searchable directory of all 172
           artists with streaming links, filterable by genre (Pop, Rock, Hip-Hop, Electronic, EDM, Indie, K-Pop, R&amp;B,
           and more), by tier (Headliners, Major Acts, Undercard), and by day (Thursday through Sunday).
         </p>
