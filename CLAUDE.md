@@ -472,6 +472,46 @@ design review pass. Same Golden Hour tokens throughout; no re-theme.
   collisions scoped/fixed). Full suite: 43 passed / 1 pre-existing skip (`full-journey`, needs
   service-role env).
 
+## SoundCloud Search Link (2026-07-24) — `web/` only
+
+Adds a 4th stream button — SoundCloud — to `Electronic`/`EDM`/`Hip-Hop` artist cards only
+(~52 of 172 artists). It's a generated **search** link, not a stored artist-page URL like the
+other three, so no new Supabase column was needed. The query flips at one instant, the festival's
+actual end (`FESTIVAL.endDate` + `FESTIVAL.musicEndTime`, venue-local time):
+- **Before the festival ends:** `soundcloud.com/search?q=<Artist> live` — surfaces existing sets.
+- **After:** `soundcloud.com/search?q=<Artist> Lollapalooza 2026` — surfaces this year's set rips.
+- **New `web/lib/festival-status.ts`** — `isFestivalOver(now)` / `festivalEndInstant()`, the first
+  "is the festival over" check in this codebase. Takes `now` as a parameter (not `Date.now()`
+  internally) so it's always called server-side with a fresh `new Date()`, never from a client
+  component — avoids the hydration-mismatch risk `Countdown.tsx`'s client-side date math would
+  have introduced here.
+- **New `web/lib/soundcloud.ts`** — `soundcloudUrlForArtist(artist, festivalIsOver)`, returns `null`
+  (no button rendered) for any genre outside `SOUNDCLOUD_GENRES` (`Electronic`, `EDM`, `Hip-Hop`;
+  `R&B` deliberately excluded as not DJ-set-heavy — extend the one `Set` literal to add it).
+- **Cutover without a manual redeploy:** `web/app/lineup/page.tsx` and `web/app/my-lineup/page.tsx`
+  now compute `festivalIsOver` server-side and pass it down, with `export const revalidate = 3600`
+  (hourly ISR) so the flip happens automatically within an hour of the festival ending — previously
+  `/my-lineup` was fully static/build-time-only, now it's ISR for this reason.
+- **`StreamingLinks.tsx`** gained an optional `soundcloudUrl` prop/branch (SoundCloud glyph SVG,
+  path verified against the Simple Icons source) — the single UI change point, inherited by all
+  three existing call sites: `ArtistCard.tsx` (grid cards), `LineupExplorer.tsx` (headliner
+  carousel cards), `MyLineupList.tsx` (favorites page rows).
+- **Mobile fix found during implementation:** the `.artist-card` 2-col grid's `.stream-btn`s are
+  38px with an 8px gap — 3 fit the ~173px column (130px), but a 4th would overflow it (176px).
+  Added `flex-wrap: wrap` to `.artist-card .streaming-links` in `globals.css` so the 4th button
+  drops to a second line instead of clipping; verified via Playwright at 390px viewport. Headliner
+  carousel cards (`.hl-feature-card`, ~294px wide on mobile) and `.mylineup-row` had no such
+  constraint.
+- **E2E:** new `web/e2e/soundcloud.spec.ts` — button present/absent by genre (Alison Wonderland/EDM
+  vs. 5 Seconds of Summer/Rock, both `major` tier so both render in the grid, not the headliner
+  carousel), the `?q=` query content, the mobile no-overflow check, and a `/my-lineup` check via
+  the same localStorage-seeding pattern as `favorites.spec.ts`. Tests only assert the pre-festival
+  "live" branch (current date is well before 2026-08-02); the post-festival branch was manually
+  verified via a one-off script calling `isFestivalOver`/`soundcloudUrlForArtist` directly with
+  simulated dates (both are pure functions, no I/O) rather than an automated unit test — this repo
+  has no unit-test runner, only Playwright E2E, and adding one was out of scope for this feature.
+  Full suite: 46 passed / 1 pre-existing skip (`full-journey`, needs service-role env).
+
 ## Available Tools (Project Level)
 
 ### MCP Servers

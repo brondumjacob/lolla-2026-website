@@ -4,7 +4,14 @@ import { getArtistsWithGenres } from '@/lib/data';
 import LineupExplorer from '@/components/LineupExplorer';
 import { SITE_URL } from '@/lib/constants';
 import { FESTIVAL } from '@/lib/festival';
+import { isFestivalOver } from '@/lib/festival-status';
 import { collectionPageJsonLd, jsonLdScript } from '@/lib/structured-data';
+
+// Hourly ISR: the SoundCloud search link (see lib/soundcloud.ts) needs its
+// "has the festival ended" check to flip on its own after FESTIVAL.endDate
+// without a manual redeploy. Without revalidate this page would otherwise
+// stay statically frozen at whatever `festivalIsOver` was at the last build.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: `Full ${FESTIVAL.fullName} Lineup — Every Artist, Direct Streaming Links`,
@@ -46,6 +53,7 @@ const EXPLORE_LINKS = [
 
 export default async function LineupPage() {
   const artists = await getArtistsWithGenres();
+  const festivalIsOver = isFestivalOver(new Date());
 
   return (
     <>
@@ -60,6 +68,7 @@ export default async function LineupPage() {
 
       <LineupExplorer
         artists={artists}
+        festivalIsOver={festivalIsOver}
         exploreSlot={
           /* key silences React's dev warning for server-created elements
              rendered into a client component's child list (RSC deserialization

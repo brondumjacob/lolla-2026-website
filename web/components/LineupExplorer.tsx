@@ -6,6 +6,7 @@ import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
 import { FESTIVAL, wordmarkParts } from '@/lib/festival';
 import { getHeroHeadliners } from '@/lib/hero-headliners';
+import { soundcloudUrlForArtist } from '@/lib/soundcloud';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
 import ArtistCard from './ArtistCard';
@@ -17,6 +18,8 @@ interface LineupExplorerProps {
       page (mobile top-clutter fix) without moving the strip's markup into
       this client component. */
   exploreSlot?: React.ReactNode;
+  /** Whether the festival has ended — see ArtistCard's prop of the same name. */
+  festivalIsOver: boolean;
 }
 
 function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: string, activeSearch: string) {
@@ -26,7 +29,7 @@ function passesFilter(artist: ArtistWithGenre, activeDay: number, activeGenre: s
   return dayOk && genreOk && searchOk;
 }
 
-export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerProps) {
+export default function LineupExplorer({ artists, exploreSlot, festivalIsOver }: LineupExplorerProps) {
   const [activeDay, setActiveDay] = useState(0); // 0 = all
   const [activeGenre, setActiveGenre] = useState(''); // '' = all
   const [searchQuery, setSearchQuery] = useState(''); // raw input value
@@ -240,6 +243,7 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
                 spotifyUrl={a.spotify_url}
                 appleUrl={a.apple_url}
                 youtubeUrl={a.youtube_url}
+                soundcloudUrl={soundcloudUrlForArtist(a, festivalIsOver)}
               />
             </div>
           ))}
@@ -251,10 +255,10 @@ export default function LineupExplorer({ artists, exploreSlot }: LineupExplorerP
         </div>
         <div className="artist-grid" role="list" aria-label="Major and undercard artists">
           {visibleMajors.map((a) => (
-            <ArtistCard artist={a} variant="major" key={a.id} />
+            <ArtistCard artist={a} variant="major" festivalIsOver={festivalIsOver} key={a.id} />
           ))}
           {visibleUndercards.map((a) => (
-            <ArtistCard artist={a} variant="undercard" key={a.id} />
+            <ArtistCard artist={a} variant="undercard" festivalIsOver={festivalIsOver} key={a.id} />
           ))}
         </div>
         {visibleMajors.length === 0 && visibleUndercards.length === 0 && (

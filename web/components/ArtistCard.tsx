@@ -1,11 +1,17 @@
 import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
+import { soundcloudUrlForArtist } from '@/lib/soundcloud';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
 
 interface ArtistCardProps {
   artist: ArtistWithGenre;
   variant: 'major' | 'undercard';
+  /** Whether the festival has ended — flips the SoundCloud search query (see
+      lib/soundcloud.ts). Computed server-side by the page and threaded down
+      through LineupExplorer so this stays a plain prop, not a client-side
+      Date check. */
+  festivalIsOver: boolean;
 }
 
 // Single card template shared by the major-act and undercard tiers (Prompt 2
@@ -17,7 +23,7 @@ interface ArtistCardProps {
 // .artist-card (see globals.css) is what actually cuts main-thread cost for
 // the long tail; every artist's name/genre/description still lands in the
 // server-rendered HTML so nothing here hurts crawlability.
-export default function ArtistCard({ artist, variant }: ArtistCardProps) {
+export default function ArtistCard({ artist, variant, festivalIsOver }: ArtistCardProps) {
   return (
     <div className={`artist-card is-${variant}`} role="listitem">
       {/* Same top-row grammar as .hl-feature-card: day marker left, star
@@ -40,6 +46,7 @@ export default function ArtistCard({ artist, variant }: ArtistCardProps) {
           spotifyUrl={artist.spotify_url}
           appleUrl={artist.apple_url}
           youtubeUrl={artist.youtube_url}
+          soundcloudUrl={soundcloudUrlForArtist(artist, festivalIsOver)}
         />
       </div>
     </div>

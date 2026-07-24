@@ -4,15 +4,18 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { ArtistWithGenre } from '@/lib/types';
 import { DAY_META } from '@/lib/constants';
+import { soundcloudUrlForArtist } from '@/lib/soundcloud';
 import { useFavorites } from './FavoritesProvider';
 import StarToggle from './StarToggle';
 import StreamingLinks from './StreamingLinks';
 
 interface MyLineupListProps {
   artists: ArtistWithGenre[];
+  /** Whether the festival has ended — see ArtistCard's prop of the same name. */
+  festivalIsOver: boolean;
 }
 
-export default function MyLineupList({ artists }: MyLineupListProps) {
+export default function MyLineupList({ artists, festivalIsOver }: MyLineupListProps) {
   const { favorites } = useFavorites();
   const [toast, setToast] = useState<string | null>(null);
 
@@ -80,7 +83,13 @@ export default function MyLineupList({ artists }: MyLineupListProps) {
             <span className="ml-day">{DAY_META[a.day].short.split(' ')[0]}</span>
             <span className="ml-name">{a.name}</span>
             <span className="ml-genre">{a.genre}</span>
-            <StreamingLinks artistName={a.name} spotifyUrl={a.spotify_url} appleUrl={a.apple_url} youtubeUrl={a.youtube_url} />
+            <StreamingLinks
+              artistName={a.name}
+              spotifyUrl={a.spotify_url}
+              appleUrl={a.apple_url}
+              youtubeUrl={a.youtube_url}
+              soundcloudUrl={soundcloudUrlForArtist(a, festivalIsOver)}
+            />
             <StarToggle artistName={a.name} />
           </div>
         ))

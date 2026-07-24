@@ -697,7 +697,11 @@ body {
   .artist-card .star-toggle { min-width: 36px; min-height: 36px; width: 36px; height: 36px; }
   .artist-card .stream-btn { width: 38px; height: 38px; min-width: 38px; min-height: 38px; }
   .artist-card .stream-btn svg { width: 18px; height: 18px; }
-  .artist-card .streaming-links { gap: 0.5rem; }
+  /* wrap (not nowrap-overflow) so the 4th SoundCloud button — shown only on
+     electronic/hip-hop cards, see lib/soundcloud.ts — drops to a second row
+     instead of blowing past the ~173px 2-col track: 4×38px + 3×8px gap =
+     176px, already wider than the column before the card's own padding. */
+  .artist-card .streaming-links { gap: 0.5rem; flex-wrap: wrap; }
   /* Slightly smaller name + 36px star so real artist names ("Wonderland",
      "Beabadoobee", "Chainsmokers") fit a 2-col card's width without the ugly
      mid-word emergency breaks break-word would otherwise produce. */
